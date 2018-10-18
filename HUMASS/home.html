@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Library</title>
+    <link href="https://fonts.googleapis.com/css?family=Bubblegum+Sans|Nova+Mono|Roboto+Condensed" rel="stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            background-color: #E7E7E7;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        #searchIcon {
+            position: absolute;
+            top: 35%;
+            left: 27%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            background-image: url("UI/search.png");
+            background-size: contain;
+        }
+
+        #search {
+            padding-left: 5%;
+            font-size: 15px;
+        }
+
+        #filterIcon {
+            position: relative;
+            top: 35%;
+            right: 25%;
+            float: right;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            background-image: url("UI/filter.png");
+            background-size: contain;
+        }
+
+        #filter {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s linear;
+            position: absolute;
+            top: 100%;
+            right: 18%;
+            width: 135px;
+            background-color: #a8a8a8;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-active {
+            visibility: visible !important;
+            opacity: 0.7 !important;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .category-checkbox {
+            display: none;
+        }
+
+        .books_checkbox {
+            padding: 5px 63px 5px 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .magazines_checkbox {
+            padding: 5px 30px 5px 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+
+        .software_checkbox {
+            padding: 5px 45px 5px 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+
+        .magazines_checkbox:after,
+        .books_checkbox:after,
+        .software_checkbox:after {
+            position: absolute;
+            display: none;
+            content: "";
+            width: 5px;
+            height: 10px;
+            left: 80%;
+            border: solid black;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .category-checkbox:checked+.magazines_checkbox,
+        .category-checkbox:checked+.books_checkbox,
+        .category-checkbox:checked+.software_checkbox {
+            background-color: #ffffff;
+            border-color: #ffffff;
+            border-radius: 10px;
+            color: #a8a8a8;
+        }
+
+        .category-checkbox:checked+.magazines_checkbox:after,
+        .category-checkbox:checked+.books_checkbox:after,
+        .category-checkbox:checked+.software_checkbox:after {
+            display: inline-block !important;
+        }
+
+        #circle {
+            position: absolute;
+            width: 65%;
+            border: 1px solid black;
+            border-radius: 50%;
+            margin: auto;
+        }
+
+        #circle::before {
+            content: "12";
+            vertical-align: -50%;
+            padding-top: 35%;
+        }
+
+        #circle:after {
+            content: "";
+            padding-bottom: 35%;
+            display: block;
+        }
+
+        #number {
+            position: absolute;
+            top: 30%;
+        }
+
+        /* Height */
+
+        @media only screen and (max-height: 650px) {
+            /*aside left_nav*/
+            #record {
+                height: 50% !important;
+            }
+        }
+
+        @media only screen and (max-height: 550px) {
+            /*header left_nav*/
+            header nav {
+                height: 15% !important;
+            }
+        }
+
+        @media only screen and (max-height: 340px) {
+            header nav {
+                height: 20% !important;
+            }
+
+            /*aside left_nav record*/
+            #basket p {
+                font-size: 100% !important;
+            }
+        }
+
+        @media only screen and (max-height: 280px) {
+            header nav {
+                height: 25% !important;
+            }
+        }
+
+        @media only screen and (max-height: 230px) {
+            header nav {
+                height: 30% !important;
+            }
+        }
+
+        @media only screen and (max-height: 200px) {
+            header nav {
+                height: 35% !important;
+            }
+        }
+
+        @media only screen and (max-height: 170px) {
+            header nav {
+                display: none;
+            }
+        }
+
+        @media only screen and (max-height: 290px) {
+            #circle {
+                width: 50% !important;
+            }
+
+            #circle::before {
+                padding-top: 25% !important;
+            }
+
+            #circle:after {
+                padding-bottom: 25% !important;
+            }
+        }
+
+        @media only screen and (max-height: 285px) {
+            /*aside left_nav*/
+            #record {
+                height: 50% !important;
+            }
+
+            /*aside left_nav record*/
+            #basket p {
+                font-size: 100% !important;
+                writing-mode: horizontal-tb !important;
+                letter-spacing: 0px !important;
+                margin: auto !important;
+            }
+
+            #circle {
+                border-style: none !important;
+                text-align: bottom;
+                right: 0px;
+            }
+        }
+
+        /* Height & Width */
+
+        @media only screen and (max-width: 960px) and (max-height: 300px) {
+            aside {
+                width: 7% !important;
+            }
+
+            section {
+                left: 7% !important;
+                width: 93% !important;
+            }
+
+            /*aside left_nav record*/
+            #basket p {
+                font-size: 100% !important;
+            }
+
+            #circle {
+                width: 50%;
+            }
+
+            #circle::before {
+                padding-top: 25% !important;
+            }
+
+            #circle:after {
+                padding-bottom: 25% !important;
+            }
+        }
+
+        @media only screen and (max-width: 800px) and (max-height: 300px) {
+            #left_nav {
+                width: 10% !important;
+            }
+
+            section {
+                left: 10% !important;
+                width: 90% !important;
+            }
+
+            /*aside left_nav record*/
+            #basket p {
+                font-size: 70% !important;
+            }
+
+            #circle {
+                width: 50%;
+            }
+
+            #circle::before {
+                padding-top: 25% !important;
+            }
+
+            #circle:after {
+                padding-bottom: 25% !important;
+            }
+        }
+
+        /* Width */
+
+        @media only screen and (max-width: 800px) {
+            #left_nav {
+                width: 10% !important;
+            }
+
+            section {
+                left: 10% !important;
+                width: 90% !important;
+            }
+            #circle {
+                width: 50%;
+            }
+
+            #circle::before {
+                padding-top: 25% !important;
+            }
+
+            #circle:after {
+                padding-bottom: 25% !important;
+            }
+        }
+
+        @media only screen and (max-width: 500px) {
+            #left_nav {
+                width: 15% !important;
+            }
+
+            section {
+                left: 15% !important;
+                width: 85% !important;
+            }
+        }
+
+        @media only screen and (max-width: 300px) {
+            #left_nav {
+                width: 20% !important;
+            }
+
+            section {
+                left: 20% !important;
+                width: 80% !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>
+        function input(data) {
+            $.each(data, function (index, value) {
+                console.log(value);
+            });
+        };
+        $(document).ready(function () {
+            $("input").focus(function () {
+                $(this).css("background-color", "#EFEFEF");
+            });
+            $("input").blur(function () {
+                $(this).css("background-color", "#FFFFFF");
+            });
+            $("#filterIcon").click(function () {
+                $("#filter").toggleClass("filter-active");
+            });
+        });
+    </script>
+    <script src="js/library.js"></script>
+    <header>
+        <!-- Menu -->
+        <nav style="position: fixed; width: 100%; height: 10%; background-color: #C5C5C5; z-index: 2;">
+            <div style="display: table; position: absolute; width: 100%; height: 100%; text-align: center;">
+                <form style="display: table-cell; vertical-align: middle;">
+                    <div id="searchIcon"></div>
+
+                    <input type="text" id="search" style="width: 40%; height: 50%; border-radius: 15px; border-style: none; outline: none;" />
+
+                    <div id="filterIcon"></div>
+
+                    <div id="filter">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Category
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody style="text-align: left;">
+                                <tr>
+                                    <td>
+                                        <label for="check-books">
+                                            <input type="checkbox" id="check-books" class="category-checkbox" />
+                                            <span class="books_checkbox">Books</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="check-magazines">
+                                            <input type="checkbox" id="check-magazines" class="category-checkbox" />
+                                            <span class="magazines_checkbox">Magazines</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="check-software">
+                                            <input type="checkbox" id="check-software" class="category-checkbox" />
+                                            <span class="software_checkbox">Software</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+
+    </header>
+    <aside>
+        <!-- Left Navigatior -->
+        <nav id="left_nav" style="position: fixed; width: 5%; height: 100%; background-color: #707070; z-index: 3;">
+            <!-- User Icon -->
+            <div id="userIcon" style="position: absolute; width: 60%; height: auto; top: 3%; left: 20%;">
+                <img src="UI/user.png" alt="" style="width: 100%; height: auto;" />
+            </div>
+            <!-- Book Basket & Books Number -->
+            <div id="record" style="position: absolute; width: 100%; height: 30%; background-color: #FFFFFF; top: 30%;">
+                <div id="basket" lang="zh-HK" style="position: absolute; top: 15%; width: inherit; height: 55%;">
+                    <p style="writing-mode: vertical-rl; margin: auto; font-size: 130%; letter-spacing: 10px;">借書籃</p>
+                </div>
+                <div style="position: absolute; top: 70%; width: inherit; height: 30%; text-align: center;">
+                    <div style="display: flex; justify-content: center;">
+                        <div id="circle">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+
+
+    <section style="position: absolute; top: 10%; left: 5%; width: 95%; height: 90%;">
+        <div id="bookshelf" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
+            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+        </div>
+    </section>
+</body>
+
+</html>

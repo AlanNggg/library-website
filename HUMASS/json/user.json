@@ -1,0 +1,24 @@
+{
+    "User": {
+      "170512345": {
+        "Role": "Student",
+        "Name": "Ng Pui Lam",
+        "Password": "123456"
+      },
+      "170523456": {
+        "Role": "Student",
+        "Name": "Fung Sing Tai",
+        "Password": "123456"
+      },
+      "170534567": {
+        "Role": "Student",
+        "Name": "A B C",
+        "Password": "123456"
+      },
+      "170545678": {
+        "Role": "Student",
+        "Name": "C B A",
+        "Password": "123456"
+      }
+    }
+  }

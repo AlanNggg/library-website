@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/main.js"></script>
+    
+</head>
+<body>
+
+  <div class="wave"></div>
+
+
+<div>
+
+      
+
+     <form id="login-form" method="POST" action="#" onsubmit="return false">
+         <div id="tab-set">
+            <button id="student"class="tablink" style="background: rgba(231, 77, 60, 0.76)" >Studnet   </button>
+            <button id="teacher" class="tablink" style="background: rgba(52, 152, 219, 0.836)">Teacher   </button>
+           <button id="non-teacher"class="tablink" style="background: rgba(241, 196, 15, 0.89)">Non-Teach  </button>
+            <button id="alumni" class="tablink"style="background: rgba(52,73,94 ,0.8)" >Alumni   </button>
+        </div>
+    <fieldset>   
+            <input id="user-email" name="user-email" type="email" placeholder="Email">
+            <br>
+            <input id="user-pwd" name="user-pwd" type="password" placeholder="Password">
+            <br>
+            <input class="login action-button" id="login_btn"type="button" value="Login">
+            <br>
+            <a href="#" id="forgot-pwd" onclick="forgotPwd()">Forgot Password?</a>
+           
+    </fieldset>
+
+    <fieldset>
+            <h3 class="fs-subtitle"></h3>
+            <input type="text" name="new_password" placeholder="New password" />
+            <input type="text" name="new_password_plus" placeholder="Type New password again" />
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="submint" name="submit" class="next action-button" value="Submit" />
+    </fieldset>
+
+    <fieldset>
+            <h3 class="fs-subtitle"></h3>
+            <input type="text" name="twitter" placeholder="Twitter" />
+            <input type="text" name="facebook" placeholder="Facebook" />
+            <input type="text" name="gplus" placeholder="Google Plus" />
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+
+    <fieldset>
+            <h3 class="fs-subtitle">Forgot Password</h3>
+            <input type="text" name="twitter" placeholder="New Password" />
+            <input type="text" name="facebook" placeholder="Pin" />
+            <input type="button" name="previous" id="previous_to_main" class="previous_to_main action-button" value="Previous" />
+            <input type="button" name="next" class="next action-button" value="Next" />
+    </fieldset>
+
+        <div class="message-box"></div>
+</form>
+
+</div>
+
+<script>
+    
+    var current_Time = new Date().getHours();  //get the current time ,use to change the background color
+
+    var id;   //store the button tab id 
+    var main_fs = $("#login_btn").parent();
+    var current_fs , next_fs , previous_fs;
+    var left , opacity , scale;
+    var animating;
+    var flag = false;
+    
+
+
+
+     $(".tablink").click(function(){
+           
+                $(".tablink").removeClass("clickButton");
+                
+                $(this).toggleClass("clickButton");
+                
+                id = $(this).attr('id');
+                
+                console.log(id);
+                
+          
+        });
+
+       $("#login_btn").click(function(){
+
+            // check tab click function
+            if(!$(".tablink").hasClass("clickButton")){
+                $(".message-box").toggleClass("message-box-alert")
+                                    .text("Please select the tab of your role")
+                                    .show(300)
+                                    .delay(2000)
+                                    .hide(300);
+               
+                return;                             
+            }
+
+           // check Email Input
+           var email = $("#user-email").val();
+           
+           var pwd = $("#user-pwd").val();
+           if(email == "" || email == null || email.search('@') == -1){
+
+               $(".message-box").addClass("message-box-alert")
+                                   .text("Please Input your email address ")
+                                  .show(300)
+                                  .delay(2000)
+                                  .hide(300);
+               return;
+           }
+
+           //Check password input
+           if(pwd == "" || pwd == null){
+
+           $(".message-box").addClass("message-box-alert")
+                               .text("Please Input your Password ")
+                               .show(300)
+                                .delay(2000)
+                                .hide(300);
+               
+           return;
+           }
+
+            
+                
+          if(id == "student"){
+            
+                $.getJSON("user.json" ,function(data){
+                 val = data.User.student;
+                
+                
+           
+                console.log(val.email);
+                
+                if(val.email == $("#user-email").val()
+                         && val.Password == $("#user-pwd").val() ){
+                            console.log("email correct");
+                           console.log("Password correct");
+                                checkNum(val);
+                }else{
+                    $(".message-box").addClass("message-box-error")
+                                    .removeClass("message-box-alert")
+                               .text("Your email or password is incorrect ")
+                                .show(300)
+                                .delay(2000)
+                                .hide(300);
+                                return;
+                }
+
+                });
+                       
+            }
+                    
+                    
+              
+
+            
+          
+
+          if(id == "teacher"){
+           
+                $.getJSON("user.json" ,function(data){
+               var val = data.User.teacher;
+                
+           
+                
+                
+                if(val.email == $("#user-email").val()
+                         && val.Password == $("#user-pwd").val() ){
+                            console.log("email correct");
+                           console.log("Password correct");
+                                checkNum(val);
+                }else{
+                    $(".message-box").addClass("message-box-error")
+                                    .removeClass("message-box-alert")
+                               .text("Your email or password is incorrect ")
+                                .show(300)
+                                .delay(2000)
+                                .hide(300);
+                                return;
+                }
+            });
+          }
+
+           if(id == "non-teacher"){
+          
+                $.getJSON("user.json" ,function(data){
+                var val = data.User.non_teacher;
+               
+           
+                
+                
+                if(val.email == $("#user-email").val()
+                         && val.Password == $("#user-pwd").val() ){
+                            console.log("email correct");
+                           console.log("Password correct");
+                                checkNum(val);
+                }else{
+                    $(".message-box").addClass("message-box-error")
+                                    .removeClass("message-box-alert")
+                               .text("Your email or password is incorrect ")
+                                .show(300)
+                                .delay(2000)
+                                .hide(300);
+                                return;
+                }
+            });
+          }
+
+           if(id == "alumni"){
+           
+                $.getJSON("user.json" ,function(data){
+               var val = data.User.alumni;
+                
+           
+                
+                
+                if(val.email == $("#user-email").val()
+                         && val.Password == $("#user-pwd").val() ){
+                            console.log("email correct");
+                           console.log("Password correct");
+                                checkNum(val);
+                }else{
+                    $(".message-box").addClass("message-box-error")
+                                    .removeClass("message-box-alert")
+                               .text("Your email or password is incorrect ")
+                                .show(300)
+                                .delay(2000)
+                                .hide(300);
+                                return;
+                }
+            });
+          }
+       });
+
+
+       $(".previous").click(function(){
+           if(animating)
+            return false;
+            animating = true;
+
+            current_fs = $(this).parent();
+            previous_fs = $(this).parent().prev();
+
+            previous_fs.show();
+
+            current_fs.animate({opacity:0} , {
+                    step: function(now , mx){
+                        scale  = 0.8 + (1 - now) * 0.2;
+                        left = ((1 - now) * 50) + "%";
+
+                        opacity = 1 - now;
+                        current_fs.css({'left':left});
+                        previous_fs.css({
+                            'transform':'scale(' +scale + ')',
+                            'opacity':opacity});
+                    },
+                    duration:400,
+                    complete:function(){
+                        current_fs.hide();
+                        animating = false;
+                       
+                    }
+
+            });
+            $("#tab-set").show(500);
+       });
+
+        $("#previous_to_main").click(function(){
+           if(animating)
+            return false;
+            animating = true;
+
+            current_fs = $(this).parent();
+            previous_fs = main_fs;
+
+            previous_fs.show();
+
+            current_fs.animate({opacity:0} , {
+                    step: function(now , mx){
+                        scale  = 0.8 + (1 - now) * 0.2;
+                        left = ((1 - now) * 50) + "%";
+
+                        opacity = 1 - now;
+                        current_fs.css({'left':left});
+                        previous_fs.css({
+                            'transform':'scale(' +scale + ')',
+                            'opacity':opacity});
+                    },
+                    duration:400,
+                    complete:function(){
+                        current_fs.hide();
+                        animating = false;
+                       
+                    }
+
+            });
+            $("#tab-set").show(500);
+       });
+       
+
+
+
+        function checkNum(val){
+            
+                if(  val.login_count > 0){
+                    console.log("You can login");
+
+                    
+                    
+                }else{
+                    console.log("You should change your password");
+
+                    if(animating)
+                        return false;
+                    animating = true;
+
+                ;
+
+                    $(".fs-subtitle").text("Hi " +val.Name + " ,you're first time login! Now,We are require you to change your password" );
+
+                    current_fs = $("#login_btn").parent();
+                    next_fs = $("#login_btn").parent().next();
+
+                    next_fs.show();
+
+                    current_fs.animate({opacity:0} ,{
+                        step:function(now , mx){
+                            scale = 1 - (1-now) *0.2;
+
+                            left =(now * 50) + "%";
+
+                            opacity = 1 - now;
+                            current_fs.css({
+                                'transform': 'scale('+ scale + ')',
+                                'position':'relative'
+                            });
+
+                            next_fs.css({'left':left , 'opacity':opacity});
+                        },
+                        duration:10,
+                        complete:function(){
+                            current_fs.hide();
+                            animating = false;
+                        }
+                       
+                    });
+
+                        $("#tab-set").hide(500)
+                }
+        }
+
+         function forgotPwd(){
+
+            current_fs = $("#login_btn").parent();
+            next_fs = $("#previous_to_main").parent();
+
+                    next_fs.show();
+
+                    current_fs.animate({opacity:0} ,{
+                        step:function(now , mx){
+                            scale = 1 - (1-now) *0.2;
+
+                            left =(now * 50) + "%";
+
+                            opacity = 1 - now;
+                            current_fs.css({
+                                'transform': 'scale('+ scale + ')',
+                                'position':'relative'
+                            });
+
+                            next_fs.css({'left':left , 'opacity':opacity});
+                        },
+                        duration:10,
+                        complete:function(){
+                            current_fs.hide();
+                            animating = false;
+                        }
+                       
+                    });
+
+                        $("#tab-set").hide(500)
+            }
+
+         
+      
+
+
+
+
+        
+         
+ </script>
+</body>
+</html>
