@@ -19,7 +19,7 @@
                     "Name": "Miss Wong",
                     "email":"mww@google.com",
                     "Password": "123456",
-                    "login-num":10
+                    "login_count":10
                   }
 
       ],
@@ -28,7 +28,7 @@
                         "Name": "Miss Li",
                         "email":"lii@google.com",
                         "Password": "123456",
-                        "login-num":0
+                        "login_count":0
                       }
       ],  
       "alnumi":[
@@ -36,7 +36,7 @@
                   "Name": "Tim Park",
                   "email":"tpp@google.com",
                   "Password": "123456",
-                  "login-num":0
+                  "login_count":0
                 }
       ]
      
