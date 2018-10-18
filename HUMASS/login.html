@@ -144,11 +144,11 @@
            
                 console.log(val.email);
                 
-                if(val.email == $("#user-email").val()
-                         && val.Password == $("#user-pwd").val() ){
+                if(val[0].email == $("#user-email").val()
+                         && val[0].Password == $("#user-pwd").val() ){
                             console.log("email correct");
                            console.log("Password correct");
-                                checkNum(val);
+                                checkNum(val[0]);
                 }else{
                     $(".message-box").addClass("message-box-error")
                                     .removeClass("message-box-alert")

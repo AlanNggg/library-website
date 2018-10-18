@@ -21,16 +21,21 @@
             position: absolute;
             top: 35%;
             left: 27%;
+            width: 5%;
+            height: 15%;
             width: 20px;
             height: 20px;
             cursor: pointer;
             background-image: url("UI/search.png");
             background-size: contain;
+            background-repeat: no-repeat;
         }
 
         #search {
             padding-left: 5%;
-            font-size: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-size: 16px;
         }
 
         #filterIcon {
@@ -149,9 +154,65 @@
             display: block;
         }
 
-        #number {
+        #bookshelf div img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .demo {
+            float: left;
+            width: 150px;
+            height: 200px;
+            background-color: white;
+            margin: 30px 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #arrow {
             position: absolute;
-            top: 30%;
+            left: 77%;
+            top: 66%;
+            width: 20%;
+            height: 100px;
+            opacity: 0.9;
+        }
+
+        #forwardArrow {
+            float: right;
+            width: 50%;
+            height: 100%;
+            background-image: url('UI/arrow.png');
+            background-size: 50px;
+            background-position: center;
+            background-color: #B7B5B9;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        #forwardArrow:hover {
+            background-color: #9C9A9E;
+        }
+
+        #backArrow {
+            float: left;
+            width: 50%;
+            height: 100%;
+            background-image: url('UI/arrow.png');
+            background-size: 50px;
+            background-position: center;
+            background-color: #B7B5B9;
+            background-repeat: no-repeat;
+            transform: rotate(180deg);
+            cursor: pointer;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        #backArrow:hover {
+            background-color: #9C9A9E;
         }
 
         /* Height */
@@ -349,16 +410,56 @@
 <body>
     <script src="js/jquery-3.3.1.js"></script>
     <script>
-        function input(data) {
-            $.each(data, function (index, value) {
-                console.log(value);
-            });
-        };
+        function showStuff(path) {
+            $.getJSON(path, function (data) {
+                var val;
+                var type;
+                if (path.includes("books")) {
+                    val = data.Books;
+                    type = "book";
+                } else if (path.includes("magazines")) {
+                    val = data.Magazines;
+                    type = "magazine";
+                } else if (path.includes("software")) {
+                    val = data.Software;
+                    type = "software";
+                }
+                $.each(val, function (index, value) {
+                    $("#bookshelf").append("<div class=\"demo " + type + "\"><img src=\"" + value.Picture + "\" alt=\"" + value.Name + "\"></div>");
+                });
+            })
+        }
         $(document).ready(function () {
-            $("input").focus(function () {
+            $("input[type='checkbox']").each(function () {
+                this.setAttribute("checked", "checked");
+            });
+            showStuff("jsonFile/books.json");
+            showStuff("jsonFile/magazines.json");
+            showStuff("jsonFile/software.json");
+
+            $("input[type='checkbox']").change(function () {
+                var DOM = this;
+                if (DOM.checked) {
+                    if (DOM.value == "book") {
+                        showStuff("jsonFile/books.json");
+                    } else if (DOM.value == "magazine") {
+                        showStuff("jsonFile/magazines.json");
+                    } else if (DOM.value == "software") {
+                        showStuff("jsonFile/software.json");
+                    }
+                } else {
+                    $(".demo").each(function () {
+                        if ($(this).hasClass(DOM.value)) {
+                            $(this).remove();
+                        }
+                    })
+                }
+            });
+
+            $("#search").focus(function () {
                 $(this).css("background-color", "#EFEFEF");
             });
-            $("input").blur(function () {
+            $("#search").blur(function () {
                 $(this).css("background-color", "#FFFFFF");
             });
             $("#filterIcon").click(function () {
@@ -366,7 +467,6 @@
             });
         });
     </script>
-    <script src="js/library.js"></script>
     <header>
         <!-- Menu -->
         <nav style="position: fixed; width: 100%; height: 10%; background-color: #C5C5C5; z-index: 2;">
@@ -374,7 +474,7 @@
                 <form style="display: table-cell; vertical-align: middle;">
                     <div id="searchIcon"></div>
 
-                    <input type="text" id="search" style="width: 40%; height: 50%; border-radius: 15px; border-style: none; outline: none;" />
+                    <input type="text" id="search" style="width: 40%; border-radius: 15px; border-style: none; outline: none;" />
 
                     <div id="filterIcon"></div>
 
@@ -392,7 +492,7 @@
                                 <tr>
                                     <td>
                                         <label for="check-books">
-                                            <input type="checkbox" id="check-books" class="category-checkbox" />
+                                            <input type="checkbox" id="check-books" class="category-checkbox" value="book" autocomplete="off"/>
                                             <span class="books_checkbox">Books</span>
                                         </label>
                                     </td>
@@ -400,7 +500,7 @@
                                 <tr>
                                     <td>
                                         <label for="check-magazines">
-                                            <input type="checkbox" id="check-magazines" class="category-checkbox" />
+                                            <input type="checkbox" id="check-magazines" class="category-checkbox" value="magazine" autocomplete="off"/>
                                             <span class="magazines_checkbox">Magazines</span>
                                         </label>
                                     </td>
@@ -408,7 +508,7 @@
                                 <tr>
                                     <td>
                                         <label for="check-software">
-                                            <input type="checkbox" id="check-software" class="category-checkbox" />
+                                            <input type="checkbox" id="check-software" class="category-checkbox" value="software" autocomplete="off"/>
                                             <span class="software_checkbox">Software</span>
                                         </label>
                                     </td>
@@ -432,7 +532,7 @@
             <!-- Book Basket & Books Number -->
             <div id="record" style="position: absolute; width: 100%; height: 30%; background-color: #FFFFFF; top: 30%;">
                 <div id="basket" lang="zh-HK" style="position: absolute; top: 15%; width: inherit; height: 55%;">
-                    <p style="writing-mode: vertical-rl; margin: auto; font-size: 130%; letter-spacing: 10px;">借書籃</p>
+                    <p style="writing-mode: vertical-rl; font-size: 130%; letter-spacing: 10px;">借書籃</p>
                 </div>
                 <div style="position: absolute; top: 70%; width: inherit; height: 30%; text-align: center;">
                     <div style="display: flex; justify-content: center;">
@@ -448,14 +548,11 @@
 
     <section style="position: absolute; top: 10%; left: 5%; width: 95%; height: 90%;">
         <div id="bookshelf" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
-            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
-            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
-            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
-            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
-            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
-            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
-            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
-            <div style="float: left; width: 150px; height: 200px; background-color: white; margin: 30px 50px;">abc</div>
+
+            <div id="arrow">
+                <div id="forwardArrow"></div>
+                <div id="backArrow"></div>
+            </div>
         </div>
     </section>
 </body>

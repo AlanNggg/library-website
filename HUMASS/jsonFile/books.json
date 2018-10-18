@@ -1,28 +1,76 @@
 {
-    "Books": {
-      "01": {
-        "Name": "Eng Book",
-        "Author": "Chris Wong",
-        "Description": "It is a book about English.",
-        "ISBN": "12345678"
-      },
-      "02": {
-        "Name": "Chinese Book",
-        "Author": "Chris Wong",
-        "Description": "It is a book about Chinese.",
-        "ISBN": "23456789"
-      },
-      "03": {
-        "Name": "Maths Book",
-        "Author": "Chris Chan",
-        "Description": "It is a book about Mathematics.",
-        "ISBN": "34567890"
-      },
-      "04": {
-        "Name": "Biology Book",
-        "Author": "Cherry Fung",
-        "Description": "It is a book about Biology.",
-        "ISBN": "45678901"
-      }
+  "Books": [
+    {
+      "Code": "B01",
+      "Name": "Eng Book",
+      "Author": "Chris Wong",
+      "Picture": "./img/books/B01.jpg",
+      "Description": "It is a book about English.",
+      "ISBN": "1-12345678",
+      "Availability": "true"
+    },
+    {
+      "Code": "B02",
+      "Name": "Chinese Book",
+      "Author": "Chris Wong",
+      "Picture": "./img/books/B02.jpg",
+      "Description": "It is a book about Chinese.",
+      "ISBN": "1-23456789",
+      "Availability": "true"
+    },
+    {
+      "Code": "B03",
+      "Name": "Maths Book",
+      "Author": "Chris Chan",
+      "Picture": "./img/books/B03.jpg",
+      "Description": "It is a book about Mathematics.",
+      "ISBN": "1-34567890",
+      "Availability": "true"
+    },
+    {
+      "Code": "B04",
+      "Name": "Biology Book",
+      "Author": "Cherry Fung",
+      "Picture": "./img/books/B04.jpg",
+      "Description": "It is a book about Biology.",
+      "ISBN": "1-45678901",
+      "Availability": "true"
+    },
+    {
+      "Code": "B05",
+      "Name": "Eng Book2",
+      "Author": "Chris Wong",
+      "Picture": "./img/books/B05.jpg",
+      "Description": "It is a book about English.",
+      "ISBN": "1-12345678",
+      "Availability": "true"
+    },
+    {
+      "Code": "B06",
+      "Name": "Chinese Book2",
+      "Author": "Chris Wong",
+      "Picture": "./img/books/B06.jpg",
+      "Description": "It is a book about Chinese.",
+      "ISBN": "1-23456789",
+      "Availability": "true"
+    },
+    {
+      "Code": "B07",
+      "Name": "Maths Book2",
+      "Author": "Chris Chan",
+      "Picture": "./img/books/B07.jpg",
+      "Description": "It is a book about Mathematics.",
+      "ISBN": "1-34567890",
+      "Availability": "true"
+    },
+    {
+      "Code": "B08",
+      "Name": "Biology Book2",
+      "Author": "Cherry Fung",
+      "Picture": "./img/books/B08.jpg",
+      "Description": "It is a book about Biology.",
+      "ISBN": "1-45678901",
+      "Availability": "true"
     }
-  }
+  ]
+}

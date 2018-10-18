@@ -1,0 +1,76 @@
+{
+    "Magazines": [
+      {
+        "Code": "M01",
+        "Name": "Eng Magazine",
+        "Company": "ABC News",
+        "Picture": "./img/magazines/M01.jpg",
+        "Description": "It is a book about English.",
+        "ISBN": "2-12345678",
+        "Availability": "true"
+      },
+      {
+        "Code": "M02",
+        "Name": "Chinese Magazine",
+        "Company": "ABC News",
+        "Picture": "./img/magazines/M02.jpg",
+        "Description": "It is a book about Chinese.",
+        "ISBN": "2-23456789",
+        "Availability": "true"
+      },
+      {
+        "Code": "M03",
+        "Name": "Maths Magazine",
+        "Company": "ABC News",
+        "Picture": "./img/magazines/M03.jpg",
+        "Description": "It is a book about Mathematics.",
+        "ISBN": "2-34567890",
+        "Availability": "true"
+      },
+      {
+        "Code": "M04",
+        "Name": "Biology Magazine",
+        "Company": "ABC News",
+        "Picture": "./img/magazines/M04.jpg",
+        "Description": "It is a book about Biology.",
+        "ISBN": "2-45678901",
+        "Availability": "true"
+      },
+      {
+        "Code": "M05",
+        "Name": "Eng Magazine2",
+        "Company": "ABC News",
+        "Picture": "./img/magazines/M05.jpg",
+        "Description": "It is a book about English.",
+        "ISBN": "2-12345678",
+        "Availability": "true"
+      },
+      {
+        "Code": "M06",
+        "Name": "Chinese Magazine2",
+        "Company": "ABC News",
+        "Picture": "./img/magazines/M06.jpg",
+        "Description": "It is a book about Chinese.",
+        "ISBN": "2-23456789",
+        "Availability": "true"
+      },
+      {
+        "Code": "M07",
+        "Name": "Maths Magazine2",
+        "Company": "ABC News",
+        "Picture": "./img/magazines/M07.jpg",
+        "Description": "It is a book about Mathematics.",
+        "ISBN": "2-34567890",
+        "Availability": "true"
+      },
+      {
+        "Code": "M08",
+        "Name": "Biology Magazine2",
+        "Company": "ABC News",
+        "Picture": "./img/magazines/M08.jpg",
+        "Description": "It is a book about Biology.",
+        "ISBN": "2-45678901",
+        "Availability": "true"
+      }
+    ]
+  }

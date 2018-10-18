@@ -1,0 +1,68 @@
+{
+    "Software": [
+        {
+            "Code": "S01",
+            "Name": "Eng Software",
+            "Company": "ABC Company",
+            "Picture": "./img/software/S01.jpg",
+            "Description": "It is a software about English.",
+            "Availability": "true"
+        },
+        {
+            "Code": "S02",
+            "Name": "Chinese Software",
+            "Company": "ABC Company",
+            "Picture": "./img/software/S02.jpg",
+            "Description": "It is a software about Chinese.",
+            "Availability": "true"
+        },
+        {
+            "Code": "S03",
+            "Name": "Maths Software",
+            "Company": "ABC Company",
+            "Picture": "./img/software/S03.jpg",
+            "Description": "It is a software about Mathematics.",
+            "Availability": "true"
+        },
+        {
+            "Code": "S04",
+            "Name": "Biology Software",
+            "Company": "ABC Company",
+            "Picture": "./img/software/S04.jpg",
+            "Description": "It is a software about Biology.",
+            "Availability": "true"
+        },
+        {
+            "Code": "S05",
+            "Name": "Eng Software2",
+            "Company": "ABC Company",
+            "Picture": "./img/software/S05.jpg",
+            "Description": "It is a software about English.",
+            "Availability": "true"
+        },
+        {
+            "Code": "S06",
+            "Name": "Chinese Software2",
+            "Company": "ABC Company",
+            "Picture": "./img/software/S06.jpg",
+            "Description": "It is a software about Chinese.",
+            "Availability": "true"
+        },
+        {
+            "Code": "S07",
+            "Name": "Maths Software2",
+            "Company": "ABC Company",
+            "Picture": "./img/software/S07.jpg",
+            "Description": "It is a software about Mathematics.",
+            "Availability": "true"
+        },
+        {
+            "Code": "S08",
+            "Name": "Biology Software2",
+            "Company": "ABC Company",
+            "Picture": "./img/software/S08.jpg",
+            "Description": "It is a software about Biology.",
+            "Availability": "true"
+        }
+    ]
+}
