@@ -17,6 +17,18 @@
             font-family: Helvetica, Arial, sans-serif;
         }
 
+        #logo {
+            position: absolute;
+            z-index: 3;
+            width: 20%;
+            height: 100%;
+            left: 7%;
+            background-image: url("UI/logo_VTC.png");
+            background-size: 100px 50px;
+            background-repeat: no-repeat;
+            background-position: 0 5px;
+        }
+
         #searchIcon {
             position: absolute;
             top: 35%;
@@ -165,14 +177,14 @@
             height: 200px;
             background-color: white;
             margin: 30px 50px;
-            display: flex;
-            justify-content: center;
+            text-align: center;
+            cursor: pointer;
         }
 
         #arrow {
-            position: absolute;
+            position: fixed;
             left: 77%;
-            top: 66%;
+            top: 70%;
             width: 20%;
             height: 100px;
             opacity: 0.9;
@@ -229,6 +241,9 @@
             header nav {
                 height: 15% !important;
             }
+            #content img {
+                display: none;
+            }
         }
 
         @media only screen and (max-height: 340px) {
@@ -239,30 +254,6 @@
             /*aside left_nav record*/
             #basket p {
                 font-size: 100% !important;
-            }
-        }
-
-        @media only screen and (max-height: 280px) {
-            header nav {
-                height: 25% !important;
-            }
-        }
-
-        @media only screen and (max-height: 230px) {
-            header nav {
-                height: 30% !important;
-            }
-        }
-
-        @media only screen and (max-height: 200px) {
-            header nav {
-                height: 35% !important;
-            }
-        }
-
-        @media only screen and (max-height: 170px) {
-            header nav {
-                display: none;
             }
         }
 
@@ -300,6 +291,32 @@
                 right: 0px;
             }
         }
+
+        @media only screen and (max-height: 280px) {
+            header nav {
+                height: 25% !important;
+            }
+        }
+
+        @media only screen and (max-height: 230px) {
+            header nav {
+                height: 30% !important;
+            }
+        }
+
+        @media only screen and (max-height: 200px) {
+            header nav {
+                height: 35% !important;
+            }
+        }
+
+        @media only screen and (max-height: 170px) {
+            header nav {
+                display: none;
+            }
+        }
+
+
 
         /* Height & Width */
 
@@ -365,7 +382,9 @@
             #left_nav {
                 width: 10% !important;
             }
-
+            #logo {
+                background-position: 30px 5px;
+            }
             section {
                 left: 10% !important;
                 width: 90% !important;
@@ -380,6 +399,12 @@
 
             #circle:after {
                 padding-bottom: 25% !important;
+            }
+        }
+
+        @media only screen and (max-width: 660px) {
+            #logo {
+                display: none !important;
             }
         }
 
@@ -410,10 +435,33 @@
 <body>
     <script src="js/jquery-3.3.1.js"></script>
     <script>
-        function showStuff(path) {
+        //Stop add stuff on the page
+        var stop = false;
+        var stuffOnPage = 0;
+
+        window.onclick = function (event) {
+            var panel = document.getElementById("info");
+            var outside = document.getElementsByTagName("BODY")[0];
+            if (event.target == panel) {
+                panel.style.display = "none";
+                outside.style.cursor = "";
+            }
+        }
+
+        //Function for showing all stuff
+        function refreshStuff() {
+            getData("jsonFile/books.json", 0);
+            getData("jsonFile/magazines.json", 0);
+            getData("jsonFile/software.json", 0);
+        }
+
+        //Function for get json data and choose the next called method 
+        function getData(path, noOfFunction, src) {
+
             $.getJSON(path, function (data) {
                 var val;
                 var type;
+
                 if (path.includes("books")) {
                     val = data.Books;
                     type = "book";
@@ -424,35 +472,401 @@
                     val = data.Software;
                     type = "software";
                 }
-                $.each(val, function (index, value) {
-                    $("#bookshelf").append("<div class=\"demo " + type + "\"><img src=\"" + value.Picture + "\" alt=\"" + value.Name + "\"></div>");
-                });
-            })
+
+                //Call method 0 or 1
+                if (noOfFunction == 0) {
+                    showAll(val, type);
+                } else if (noOfFunction == 1) {
+                    showDetail(val, type, src);
+                }
+            });
         }
+
+        //Function 0 : Show all demo picture
+        function showAll(val, type) {
+            var i = 0;
+            $.each(val, function (index, value) {
+                if ($(".demo").length > 1) {
+                    $(".demo").each(function () {
+                        var picture = $(this).offset();
+                        var arrow = $("#backArrow").offset();
+
+                        // console.log("Picture TOP " + picture.top + "Picture LEFT " + picture.left);
+                        // console.log("Arrow TOP " + arrow.top + "Arrow LEFT " + arrow.left);
+
+                        if (((arrow.top - picture.top) < 200) && ((arrow.left - picture.left) < 350)) {
+                            // console.log(i + " : Picture TOP " + picture.top + "Picture LEFT " + picture.left);
+                            // console.log("Arrow TOP " + arrow.top + "Arrow LEFT " + arrow.left);
+
+                            // i++;
+                            stop = true;
+                            $("#bookshelf").append("<div class=\"demo nextpage " + type +
+                                "\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.Picture + "\" alt=\"" + value.Name + "\"></div>");
+                        }
+                    });
+                }
+                if (!stop) {
+                    $("#bookshelf").append("<div class=\"demo " + type +
+                        "\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.Picture + "\" alt=\"" + value.Name + "\"></div>");
+                    stuffOnPage++;
+                }
+            });
+        }
+
+        //Function 1 : Show one demo Info
+        function showDetail(val, type, src) {
+
+            $.each(val, function (index, value) {
+                var source;
+                if (value.Picture == src) {
+                    console.log(src);
+                    if (value.Author != null) {
+                        source = "Author : " + value.Author;
+                    } else {
+                        source = "Company : " + value.Company;
+                    }
+                    $("#content").html("<div style=\"height: 15%; width: 100%; background-color: black; color: white;\"><h3 style=\"margin: 0; padding: 3%; opacity: 0.7;\">" + value.Name + "</h3></div>" +
+                        "<div style=\"position: absolute; width: 50%; height: 85%;\"><img src=\"" + value.Picture + "\" alt=\"" + value.Name + "\" style=\"padding: 10%; max-width: 100%;\"></div>" +
+                        "<div id=\"detail\" style=\"position: absolute; left: 50%; width: 50%; height: 85%;\">" +
+                        "<p>Code : " + value.Code + "</p>" +
+                        "<p>" + source + "</p>" +
+                        "<p>Description : " + value.Description + "</p>" +
+                        "</div>");
+
+                    if (value.ISBN != null) {
+                        $("#detail ").append("<p>ISBN : " + value.ISBN + "</p>" +
+                            "<p>Availability : " + value.Availability + "</p>");
+                    } else {
+                        $("#detail").append("<p>Availability : " + value.Availability + "</p>");
+                    }
+                    return;
+                }
+            });
+        }
+
+        //Function 0 : Show all demo picture
+        function showSelected(type) {
+            var nextPageStuff = 0;
+            var previousPageStuff = 0;
+            var onPageStuff = 0;
+            $(".demo").each(function () {
+                if ($(this).css("display") == "block" && !$(this).hasClass("notshow")) {
+                    onPageStuff++;
+                }
+            });
+
+            console.log("ONPAGE " + onPageStuff);
+
+            $(".demo").each(function () {
+                if ($(this).hasClass("nextpage") && !$(this).hasClass("notshow")) {
+                    nextPageStuff++;
+                }
+            });
+
+            // 以下是 顯示 DEMO 後 移DEMO 到前頁
+
+            // 當在 中間頁 要檢查 前頁 DEMO 數量
+            $($(".demo").get().reverse()).each(function () {
+                previousPageStuff = 0;
+                $(".demo").each(function () {
+                    if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
+                        previousPageStuff++;
+                        console.log(previousPageStuff);
+                    }
+                });
+                //If  DEMO is selected  CURRENT PAGE STUFF is fewer  PREVIOUS PAGE STUFF is NOT fewer
+                // ==  DISPLAY   DEMO  ON CURRENT PAGE      如果當前頁有空位, DEMO 在那顯現
+                if ($(this).hasClass(type) && onPageStuff < stuffOnPage && !(previousPageStuff < stuffOnPage) && previousPageStuff != 0) {
+                    console.log(" TTTTEST" + type);
+                    $(this).css("display", "block");
+                    $(this).removeClass("notshow");
+                    onPageStuff++;
+                    //If  DEMO is selected  PREVIOUS PAGE STUFF is fewer 
+                    // ==  DISPLAY   DEMO  ON PREVIOUS PAGE      如果前頁有空位, DEMO 在那顯現
+                } else if ($(this).hasClass(type) && previousPageStuff < stuffOnPage && previousPageStuff != 0) {
+                    $(this).addClass("previouspage");
+                    $(this).removeClass("notshow");
+                    $(this).css("display", "none");
+                    console.log("HELLOOOO");
+                    previousPageStuff++;
+                }
+            });
+
+            //如果在前頁 顯示 所選擇的 DEMO 後, 仍有空位  將當前頁的 DEMO 移在 前頁
+            console.log("PPPPPPPP  " + previousPageStuff);
+            //If  PREVIOUS PAGE STUFF is fewer 
+            if (previousPageStuff < stuffOnPage && previousPageStuff != 0) {
+                var i = 0;
+                var shiftNum = stuffOnPage - previousPageStuff;
+
+                console.log("New " + shiftNum);
+                $(".demo").each(function (index, value) {
+                    console.log(index);
+                    // 檢查 當前頁 有冇 DEMO
+                    if ($(this).css("display") == "block") {
+                        //檢查 前頁 缺少 的 DEMO 數量
+                        if (shiftNum <= 0) {
+                            i++;
+                            console.log("III " + i);
+                            return;
+                        } else {
+                            //將當前頁 DEMO 移在 前頁
+                            console.log("YESYES");
+                            $(this).css("display", "none");
+                            $(this).addClass("previouspage");
+                            console.log(i + " 555 ");
+                            shiftNum--;
+                        }
+                        console.log("shiftNUMMM " + shiftNum);
+                    }
+                });
+            }
+            //如果在沒有 DEMO 下 顯示所選擇 DEMO
+            if (nextPageStuff == 0 && previousPageStuff == 0) {
+                var displayFirst = 0;
+                $(".demo").each(function () {
+                    if ($(this).hasClass(type)) {
+                        displayFirst = 2; //所選擇 DEMO 先於 當前頁 DEMO
+                        onPageStuff = 0;
+                        console.log("HHHHHJHHHH");
+                    } else if ($(this).css("display") == "block" && !$(this).hasClass(type)) {
+                        displayFirst = 1; //當前頁 DEMO 先於 所選擇 DEMO
+                    }
+
+                    if (displayFirst != 0) {
+                        return false;
+                    }
+                });
+
+                console.log("Display First " + displayFirst);
+                $(".demo").each(function () {
+
+                    // DEMO 在當前頁 是先於 選擇的DEMO
+                    if ($(this).hasClass(type) && onPageStuff < stuffOnPage && displayFirst == 1) {
+                        $(this).css("display", "block");
+                        $(this).removeClass("notshow");
+                        onPageStuff++;
+                    } else if ($(this).hasClass(type) && onPageStuff == stuffOnPage && displayFirst == 1) {
+                        $(this).addClass("nextpage");
+                        $(this).css("display", "none");
+                        $(this).removeClass("notshow");
+                    } else if ($(this).hasClass(type) && onPageStuff < stuffOnPage && displayFirst == 2) {
+                        $(".demo").each(function () {
+                            if ($(this).hasClass(type)) {
+                                $(this).css("display", "block");
+                                $(this).removeClass("notshow");
+                            }
+                        });
+                        console.log("ONONPPP   " + onPageStuff);
+                        $(".demo").each(function () {
+                            if ($(this).css("display") == "block" && onPageStuff >= stuffOnPage) {
+                                console.log("follow : ");
+                                console.log(onPageStuff);
+                                console.log(stuffOnPage);
+                                console.log("NONONONONONON");
+                                $(this).css("display", "none");
+                                $(this).addClass("nextpage");
+                            } else if ($(this).css("display") == "block" && !$(this).hasClass(type)) {
+                                onPageStuff++;
+                            }
+                        });
+
+                    }
+                });
+            }
+
+            $("#backArrow").trigger("click");
+
+        }
+
+        function showInfo(DOM) {
+            var src = $(DOM).find("img").attr("src");
+
+            if ($(DOM).hasClass("book")) {
+                getData("jsonFile/books.json", 1, src);
+            } else if ($(DOM).hasClass("magazine")) {
+                getData("jsonFile/magazines.json", 1, src);
+            } else if ($(DOM).hasClass("software")) {
+                getData("jsonFile/software.json", 1, src);
+            }
+
+            $("#info").css("cursor", "pointer");
+            $("#content").css("cursor", "default");
+            document.getElementById("info").style.display = "block";
+        }
+
         $(document).ready(function () {
+            var onPageStuff = 0;
+            var previousPageStuff = 0;
             $("input[type='checkbox']").each(function () {
                 this.setAttribute("checked", "checked");
             });
-            showStuff("jsonFile/books.json");
-            showStuff("jsonFile/magazines.json");
-            showStuff("jsonFile/software.json");
+
+            refreshStuff();
 
             $("input[type='checkbox']").change(function () {
+                onPageStuff = 0;
+                previousPageStuff = 0;
                 var DOM = this;
-                if (DOM.checked) {
+
+                if ($('input:checkbox:checked').length == 3) {
+                    location.reload();
+                } else if (DOM.checked) {
                     if (DOM.value == "book") {
-                        showStuff("jsonFile/books.json");
+                        showSelected("book");
                     } else if (DOM.value == "magazine") {
-                        showStuff("jsonFile/magazines.json");
+                        showSelected("magazine");
                     } else if (DOM.value == "software") {
-                        showStuff("jsonFile/software.json");
+                        showSelected("software");
                     }
+
                 } else {
                     $(".demo").each(function () {
                         if ($(this).hasClass(DOM.value)) {
-                            $(this).remove();
+                            $(this).css("display", "none");
+                            $(this).addClass("notshow");
+                            $(this).removeClass("previouspage");
+                            $(this).removeClass("nextpage");
                         }
-                    })
+                    });
+                    $(".demo").each(function () {
+                        if ($(this).css("display") == "block") {
+                            onPageStuff++;
+                        }
+                    });
+                    $(".demo").each(function () {
+                        console.log("ON Page : " + onPageStuff);
+                        if (!$(this).hasClass("notshow") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
+                            $(this).css("display", "block");
+                            $(this).removeClass("nextpage");
+                            onPageStuff++;
+                        }
+                    });
+
+                    $(".demo").each(function () {
+                        if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
+                            previousPageStuff++;
+                            console.log(previousPageStuff);
+                        }
+                    });
+
+                    //以下implementation 作用一樣
+
+                    //如果在 中間頁 移除 DEMO, 檢查 前頁 DEMO 數量, 並移 當前頁 DEMO 到 前頁
+                    if (previousPageStuff < stuffOnPage) {
+
+                        $(".demo").each(function () {
+                            if ($(this).css("display") == "block") {
+                                $(this).css("display", "none");
+                                $(this).addClass("previouspage");
+
+                                previousPageStuff++;
+                                onPageStuff = 0;
+                                $(".demo").each(function () {
+                                    if ($(this).css("display") == "block") {
+                                        onPageStuff++;
+                                    }
+                                });
+                                console.log(" 1 :: " + onPageStuff);
+                                $(".demo").each(function () {
+                                    console.log("ON Page : " + onPageStuff);
+                                    if (!$(this).hasClass("notshow") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
+                                        $(this).css("display", "block");
+                                        $(this).removeClass("nextpage");
+                                        onPageStuff++;
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    $("#backArrow").trigger("click");
+
+                    previousPageStuff = 0;
+                    $(".demo").each(function () {
+                        if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
+                            previousPageStuff++;
+                        }
+                    });
+                    console.log("Previous Page Stuff : " + previousPageStuff);
+                    //如果在 中間頁 移除 DEMO, 檢查 前頁 DEMO 數量, 並移 當前頁 DEMO 到 前頁
+                    if (previousPageStuff < stuffOnPage) {
+                        var shiftNum = stuffOnPage - previousPageStuff;
+
+                        console.log("New " + shiftNum);
+                        $(".demo").each(function (index, value) {
+                            console.log(index);
+                            if ($(this).css("display") == "block") {
+                                if (shiftNum <= 0) {
+                                    return;
+                                } else {
+                                    console.log("YESYES");
+                                    $(this).css("display", "none");
+                                    $(this).addClass("previouspage");
+                                    shiftNum--;
+                                }
+                                console.log("shiftNUMMM " + shiftNum);
+                            }
+                        });
+                    }
+
+                    $("#backArrow").trigger("click");
+                }
+            });
+
+            $("#forwardArrow").click(function () {
+                stop = false;
+                var nextPageStuff = 0;
+                $(".demo").each(function () {
+                    if ($(this).hasClass("nextpage") && !$(this).hasClass("notshow")) {
+                        nextPageStuff++;
+                    }
+                });
+                if (nextPageStuff > 0) {
+                    $(".demo").each(function () {
+                        if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
+                            $(this).addClass("previouspage");
+                            $(this).css("display", "none");
+                        }
+                    });
+                    $(".demo").each(function () {
+                        if ($(this).css("display") == "none" && $(this).hasClass("nextpage") && !$(this).hasClass("notshow") && !stop) {
+                            $(this).css("display", "block");
+                            $(this).removeClass("nextpage");
+                        }
+                        var picture = $(this).offset();
+                        var arrow = $("#backArrow").offset();
+                        if (((arrow.top - picture.top) < 200) && ((arrow.left - picture.left) < 350)) {
+                            stop = true;
+                            console.log("yes");
+                            return;
+                        }
+                    });
+                }
+            });
+
+            $("#backArrow").click(function () {
+                stop = false;
+                var count = 0;
+                onPageStuff = 0;
+                $(".demo").each(function () {
+                    if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
+                        count++;
+                    }
+                });
+                if (count > 0) {
+                    $(".demo").each(function () {
+                        if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
+                            $(this).addClass("nextpage");
+                            $(this).css("display", "none");
+                        }
+                    });
+                    $($(".demo").get().reverse()).each(function () {
+                        if ($(this).css("display") == "none" && $(this).hasClass("previouspage") && !$(this).hasClass("notshow") && onPageStuff < stuffOnPage) {
+                            $(this).css("display", "block");
+                            $(this).removeClass("previouspage");
+                            onPageStuff++;
+                        }
+                    });
                 }
             });
 
@@ -465,12 +879,17 @@
             $("#filterIcon").click(function () {
                 $("#filter").toggleClass("filter-active");
             });
+
+
         });
     </script>
     <header>
         <!-- Menu -->
         <nav style="position: fixed; width: 100%; height: 10%; background-color: #C5C5C5; z-index: 2;">
-            <div style="display: table; position: absolute; width: 100%; height: 100%; text-align: center;">
+            <a href="home - Copy.html">
+                <div id="logo"></div>
+            </a>
+            <div style="display: table; position: absolute; left: 20%; width: 80%; height: 100%; text-align: center;">
                 <form style="display: table-cell; vertical-align: middle;">
                     <div id="searchIcon"></div>
 
@@ -492,7 +911,7 @@
                                 <tr>
                                     <td>
                                         <label for="check-books">
-                                            <input type="checkbox" id="check-books" class="category-checkbox" value="book" autocomplete="off"/>
+                                            <input type="checkbox" id="check-books" class="category-checkbox" value="book" autocomplete="off" />
                                             <span class="books_checkbox">Books</span>
                                         </label>
                                     </td>
@@ -500,7 +919,7 @@
                                 <tr>
                                     <td>
                                         <label for="check-magazines">
-                                            <input type="checkbox" id="check-magazines" class="category-checkbox" value="magazine" autocomplete="off"/>
+                                            <input type="checkbox" id="check-magazines" class="category-checkbox" value="magazine" autocomplete="off" />
                                             <span class="magazines_checkbox">Magazines</span>
                                         </label>
                                     </td>
@@ -508,7 +927,7 @@
                                 <tr>
                                     <td>
                                         <label for="check-software">
-                                            <input type="checkbox" id="check-software" class="category-checkbox" value="software" autocomplete="off"/>
+                                            <input type="checkbox" id="check-software" class="category-checkbox" value="software" autocomplete="off" />
                                             <span class="software_checkbox">Software</span>
                                         </label>
                                     </td>
@@ -554,7 +973,17 @@
                 <div id="backArrow"></div>
             </div>
         </div>
+
     </section>
+
+    <section>
+        <div id="info" style="position: fixed; z-index: 5; display: none; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);">
+            <form id="content" style="position: relative; display: table; background-color: #fefefe; margin: 5% auto; width: 50%; height: 70%; ">
+                abc
+            </form>
+        </div>
+    </section>
+
 </body>
 
 </html>

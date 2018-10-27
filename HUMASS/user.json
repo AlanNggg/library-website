@@ -1,46 +1,41 @@
 {
-    "User": {
-      "student" :[
-                  {
-                    "Name": "Ng Pui Lam",
-                    "email":"npl@google.com",
-                    "Password": "123456",
-                    "login_count":0
-                  },
-                   {
-                    "Name": "Fung Sing Tai",
-                    "email":"fst@google.com",
-                    "Password": "123456",
-                    "login_count":1
-                  }
-      ],
-      "teacher":[
-                  {
-                    "Name": "Miss Wong",
-                    "email":"mww@google.com",
-                    "Password": "123456",
-                    "login_count":10
-                  }
-
-      ],
-      "non-teacher":[
-                      {
-                        "Name": "Miss Li",
-                        "email":"lii@google.com",
-                        "Password": "123456",
-                        "login_count":0
-                      }
-      ],  
-      "alnumi":[
+  "User": {
+    "student" :
                 {
-                  "Name": "Tim Park",
-                  "email":"tpp@google.com",
+                  "Name": "Ng Pui Lam",
+                  "email":"npl@google.com",
                   "Password": "123456",
                   "login_count":0
                 }
-      ]
-     
-    }
+                
+    ,
+    "teacher":
+                {
+                  "Name": "Miss Wong",
+                  "email":"mww@google.com",
+                  "Password": "123456",
+                  "login_count":10
+                }
+
+    ,
+    "non_teacher":
+                    {
+                      "Name": "Miss Li",
+                      "email":"lii@google.com",
+                      "Password": "123456",
+                      "login_count":0
+                    }
+    ,  
+    "alumni":
+              {
+                "Name": "Tim Park",
+                "email":"tpp@google.com",
+                "Password": "123456",
+                "login_count":0
+              }
     
-    
+   
   }
+  
+  
+}

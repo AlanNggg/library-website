@@ -8,12 +8,13 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
     <script src="js/jquery-3.3.1.js"></script>
     <script src="js/main.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">  
     
 </head>
 <body>
 
   <div class="wave"></div>
-
+  <h2 id="title">IVE Library</h2>
 
 <div>
 
@@ -54,6 +55,7 @@
             <input type="password" id="forgot_pwd"placeholder="New Password" />
             <input type="password"id="forgot_repwd"  placeholder=" Type again new password" />
             <p id="forgot_pwd_Hit" style="color:green;font-size: 12px;margin:1px;padding: 1px;margin-bottom: 15px">Length 6-12 including digit,Uppercase and Lowercase</p>
+            <input type="text" id="re_email" placeholder="Please input your email" />
             <input type="text" id="re_pin" placeholder="Pin" />
             <input type="button" style="opacity: 0;cursor:default;border: none; background: transparent;color: green;box-shadow: none" name="previous" id="message_Pin" class="action-button" value="Sent!!" />
             <input type="button" style="background:rgb(100, 245, 144);padding:6px;margin-top: 2px; margin-bottom: 20px;" id="sendPin" class="action-button" value="Send Pin" />
@@ -80,6 +82,10 @@
     
 
 
+    $("#title").animate({opacity:0},1).animate({
+       fontSize:"100px",
+       opacity:1
+    },1000);
 
      $(".tablink").click(function(){
            
@@ -445,6 +451,17 @@
 
             
             $("#sendPin").click(function(){
+
+                if($("#re_email").val == "" || $("#re_email").val == ""  || $("#re_email").val.search("@") == -1){
+
+                    $(".message-box").addClass("message-box-error")
+                                    .removeClass("message-box-alert")
+                               .text("Your new password is illegal.Please make sure that including 6-12 length , digit,Uppercase and Lowercase ")
+                                .show(300)
+                                .delay(2000)
+                                .hide(300);
+                                return;
+                }
 
                    
                 $("#message_Pin").css("opacity" , 1);
