@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
 </head>
 
 <style>
@@ -200,7 +201,23 @@
     $(document).ready(function() {
 
         $(".dropdown a").click(function() {
-            $("#dd p").text(($(this).text()));
+            $("#dd p").text($(this).text().trim());
+            $("#attribute").val($("#dd p").text());
+            console.log($("#attribute").val());
+        });
+
+        $("#searchIcon").click(function() {
+            $("#searchForm").submit();
+        });
+
+        $("#searchForm").submit(function(e) {
+
+            var attribute = $("#attribute").val();
+            var keyword = $("#search").val();
+            console.log(attribute);
+            if (keyword.trim().length != 0) {
+                getResult(keyword, attribute);
+            }
         });
     });
 
@@ -210,7 +227,7 @@
 <body>
     <nav style="position: fixed; width: 100%; height: 60px; background-color: #C5C5C5; z-index: 3;"></nav>
     <div style="height: 100%; width: 100%;">
-        <form style="position: relative; width: inherit; height: inherit;display: flex; align-items: center; justify-content:center;">
+        <form id="searchForm" method="get" action="#" onsubmit="return false" style="position: relative; width: inherit; height: inherit;display: flex; align-items: center; justify-content:center;">
             <div class="wrapper-demo" style="z-index: 2;">
                 <div id="dd" class="wrapper-dropdown-5" tabindex="1">
                     <p>Book</p>
@@ -224,14 +241,14 @@
                                 <i class="icon-cog"></i>Software</a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="icon-remove"></i>Magazine</a>
+                            <a href="#"><i class="icon-remove"></i>Magazine</a>
                         </li>
                     </ul>
                 </div>
                 ​</div>
             <input id="search" type="text" style="position: relative; margin: 0px; padding: 10px 50px 10px 50px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
             />
+            <input id="attribute" type="hidden" name="attribute" value="Book"/>
             <div id="searchIcon"></div>
         </form>
     </div>
@@ -239,3 +256,49 @@
 </body>
 
 </html>
+
+<script type="text/javascript">
+   function getResult(keyword, attribute) {
+       
+        $("#searchForm").css('align-items', 'flex-start');
+        $("#searchForm").css('padding-top', '100px');
+        $("#searchIcon").css('top', '10px');
+
+        console.log(attribute + " " + keyword);
+        var search = {
+            attribute : attribute,
+            keyword : keyword
+        };
+        search = JSON.stringify(search);
+        console.log(search);
+        $.ajax({
+            type:"GET",
+            url:"api/?action=search-handler",
+            data: search,
+            contentType:"application/json",
+            dataType:"json",
+            complete:function(req,status){
+                var result =  req.responseText;
+                console.log(result);
+                
+                //login success
+                if(status == 'success'){
+                    alert(result.search + " " +result.stat);
+                    if(result.stat == "SUCCESS")
+                        alert(result.search);
+                    //if the user is first login
+                    else{
+                            $(".message-box").addClass("message-box-error")
+                                .removeClass("message-box-alert")
+                        .text("Not Found")
+                            .show(300)
+                            .delay(2000)
+                            .hide(300);
+                            return;
+                    }
+                    
+                }
+            }
+        });
+    }
+</script>
