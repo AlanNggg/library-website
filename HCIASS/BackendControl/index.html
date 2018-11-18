@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Page Title</title>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+   <style>
+        .card_box_title{
+                 position: relative;               
+                text-align: center;
+                font-size: 28px;
+        }
+        .cardbox-container{
+            background-color:white;
+        }
+        .cardbox-container:hover{
+                background-color: rgba(77, 213, 255, 0.555);
+        }
+        .cardbox-container:active{
+            background-color: rgba(190, 190, 190, 0.746);
+        }
+        ul {
+            list-style-type: none;
+            margin: -10px;
+            padding: 0px;
+            overflow: hidden;
+            background-color: rgb(243, 202, 115);
+            font-size: 20px;
+        }
+
+        li {
+            float: left;
+           
+        }
+
+        li:last-child {
+            border-right: none;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        li .title {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+           
+        }
+
+        li a:hover:not(.active) {
+            background-color: rgb(68, 201, 206);
+        }
+
+        .active {
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li style="padding-right:11px"><div class="title">Contral Panel</div></li>
+        <li><a href="default.asp" style="background-color:rgba(54, 162, 235, 0.8)">Home</a></li>
+      </ul> 
+
+                <div style="display: flex;">
+                    <div class="chart-container" style="background-color:white;position: relative;left: 10%;margin-top:40px; margin-right:20px; height:40vh;width:40vw; box-shadow: 0 3px 8px 2px rgba(131, 131, 131, 0.4);">
+                        <canvas id="historyChart" ></canvas>
+                    </div>
+                    <div class="chart-container" style="background-color:white;position: relative;left: 10%;margin-top:40px; height:40vh;width:40vw; box-shadow: 0 3px 8px 2px rgba(131, 131, 131, 0.4);">
+                            <canvas id="activeChart" ></canvas>
+                    </div>
+                </div>
+
+                <div style="display: flex;">
+                        <div class="cardbox-container" style="position: relative;left: 10%;margin-top:40px; margin-right:20px; height:35vh;width:20vw; box-shadow: 0 3px 8px 2px rgba(131, 131, 131, 0.4);">
+                        <img style="position: relative;padding-left: 35%;padding-top: 20%"src="data:image/png;base64,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">    
+                            <p class="card_box_title">Upload book</p>
+                        </div>
+                        <div class="cardbox-container" style="position: relative;left: 10%;margin-top:40px; height:35vh;width:20vw; box-shadow: 0 3px 8px 2px rgba(131, 131, 131, 0.4);">
+                               
+                        </div>
+                    </div>
+               
+          
+
+    
+</body>
+<script>
+            var ctx = document.getElementById('historyChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    devicePixelRatio:0.5,
+                    labels: ["January", "February", "March", "April", "May", "June", "July"],
+                    datasets: [{
+                        label: "Visit Number",
+                        backgroundColor: 'rgba(80, 192, 192, 0.8)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: [1120, 1121, 1120, 1230, 1200, 1320, 1210],
+                    }]
+                },
+
+                // Configuration options go here
+                options: {}
+            });
+
+             var ctx = document.getElementById('activeChart').getContext('2d');
+             var myDoughnutChart = new Chart(ctx, {
+                type:'bar',
+                data: {
+                    labels: ["Student", "Teacher", "Non-Teacher" , "Alumni"],
+                    datasets: [{
+                        label: null,
+                        data: [88, 20,15,30],
+                        backgroundColor: [
+                            'rgba(255, 99, 132,0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    },
+                    title: {
+                            display: true,
+                            text: 'Type of Login'
+                        }
+                }
+            });
+</script>
+</html>

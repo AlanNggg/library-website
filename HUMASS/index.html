@@ -547,26 +547,26 @@
         
 
 
-            function openRequest(user){
-                        console.log(user);
-                        if(user.type == "student")
-                            window.open("student.html");
-                        else if(user.type == "teacher" ||user.type == "non_teacher" )
-                             window.open("staff.html");
-                         else if(user.type == "alumni")
-                             window.open("alumni.html");
-                       
-                    // $.ajax({
-                    //     url: 'home.html',
-                    //     data:user,
-                    //     method:"post",
-                    //     success: function(data) {
-                    //         $('.result').html(data);
-                    //         alert('Load was performed.');
-                    //     }
-                    // });
+           function openRequest(user){
 
-            }
+                   
+                var user = JSON.stringify(user);
+                $.ajax({
+                    type:"POST",
+                    url:"api/login-handler.php",
+                    data:JSON.stringify(user),
+                    contentType:"application/json",
+                    dataType:"json",
+                    complete:function(req,status){
+                        if(status == 'success'){
+                            window.location = './';
+                        }else{
+                            console.log("can't not login");
+                        }
+                    }
+                });
+};
+    // cons
 
          
       

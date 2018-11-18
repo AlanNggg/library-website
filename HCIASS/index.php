@@ -1,8 +1,8 @@
 <?php
-    session_start()；
+    session_start();
 
     if(!isset($_SESSION["user"])){
-        include "login.php"
+        include "login.html";
         return;
     }
 ?>
@@ -12,5 +12,5 @@
 <head>
     
 </head> 
-        
+
 </html>
