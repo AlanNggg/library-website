@@ -1,15 +1,14 @@
 <?php
-    session_start();
-    include_once "../include/global.include.php";
     
-    $user = $_POST["id"];
-    echo $use;
-    return;
-    $email = $_POST["email"];
-    $pwd = $_POST["pwd"];
-
+    
+   $data = file_get_contents('php://input');
+   $data = json_decode($data);
+    $email = $data->email;
+    $pwd = $data->pwd;
+    $type = $data->id;
+    
     $link = mysqli_open();
-    $query = 'SELECT * FROM user WHERE email = "$email"';
+    $query = "SELECT * FROM user WHERE email = '$email'";
     $result = $link->query($query);
     $user = array();
 
@@ -18,29 +17,36 @@
     }
 
     mysqli_close($link);
-
-    if(count($user) == 1  && $pwd == $row["password"] && $row["login_count"] > 0){
-        //$_SESSION["user"] = $user;
+    
+    if($pwd == $user["password"] && $user["login_count"] > 0){
+        $_SESSION["user"] = $user;
         echo json_encode(
                 array(
-                        "status"=>"SUCCESS",
+                        "stat"=>"SUCCESS",
                         "user"=>$user
             ));
         return;
     }else if($pwd != $row["password"]){
         echo json_encode(
             array(
-                    "status"=>"FAIL",
+                    "stat"=>"FAIL",
                    
         ));
-    return;
-    }else if($row["login_count"] > 0){
+        return;
+    }else if($row["login_count"] == 0){
         echo json_encode(
             array(
-                    "status"=>"NEWBEE",
+                    "stat"=>"NEWBEE",
                     
         ));
-    return;
+        return;
 
+    }else{
+        echo json_encode(
+            array(
+                    "stat"=>"UNKNOW",
+                    
+        ));
+        return;
     }
 ?>

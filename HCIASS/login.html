@@ -87,6 +87,8 @@
        opacity:1
     },1000);
 
+    //====================================Checking============================================
+
      $(".tablink").click(function(){
            
                 $(".tablink").removeClass("clickButton").css("box-shadow" , "none").css("z-index" , 10);
@@ -150,144 +152,11 @@
             pwd:pwd
         };
         user = JSON.stringify(user);
-        $.ajax({
-                    type:"POST",
-                    url:"api/login-handler.php",
-                    data:user,
-                    contentType:"application/json",
-                    dataType:"json",
-                    complete:function(req,status){
-                        if(status == 'success'){
-                            if(req.status == "SUCCESS")
-                                window.location = './';
-                            else if(req.status == "NEWBEE")
-                                checkNum();
-                            else{
-                                    $(".message-box").addClass("message-box-error")
-                                        .removeClass("message-box-alert")
-                                .text("Your email or password is incorrect ")
-                                    .show(300)
-                                    .delay(2000)
-                                    .hide(300);
-                                    return;
-                            }
-                            
-                        }else{
-                            console.log("can't not login");
-                        }
-                    }
-        });
+
+        openRequest(user);
     });
-    //       if(id == "student"){
-            
-    //             $.getJSON("user.json" ,function(data){
-    //              val = data.User.student;
-                
-                
-           
-    //             console.log(val.email);
-                
-    //             if(val.email == $("#user-email").val()
-    //                      && val.Password == $("#user-pwd").val() ){
-    //                         console.log("email correct");
-    //                        console.log("Password correct");
-    //                             checkNum(val,"student");
-    //             }else{
-    //                 $(".message-box").addClass("message-box-error")
-    //                                 .removeClass("message-box-alert")
-    //                            .text("Your email or password is incorrect ")
-    //                             .show(300)
-    //                             .delay(2000)
-    //                             .hide(300);
-    //                             return;
-    //             }
-
-    //             });
-                       
-    //         }
-                    
-                    
-              
-
-            
-          
-
-    //       if(id == "teacher"){
-           
-    //             $.getJSON("user.json" ,function(data){
-    //            var val = data.User.teacher;
-                
-           
-                
-                
-    //             if(val.email == $("#user-email").val()
-    //                      && val.Password == $("#user-pwd").val() ){
-    //                         console.log("email correct");
-    //                        console.log("Password correct");
-    //                             checkNum(val,"teacher");
-    //             }else{
-    //                 $(".message-box").addClass("message-box-error")
-    //                                 .removeClass("message-box-alert")
-    //                            .text("Your email or password is incorrect ")
-    //                             .show(300)
-    //                             .delay(2000)
-    //                             .hide(300);
-    //                             return;
-    //             }
-    //         });
-    //       }
-
-    //        if(id == "non-teacher"){
-          
-    //             $.getJSON("user.json" ,function(data){
-    //             var val = data.User.non_teacher;
-               
-           
-                
-                
-    //             if(val.email == $("#user-email").val()
-    //                      && val.Password == $("#user-pwd").val() ){
-    //                         console.log("email correct");
-    //                        console.log("Password correct");
-    //                             checkNum(val,"non_teacher");
-    //             }else{
-    //                 $(".message-box").addClass("message-box-error")
-    //                                 .removeClass("message-box-alert")
-    //                            .text("Your email or password is incorrect ")
-    //                             .show(300)
-    //                             .delay(2000)
-    //                             .hide(300);
-    //                             return;
-    //             }
-    //         });
-    //       }
-
-    //        if(id == "alumni"){
-           
-    //             $.getJSON("user.json" ,function(data){
-    //            var val = data.User.alumni;
-                
-           
-                
-                
-    //             if(val.email == $("#user-email").val()
-    //                      && val.Password == $("#user-pwd").val() ){
-    //                         console.log("email correct");
-    //                        console.log("Password correct");
-    //                             checkNum(val,"alumni");
-    //             }else{
-    //                 $(".message-box").addClass("message-box-error")
-    //                                 .removeClass("message-box-alert")
-    //                            .text("Your email or password is incorrect ")
-    //                             .show(300)
-    //                             .delay(2000)
-    //                             .hide(300);
-    //                             return;
-    //             }
-    //         });
-    //       }
-    //    });
-
+   
+   //============================Form Animation===========================================================
 
        $(".previous").click(function(){
            if(animating)
@@ -571,22 +440,39 @@
 
            function openRequest(user){
 
-                   
-                var user = JSON.stringify(user);
-                $.ajax({
+              $.ajax({
                     type:"POST",
-                    url:"api/login-handler.php",
-                    data:JSON.stringify(user),
+                    url:"api/?action=login-handler",
+                    data:user,
                     contentType:"application/json",
                     dataType:"json",
                     complete:function(req,status){
+                        var result =  req.responseText;
+                        result = JSON.parse(result);
+                        
+                        //login success
                         if(status == 'success'){
-                            window.location = './';
+                            if(result.stat == "SUCCESS")
+                                window.location = './';
+                            //if the user is first login
+                            else if(result.stat == "NEWBEE")
+                                checkNum();
+                            //if password is not correct
+                            else{
+                                    $(".message-box").addClass("message-box-error")
+                                        .removeClass("message-box-alert")
+                                .text("Your email or password is incorrect ")
+                                    .show(300)
+                                    .delay(2000)
+                                    .hide(300);
+                                    return;
+                            }
+                            
                         }else{
                             console.log("can't not login");
                         }
                     }
-                });
+        });
         };
     // cons
      
