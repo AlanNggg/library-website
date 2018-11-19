@@ -159,6 +159,74 @@
         max-height: 400px;
     }
 
+    #bookshelf div img {
+        /* max-width: 100%;
+        max-height: 100%; */
+        width: 120px;
+        height: 170px;
+        object-fit: cover;
+    }
+
+    .demo {
+        position: relative;
+        float: left;
+        width: 120px;
+        height: 170px;
+        background-color: white;
+        margin: 30px 50px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    #arrow {
+        display: none;
+        position: absolute;
+        left: 4%;
+        top: 16%;
+        width: 150px;
+        height: 70px;
+        opacity: 0.9;
+        z-index: 2;
+    }
+
+    #forwardArrow {
+        float: right;
+        width: 50%;
+        height: 100%;
+        background-image: url('UI/arrow.png');
+        background-size: 50px;
+        background-position: center;
+        background-color: #B7B5B9;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    #forwardArrow:hover {
+        background-color: #9C9A9E;
+    }
+
+    #backArrow {
+        float: left;
+        width: 50%;
+        height: 100%;
+        background-image: url('UI/arrow.png');
+        background-size: 50px;
+        background-position: center;
+        background-color: #B7B5B9;
+        background-repeat: no-repeat;
+        transform: rotate(180deg);
+        cursor: pointer;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    #backArrow:hover {
+        background-color: #9C9A9E;
+    }
+
+
     @media only screen and (max-width: 560px) {
         #search {
             padding: 10px 10px 10px 130px;
@@ -215,19 +283,70 @@
             var attribute = $("#attribute").val();
             var keyword = $("#search").val();
             console.log(attribute);
-            if (keyword.trim().length != 0) {
-                getResult(keyword, attribute);
-            }
+
+            getResult(keyword, attribute);
         });
     });
 
+    function getResult(keyword, attribute) {
+
+       $("#bookshelf").empty();
+       $("#searchForm").css('align-items', 'flex-start');
+       $("#searchForm").css('padding-top', '100px');
+       $("#searchIcon").css('top', '10px');
+       $("#searchSection").css('height', '30%');
+       $("#arrow").css('display', 'block');
+
+       console.log(attribute + " " + keyword);
+       var search = {
+           attribute : attribute,
+           keyword : keyword
+       };
+       search = JSON.stringify(search);
+       console.log(search);
+       $.ajax({
+           type:"GET",
+           url:"api/?action=search-handler",
+           data: {search: search},
+           contentType:"application/json",
+           dataType:"json",
+           complete:function(req,status){
+               var result =  req.responseText;
+               result = JSON.parse(result);
+               //console.log(result.search[0]);
+               //login success
+               if(status == 'success') {
+                   if(result.stat == "SUCCESS") {
+                       showAll(result);
+                       
+                       
+                   //if the user is first login
+                   } else {
+                           $(".message-box").addClass("message-box-error")
+                               .removeClass("message-box-alert")
+                       .text("Not Found")
+                           .show(300)
+                           .delay(2000)
+                           .hide(300);
+                           return;
+                   }
+                   
+               }
+           }
+       });
+   }
 
 </script>
 
 <body>
-   
-    <div style="height: 100%; width: 100%;">
+    
+    <div id="searchSection" style="height: 100%; width: 100%;">
+        <div id="arrow">
+            <div id="forwardArrow"></div>
+            <div id="backArrow"></div>
+        </div>
         <form id="searchForm" method="get" action="#" onsubmit="return false" style="position: relative; width: inherit; height: inherit;display: flex; align-items: center; justify-content:center;">
+            
             <div class="wrapper-demo" style="z-index: 2;">
                 <div id="dd" class="wrapper-dropdown-5" tabindex="1">
                     <p>Book</p>
@@ -250,55 +369,236 @@
             />
             <input id="attribute" type="hidden" name="attribute" value="Book"/>
             <div id="searchIcon"></div>
+            <div class="message-box" style="clear: left"></div>
         </form>
     </div>
+    <section style="position: relative; width: 100%; height: 70%;">
+        <div id="bookshelf" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
+
+            
+        </div>
+
+    </section>
+    
 
 </body>
 
 </html>
 
 <script type="text/javascript">
-   function getResult(keyword, attribute) {
-       
-        $("#searchForm").css('align-items', 'flex-start');
-        $("#searchForm").css('padding-top', '100px');
-        $("#searchIcon").css('top', '10px');
+    var stop = false;
+    var stuffOnPage = 0;
 
-        console.log(attribute + " " + keyword);
-        var search = {
-            attribute : attribute,
-            keyword : keyword
-        };
-        search = JSON.stringify(search);
-        console.log(search);
-        $.ajax({
-            type:"GET",
-            url:"api/?action=search-handler",
-            data: {search: search},
-            contentType:"application/json",
-            dataType:"json",
-            complete:function(req,status){
-                var result =  req.responseText;
-                result = JSON.parse(result);
-                console.log(result.search[0].name);
-                
-                //login success
-                if(status == 'success'){
-                    if(result.stat == "SUCCESS")
-                        alert(result.search[0].picture);
-                    //if the user is first login
-                    else{
-                            $(".message-box").addClass("message-box-error")
-                                .removeClass("message-box-alert")
-                        .text("Not Found")
-                            .show(300)
-                            .delay(2000)
-                            .hide(300);
-                            return;
-                    }
-                    
+    $(document).ready(function() {
+        var onPageStuff = 0;
+        var previousPageStuff = 0;
+        $("input[type='checkbox']").each(function () {
+            this.setAttribute("checked", "checked");
+        });
+
+        $("input[type='checkbox']").change(function () {
+            onPageStuff = 0;
+            previousPageStuff = 0;
+            var DOM = this;
+
+            if ($('input:checkbox:checked').length == 3) {
+                location.reload();
+            } else if (DOM.checked) {
+                if (DOM.value == "book") {
+                    showSelected("book");
+                } else if (DOM.value == "magazine") {
+                    showSelected("magazine");
+                } else if (DOM.value == "software") {
+                    showSelected("software");
                 }
+
+            } else {
+                $(".demo").each(function () {
+                    if ($(this).hasClass(DOM.value)) {
+                        $(this).css("display", "none");
+                        $(this).addClass("notshow");
+                        $(this).removeClass("previouspage");
+                        $(this).removeClass("nextpage");
+                    }
+                });
+                $(".demo").each(function () {
+                    if ($(this).css("display") == "block") {
+                        onPageStuff++;
+                    }
+                });
+                $(".demo").each(function () {
+                    console.log("ON Page : " + onPageStuff);
+                    if (!$(this).hasClass("notshow") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
+                        $(this).css("display", "block");
+                        $(this).removeClass("nextpage");
+                        onPageStuff++;
+                    }
+                });
+
+                $(".demo").each(function () {
+                    if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
+                        previousPageStuff++;
+                        console.log(previousPageStuff);
+                    }
+                });
+
+                //以下implementation 作用一樣
+
+                //如果在 中間頁 移除 DEMO, 檢查 前頁 DEMO 數量, 並移 當前頁 DEMO 到 前頁
+                if (previousPageStuff < stuffOnPage) {
+
+                    $(".demo").each(function () {
+                        if ($(this).css("display") == "block") {
+                            $(this).css("display", "none");
+                            $(this).addClass("previouspage");
+
+                            previousPageStuff++;
+                            onPageStuff = 0;
+                            $(".demo").each(function () {
+                                if ($(this).css("display") == "block") {
+                                    onPageStuff++;
+                                }
+                            });
+                            console.log(" 1 :: " + onPageStuff);
+                            $(".demo").each(function () {
+                                console.log("ON Page : " + onPageStuff);
+                                if (!$(this).hasClass("notshow") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
+                                    $(this).css("display", "block");
+                                    $(this).removeClass("nextpage");
+                                    onPageStuff++;
+                                }
+                            });
+                        }
+                    });
+                }
+                $("#backArrow").trigger("click");
+
+                previousPageStuff = 0;
+                $(".demo").each(function () {
+                    if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
+                        previousPageStuff++;
+                    }
+                });
+                console.log("Previous Page Stuff : " + previousPageStuff);
+                //如果在 中間頁 移除 DEMO, 檢查 前頁 DEMO 數量, 並移 當前頁 DEMO 到 前頁
+                if (previousPageStuff < stuffOnPage) {
+                    var shiftNum = stuffOnPage - previousPageStuff;
+
+                    console.log("New " + shiftNum);
+                    $(".demo").each(function (index, value) {
+                        console.log(index);
+                        if ($(this).css("display") == "block") {
+                            if (shiftNum <= 0) {
+                                return;
+                            } else {
+                                console.log("YESYES");
+                                $(this).css("display", "none");
+                                $(this).addClass("previouspage");
+                                shiftNum--;
+                            }
+                            console.log("shiftNUMMM " + shiftNum);
+                        }
+                    });
+                }
+
+                $("#backArrow").trigger("click");
+            }
+        });
+
+        $("#forwardArrow").click(function () {
+            stop = false;
+            var nextPageStuff = 0;
+            $(".demo").each(function () {
+                if ($(this).hasClass("nextpage") && !$(this).hasClass("notshow")) {
+                    nextPageStuff++;
+                }
+            });
+            if (nextPageStuff > 0) {
+                $(".demo").each(function () {
+                    if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
+                        $(this).addClass("previouspage");
+                        $(this).css("display", "none");
+                    }
+                });
+                $(".demo").each(function () {
+                    if ($(this).css("display") == "none" && $(this).hasClass("nextpage") && !$(this).hasClass("notshow") && !stop) {
+                        $(this).css("display", "block");
+                        $(this).removeClass("nextpage");
+                    }
+                    var picture = $(this).offset();
+                    var arrow = $("#backArrow").offset();
+                    if (((arrow.top - picture.top) < 200) && ((arrow.left - picture.left) < 350)) {
+                        stop = true;
+                        console.log("yes");
+                        return;
+                    }
+                });
+            }
+        });
+
+        $("#backArrow").click(function () {
+            stop = false;
+            var count = 0;
+            onPageStuff = 0;
+            $(".demo").each(function () {
+                if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
+                    count++;
+                }
+            });
+            if (count > 0) {
+                $(".demo").each(function () {
+                    if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
+                        $(this).addClass("nextpage");
+                        $(this).css("display", "none");
+                    }
+                });
+                $($(".demo").get().reverse()).each(function () {
+                    if ($(this).css("display") == "none" && $(this).hasClass("previouspage") && !$(this).hasClass("notshow") && onPageStuff < stuffOnPage) {
+                        $(this).css("display", "block");
+                        $(this).removeClass("previouspage");
+                        onPageStuff++;
+                    }
+                });
+            }
+        });
+
+        $("#search").focus(function () {
+                $(this).css("background-color", "#EFEFEF");
+        });
+        $("#search").blur(function () {
+            $(this).css("background-color", "#FFFFFF");
+        });
+    });
+
+    
+    function showAll(result) {
+        var i = 0; 
+        var search = result.search;
+        $.each(search, function (index, value) {
+            console.log("yoyoyoyoyoyoyoyo");
+            if ($(".demo").length > 7) {
+                $(".demo").each(function () {
+                    var picture = $(this).offset();
+                    var arrow = $("#backArrow").offset();
+
+                    // console.log("Picture TOP " + picture.top + "Picture LEFT " + picture.left);
+                    // console.log("Arrow TOP " + arrow.top + "Arrow LEFT " + arrow.left);
+
+                    // if (((arrow.top - picture.top) < 200) && ((arrow.left - picture.left) < 350)) {
+                    //     // console.log(i + " : Picture TOP " + picture.top + "Picture LEFT " + picture.left);
+                    //     // console.log("Arrow TOP " + arrow.top + "Arrow LEFT " + arrow.left);
+
+                        // i++;
+                        stop = true;
+                        $("#bookshelf").append("<div class=\"demo nextpage\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
+                    //}
+                });
+            }
+            if (!stop) {
+                $("#bookshelf").append("<div class=\"demo\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
+                stuffOnPage++;
             }
         });
     }
+
 </script>
