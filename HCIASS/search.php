@@ -274,18 +274,18 @@
         $.ajax({
             type:"GET",
             url:"api/?action=search-handler",
-            data: search,
+            data: {search: search},
             contentType:"application/json",
             dataType:"json",
             complete:function(req,status){
                 var result =  req.responseText;
-                console.log(result);
+                result = JSON.parse(result);
+                console.log(result.search[0].name);
                 
                 //login success
                 if(status == 'success'){
-                    alert(result.search + " " +result.stat);
                     if(result.stat == "SUCCESS")
-                        alert(result.search);
+                        alert(result.search[0].picture);
                     //if the user is first login
                     else{
                             $(".message-box").addClass("message-box-error")
