@@ -5,12 +5,13 @@
         include "login.html";
         return;
     }
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
     
-</head> 
+    $user = $_SESSION["user"]; 
+    include 'header.php';
 
-</html>
+    if($user["role"]=='student' || $user["role"]== 'alumni'){
+        include 'search.php';
+    }
+
+?>

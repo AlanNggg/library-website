@@ -12,8 +12,8 @@
 <style>
     html,
     body {
-        margin: 0px;
-        padding: 0px;
+        
+        
         height: 100%;
         background-image: url('image/books-1246674_1920.jpg');
         background-size: cover;
@@ -225,7 +225,7 @@
 </script>
 
 <body>
-    <nav style="position: fixed; width: 100%; height: 60px; background-color: #C5C5C5; z-index: 3;"></nav>
+   
     <div style="height: 100%; width: 100%;">
         <form id="searchForm" method="get" action="#" onsubmit="return false" style="position: relative; width: inherit; height: inherit;display: flex; align-items: center; justify-content:center;">
             <div class="wrapper-demo" style="z-index: 2;">
