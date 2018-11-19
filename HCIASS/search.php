@@ -12,13 +12,12 @@
 <style>
     html,
     body {
-        
-        
         height: 100%;
         background-image: url('image/books-1246674_1920.jpg');
         background-size: cover;
         background-repeat: no-repeat;
         font-family: Helvetica, Arial, sans-serif;
+        overflow-y: hidden;
     }
 
     body {
@@ -349,8 +348,11 @@
             
             <div class="wrapper-demo" style="z-index: 2;">
                 <div id="dd" class="wrapper-dropdown-5" tabindex="1">
-                    <p>Book</p>
+                    <p>All</p>
                     <ul class="dropdown">
+                        <li>
+                            <a href="#"><i class="icon-remove"></i>All</a>
+                        </li>
                         <li>
                             <a href="#">
                             <i class="icon-user"></i>Book</a>
@@ -367,7 +369,7 @@
                 ​</div>
             <input id="search" type="text" style="position: relative; margin: 0px; padding: 10px 50px 10px 50px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
             />
-            <input id="attribute" type="hidden" name="attribute" value="Book"/>
+            <input id="attribute" type="hidden" name="attribute" value="All"/>
             <div id="searchIcon"></div>
             <div class="message-box" style="clear: left"></div>
         </form>
@@ -508,11 +510,14 @@
         $("#forwardArrow").click(function () {
             stop = false;
             var nextPageStuff = 0;
+            var onPageStuff = 0;
+            console.log(stop);
             $(".demo").each(function () {
                 if ($(this).hasClass("nextpage") && !$(this).hasClass("notshow")) {
                     nextPageStuff++;
                 }
             });
+            console.log(nextPageStuff);
             if (nextPageStuff > 0) {
                 $(".demo").each(function () {
                     if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
@@ -524,12 +529,13 @@
                     if ($(this).css("display") == "none" && $(this).hasClass("nextpage") && !$(this).hasClass("notshow") && !stop) {
                         $(this).css("display", "block");
                         $(this).removeClass("nextpage");
+                        console.log("remove next");
+                        onPageStuff++;
                     }
-                    var picture = $(this).offset();
-                    var arrow = $("#backArrow").offset();
-                    if (((arrow.top - picture.top) < 200) && ((arrow.left - picture.left) < 350)) {
+                    
+                    console.log(stuffOnPage);
+                    if (onPageStuff == stuffOnPage) {
                         stop = true;
-                        console.log("yes");
                         return;
                     }
                 });
@@ -572,27 +578,13 @@
 
     
     function showAll(result) {
+        stop = false;
         var i = 0; 
         var search = result.search;
         $.each(search, function (index, value) {
-            console.log("yoyoyoyoyoyoyoyo");
             if ($(".demo").length > 7) {
-                $(".demo").each(function () {
-                    var picture = $(this).offset();
-                    var arrow = $("#backArrow").offset();
-
-                    // console.log("Picture TOP " + picture.top + "Picture LEFT " + picture.left);
-                    // console.log("Arrow TOP " + arrow.top + "Arrow LEFT " + arrow.left);
-
-                    // if (((arrow.top - picture.top) < 200) && ((arrow.left - picture.left) < 350)) {
-                    //     // console.log(i + " : Picture TOP " + picture.top + "Picture LEFT " + picture.left);
-                    //     // console.log("Arrow TOP " + arrow.top + "Arrow LEFT " + arrow.left);
-
-                        // i++;
-                        stop = true;
-                        $("#bookshelf").append("<div class=\"demo nextpage\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
-                    //}
-                });
+                stop = true;
+                $("#bookshelf").append("<div class=\"demo nextpage\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
             }
             if (!stop) {
                 $("#bookshelf").append("<div class=\"demo\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
