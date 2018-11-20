@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 11 月 18 日 10:24
+-- 產生時間： 2018 年 11 月 20 日 19:52
 -- 伺服器版本: 10.1.34-MariaDB
 -- PHP 版本： 7.2.7
 
@@ -33,7 +33,7 @@ CREATE TABLE `book` (
   `name` varchar(20) NOT NULL,
   `author` varchar(20) NOT NULL,
   `picture` varchar(50) NOT NULL,
-  `description` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
   `ISBN` int(11) DEFAULT NULL,
   `availability` varchar(5) NOT NULL DEFAULT 'true',
   `rate` int(11) NOT NULL DEFAULT '0'
@@ -44,14 +44,14 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`book_code`, `name`, `author`, `picture`, `description`, `ISBN`, `availability`, `rate`) VALUES
-(1, 'Eng Book', 'Chris Wong', './img/books/B01.jpg', 'It is a book about English.', NULL, 'true', 0),
-(2, 'Chinese Book', 'Chris Wong', './img/books/B02.jpg', 'It is a book about Chinese.', NULL, 'true', 0),
-(3, 'Maths Book', 'Chris Chan', './img/books/B03.jpg', 'It is a book about Mathematics.', NULL, 'true', 0),
-(4, 'Biology Book', 'Cherry Fung', './img/books/B04.jpg', 'It is a book about Biology.', NULL, 'true', 0),
-(5, 'Eng Book2', 'Chris Wong', './img/books/B05.jpg', 'It is a book about English.', NULL, 'true', 0),
-(6, 'Chinese Book2', 'Chris Wong', './img/books/B06.jpg', 'It is a book about Chinese.', NULL, 'true', 0),
-(7, 'Maths Book2', 'Chris Chan', './img/books/B07.jpg', 'It is a book about Mathematics.', NULL, 'true', 0),
-(8, 'Biology Book2', 'Cherry Fung', './img/books/B08.jpg', 'It is a book about Biology.', NULL, 'true', 0);
+(1, 'Eng Book', 'Chris Wong', './img/books/B01.jpg', 'I like English. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'true', 0),
+(2, 'Chinese Book', 'Chris Wong', './img/books/B02.jpg', 'I like Chinese. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'true', 0),
+(3, 'Maths Book', 'Chris Chan', './img/books/B03.jpg', 'I like Mathematics. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(4, 'Biology Book', 'Cherry Fung', './img/books/B04.jpg', 'It is a book about Biology. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(5, 'Eng Book2', 'Chris Wong', './img/books/B05.jpg', 'It is a book about English. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(6, 'Chinese Book2', 'Chris Wong', './img/books/B06.jpg', 'It is a book about Chinese. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(7, 'Maths Book2', 'Chris Chan', './img/books/B07.jpg', 'It is a book about Mathematics. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(8, 'Biology Book2', 'Cherry Fung', './img/books/B08.jpg', 'It is a book about Biology. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0);
 
 -- --------------------------------------------------------
 
@@ -106,7 +106,7 @@ CREATE TABLE `magazine` (
   `name` varchar(20) NOT NULL,
   `company` varchar(20) NOT NULL,
   `picture` varchar(50) NOT NULL,
-  `description` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
   `ISBN` int(11) DEFAULT NULL,
   `availability` varchar(5) NOT NULL DEFAULT 'true',
   `rate` int(11) NOT NULL DEFAULT '0'
@@ -117,14 +117,14 @@ CREATE TABLE `magazine` (
 --
 
 INSERT INTO `magazine` (`magazine_code`, `name`, `company`, `picture`, `description`, `ISBN`, `availability`, `rate`) VALUES
-(1, 'Eng Magazine', 'ABC News', './img/magazines/M01.jpg', 'It is a magazine about English.', NULL, 'true', 0),
-(2, 'Chinese Magazine', 'ABC News', './img/magazines/M02.jpg', 'It is a magazine about Chinese.', NULL, 'true', 0),
-(3, 'Maths Magazine', 'ABC News', './img/magazines/M03.jpg', 'It is a magazine about Mathematics.', NULL, 'true', 0),
-(4, 'Biology Magazine', 'ABC News', './img/magazines/M04.jpg', 'It is a magazine about Biology.', NULL, 'true', 0),
-(5, 'Eng Magazine2', 'ABC News', './img/magazines/M05.jpg', 'It is a magazine about English.', NULL, 'true', 0),
-(6, 'Chinese Magazine2', 'ABC News', './img/magazines/M06.jpg', 'It is a magazine about Chinese.', NULL, 'true', 0),
-(7, 'Maths Magazine2', 'ABC News', './img/magazines/M07.jpg', 'It is a magazine about Mathematics.', NULL, 'true', 0),
-(8, 'Biology Magazine2', 'ABC News', './img/magazines/M08.jpg', 'It is a magazine about Biology.', NULL, 'true', 0);
+(1, 'Eng Magazine', 'ABC News', './img/magazines/M01.jpg', 'It is a magazine about English.  I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'true', 0),
+(2, 'Chinese Magazine', 'ABC News', './img/magazines/M02.jpg', 'It is a magazine about Chinese.  I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'true', 0),
+(3, 'Maths Magazine', 'ABC News', './img/magazines/M03.jpg', 'It is a magazine about Mathematics. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(4, 'Biology Magazine', 'ABC News', './img/magazines/M04.jpg', 'It is a magazine about Biology. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(5, 'Eng Magazine2', 'ABC News', './img/magazines/M05.jpg', 'It is a magazine about English. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(6, 'Chinese Magazine2', 'ABC News', './img/magazines/M06.jpg', 'It is a magazine about Chinese. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(7, 'Maths Magazine2', 'ABC News', './img/magazines/M07.jpg', 'It is a magazine about Mathematics. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
+(8, 'Biology Magazine2', 'ABC News', './img/magazines/M08.jpg', 'It is a magazine about Biology.  The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0);
 
 -- --------------------------------------------------------
 
@@ -137,7 +137,7 @@ CREATE TABLE `software` (
   `name` varchar(20) NOT NULL,
   `company` varchar(20) NOT NULL,
   `picture` varchar(50) NOT NULL,
-  `description` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
   `availability` varchar(5) NOT NULL DEFAULT 'true',
   `rate` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -147,14 +147,14 @@ CREATE TABLE `software` (
 --
 
 INSERT INTO `software` (`software_code`, `name`, `company`, `picture`, `description`, `availability`, `rate`) VALUES
-(1, 'Eng Software', 'ABC Company', './img/software/S01.jpg', 'It is a software about English.', 'true', 0),
-(2, 'Chinese Software', 'ABC Company', './img/software/S02.jpg', 'It is a software about Chinese.', 'true', 0),
-(3, 'Maths Software', 'ABC Company', './img/software/S03.jpg', 'It is a software about Mathematics.', 'true', 0),
-(4, 'Biology Software', 'ABC Company', './img/software/S04.jpg', 'It is a software about Biology.', 'true', 0),
-(5, 'Eng Software2', 'ABC Company', './img/software/S05.jpg', 'It is a software about English.', 'true', 0),
-(6, 'Chinese Software2', 'ABC Company', './img/software/S06.jpg', 'It is a software about Chinese.', 'true', 0),
-(7, 'Maths Software2', 'ABC Company', './img/software/S07.jpg', 'It is a software about Mathematics.', 'true', 0),
-(8, 'Biology Software2', 'ABC Company', './img/software/S08.jpg', 'It is a software about Biology.', 'true', 0);
+(1, 'Eng Software', 'ABC Company', './img/software/S01.jpg', 'It is a software about English. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
+(2, 'Chinese Software', 'ABC Company', './img/software/S02.jpg', 'It is a software about Chinese. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
+(3, 'Maths Software', 'ABC Company', './img/software/S03.jpg', 'It is a software about Mathematics. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
+(4, 'Biology Software', 'ABC Company', './img/software/S04.jpg', 'It is a software about Biology. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
+(5, 'Eng Software2', 'ABC Company', './img/software/S05.jpg', 'It is a software about English. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
+(6, 'Chinese Software2', 'ABC Company', './img/software/S06.jpg', 'It is a software about Chinese. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
+(7, 'Maths Software2', 'ABC Company', './img/software/S07.jpg', 'It is a software about Mathematics. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
+(8, 'Biology Software2', 'ABC Company', './img/software/S08.jpg', 'It is a software about Biology. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0);
 
 -- --------------------------------------------------------
 
@@ -241,7 +241,7 @@ ALTER TABLE `user`
 -- 使用資料表 AUTO_INCREMENT `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `book_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 使用資料表 AUTO_INCREMENT `magazine`
