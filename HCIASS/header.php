@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
     <style>
-             ul {
+        .header {
             list-style-type: none;
             
             padding: 0px;
@@ -20,19 +20,17 @@
             
         }
 
-        li {
+        .header li {
             float: left;
             padding-left:2px;
            
         }
 
-       
-
-        li:last-child {
+        .header li:last-child {
             border-right: none;
         }
 
-        li a {
+        .header li a {
             display: block;
             color: white;
             text-align: center;
@@ -48,7 +46,7 @@
            
         }
 
-        li a:hover:not(.active) {
+        .header li a:hover:not(.active) {
             background-color: rgb(68, 201, 206);
         }
 
@@ -137,7 +135,7 @@
     </style>
 </head> 
 <body>
-    <ul>
+    <ul class="header">
         <li style="padding-right:11px"><div class="title">IVE Library</div></li>
         <li><a href="index.php" style="background-color:rgba(54, 162, 235, 0.8)">Home</a></li>
         
@@ -147,7 +145,7 @@
 
     <div id="shadow" onclick="cancelUserCard()"></div>
 
-    <ul id="userCard">
+    <ul  class="header" id="userCard">
          <li class="cardList"><img id="userImg" src="image/user.png" alt="Avatar"></li>
          <li class="cardList"><?php echo $user["name"]?></li>
          <li class="cardList"><?php echo $user["role"]?></li>
