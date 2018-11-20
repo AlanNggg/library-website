@@ -99,7 +99,7 @@
             float:none;
            
         }
-        .shadow{
+        #shadow{
             display: none;
             position:absolute;
             top:0;
@@ -138,11 +138,11 @@
         <li style="padding-right:11px"><div class="title">IVE Library</div></li>
         <li><a href="index.php" style="background-color:rgba(54, 162, 235, 0.8)">Home</a></li>
         
-        <li style="float:right" ><div id="userBox"><?php echo $user["name"]?></div></li>
+        <li style="float:right"  onclick='showUserCard()'><div id="userBox"><?php echo $user["name"]?></div></li>
         <li style="float:right;margin-right:-8px;" ><img id="circle" src="image/user.png" alt="Avatar"></li>
       </ul> 
 
-    <div class="shadow"></div>
+    <div id="shadow" onclick="cancelUserCard()"></div>
 
     <ul id="userCard">
          <li class="cardList"><img id="userImg" src="image/user.png" alt="Avatar"></li>
@@ -152,8 +152,8 @@
          <li  class="cardList"><div style="margin-top:50px;"></div></li>
          <?php
             if($user["role"] == "student"){
-                echo " <li class='cardList'><div style='width:100%;height:80px;border-radius:10px;background-color:#0078D7;padding-top:60px;font-size:30px;color:white;' class='funCard'>Record</div></li>";
-                echo " <li class='cardList'><div style='width:100%;height:80px;border-radius:10px;background-color:#E74856;padding-top:60px;font-size:30px;color:white;' class='funCard'>Payment</div></li>";
+                echo " <li class='cardList'><div style='width:100%;height:90px;border-radius:10px;background-color:#0078D7;padding-top:25px;font-size:30px;color:white;' class='funCard'>Record</div></li>";
+                echo " <li class='cardList'><div style='width:100%;height:90px;border-radius:10px;background-color:#E74856;padding-top:25px;font-size:30px;color:white;' class='funCard'>Payment</div></li>";
             }
          ?>
 
@@ -161,7 +161,33 @@
     </ul>
         
     <script>
-        
+            function showUserCard(){
+                document.getElementById('userCard').style.display = 'block';
+                document.getElementById('shadow').style.display = 'block';
+                var user = {
+                    id :<?php echo "'".$user["role"]."'" ?>,
+                    email:<?php echo  "'".$user["email"]."'" ?>,
+                    pwd:<?php echo "'".$user["password"]."'" ?>
+                };
+                user = JSON.stringify(user);
+                $.ajax({
+                    type:"POST",
+                    url:"api/?action=get_record_num",
+                    data:user,
+                    contentType:"application/json",
+                    dataType:"json",
+                    complete:function(req,status){
+                        var result =  req.responseText;
+                        result = JSON.parse(result);
+                        
+                      
+                    }
+        });
+            }
+            function cancelUserCard(){
+                document.getElementById('userCard').style.display = 'none';
+                document.getElementById('shadow').style.display = 'none';
+            }
     </script>
 </body>
 </html>

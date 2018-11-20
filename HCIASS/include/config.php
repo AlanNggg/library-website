@@ -2,7 +2,7 @@
     $DATABASE = array(
         'HOST' => '127.0.0.1',
         'USERNAME' => 'root',
-        'PASSWORD' => '',
+        'PASSWORD' => 'root',
         'DBNAME' => 'library' 
     );
 
