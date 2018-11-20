@@ -11,13 +11,29 @@ $data = file_get_contents('php://input');
     $result = $link->query($query);
     $record = array();
 
-    if(($row = mysqli_fetch_assoc($result))){
+    while(($row = mysqli_fetch_assoc($result))){
+        $record[] = $row;
+    }
+
+    $query = "SELECT * FROM lend_magazine WHERE email = '$email'";
+    $result = $link->query($query);
+    while(($row = mysqli_fetch_assoc($result))){
+        $record[] = $row;
+    }
+
+    $query = "SELECT * FROM lend_software WHERE email = '$email'";
+    $result = $link->query($query);
+    while(($row = mysqli_fetch_assoc($result))){
         $record[] = $row;
     }
 
     mysqli_close($link);
 
-    echo json_encode($record);
+    echo json_encode(
+            array(
+                    "total"=>count($record),
+                   "recode"=>$record
+        ));
     return;
 
 ?>
