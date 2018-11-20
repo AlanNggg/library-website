@@ -275,66 +275,7 @@
         $("#searchIcon").click(function() {
             $("#searchForm").submit();
         });
-
-        $("#searchForm").submit(function(e) {
-
-            var attribute = $("#attribute").val();
-            var keyword = $("#search").val();
-            console.log(attribute);
-
-            getResult(keyword, attribute);
-        });
     });
-
-    function getResult(keyword, attribute) {
-
-       $("#bookshelf").empty();
-       $("#searchForm").css('width', '100%');
-       $("#searchForm").css('align-items', 'flex-start');
-       $("#searchForm").css('padding-top', '100px');
-       $("#searchIcon").css('top', '10px');
-       $("#searchSection").css('height', '30%');
-       $("#arrow").css('display', 'block');
-       $("#container-arrow").css('display', 'flex');
-
-       console.log(attribute + " " + keyword);
-       var search = {
-           attribute : attribute,
-           keyword : keyword
-       };
-       search = JSON.stringify(search);
-       console.log(search);
-       $.ajax({
-           type:"GET",
-           url:"api/?action=search-handler",
-           data: {search: search},
-           contentType:"application/json",
-           dataType:"json",
-           complete:function(req,status){
-               var result =  req.responseText;
-               result = JSON.parse(result);
-               //console.log(result.search[0]);
-               //login success
-               if(status == 'success') {
-                   if(result.stat == "SUCCESS") {
-                       showAll(result);
-                       
-                       
-                   //if the user is first login
-                   } else {
-                           $(".message-box").addClass("message-box-error")
-                               .removeClass("message-box-alert")
-                       .text("Not Found")
-                           .show(300)
-                           .delay(2000)
-                           .hide(300);
-                           return;
-                   }
-                   
-               }
-           }
-       });
-   }
 
 </script>
 
@@ -343,7 +284,7 @@
     <div id="searchSection" style="height: 100%; width: 100%;">
         
         
-        <form id="searchForm" method="get" action="#" onsubmit="return false" style="position: relative; width: inherit; height: inherit; display: flex; align-items: center; justify-content:center;">
+        <form id="searchForm" method="get" action="result.php" style="position: relative; width: inherit; height: inherit; display: flex; align-items: center; justify-content:center;">
             <div id="container-arrow" style="position: absolute; left: 100px; width: 200px; height: inherit; display: none; align-items: center; justify-content:center;">
                 <div id="arrow">
                     <div id="forwardArrow"></div>
@@ -369,7 +310,7 @@
                     </ul>
                 </div>
                 ​</div>
-            <input id="search" type="text" style="position: relative; margin: 0px; padding: 10px 50px 10px 50px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
+            <input id="search" type="text" name="keyword" style="position: relative; margin: 0px; padding: 10px 50px 10px 50px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
             />
             <input id="attribute" type="hidden" name="attribute" value="All"/>
             <div id="searchIcon"></div>
@@ -394,184 +335,6 @@
     var stuffOnPage = 0;
 
     $(document).ready(function() {
-        var onPageStuff = 0;
-        var previousPageStuff = 0;
-        $("input[type='checkbox']").each(function () {
-            this.setAttribute("checked", "checked");
-        });
-
-        $("input[type='checkbox']").change(function () {
-            onPageStuff = 0;
-            previousPageStuff = 0;
-            var DOM = this;
-
-            if ($('input:checkbox:checked').length == 3) {
-                location.reload();
-            } else if (DOM.checked) {
-                if (DOM.value == "book") {
-                    showSelected("book");
-                } else if (DOM.value == "magazine") {
-                    showSelected("magazine");
-                } else if (DOM.value == "software") {
-                    showSelected("software");
-                }
-
-            } else {
-                $(".demo").each(function () {
-                    if ($(this).hasClass(DOM.value)) {
-                        $(this).css("display", "none");
-                        $(this).addClass("notshow");
-                        $(this).removeClass("previouspage");
-                        $(this).removeClass("nextpage");
-                    }
-                });
-                $(".demo").each(function () {
-                    if ($(this).css("display") == "block") {
-                        onPageStuff++;
-                    }
-                });
-                $(".demo").each(function () {
-                    console.log("ON Page : " + onPageStuff);
-                    if (!$(this).hasClass("notshow") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
-                        $(this).fadeIn(1000);
-                        $(this).removeClass("nextpage");
-                        onPageStuff++;
-                    }
-                });
-
-                $(".demo").each(function () {
-                    if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
-                        previousPageStuff++;
-                        console.log(previousPageStuff);
-                    }
-                });
-
-                //以下implementation 作用一樣
-
-                //如果在 中間頁 移除 DEMO, 檢查 前頁 DEMO 數量, 並移 當前頁 DEMO 到 前頁
-                if (previousPageStuff < stuffOnPage) {
-
-                    $(".demo").each(function () {
-                        if ($(this).css("display") == "block") {
-                            $(this).css("display", "none");
-                            $(this).addClass("previouspage");
-
-                            previousPageStuff++;
-                            onPageStuff = 0;
-                            $(".demo").each(function () {
-                                if ($(this).css("display") == "block") {
-                                    onPageStuff++;
-                                }
-                            });
-                            console.log(" 1 :: " + onPageStuff);
-                            $(".demo").each(function () {
-                                console.log("ON Page : " + onPageStuff);
-                                if (!$(this).hasClass("notshow") && $(this).css("display", "block") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
-                                    $(this).fadeIn(1000);
-                                    $(this).removeClass("nextpage");
-                                    onPageStuff++;
-                                }
-                            });
-                        }
-                    });
-                }
-                $("#backArrow").trigger("click");
-
-                previousPageStuff = 0;
-                $(".demo").each(function () {
-                    if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
-                        previousPageStuff++;
-                    }
-                });
-                console.log("Previous Page Stuff : " + previousPageStuff);
-                //如果在 中間頁 移除 DEMO, 檢查 前頁 DEMO 數量, 並移 當前頁 DEMO 到 前頁
-                if (previousPageStuff < stuffOnPage) {
-                    var shiftNum = stuffOnPage - previousPageStuff;
-
-                    console.log("New " + shiftNum);
-                    $(".demo").each(function (index, value) {
-                        console.log(index);
-                        if ($(this).css("display") == "block") {
-                            if (shiftNum <= 0) {
-                                return;
-                            } else {
-                                console.log("YESYES");
-                                $(this).css("display", "none");
-                                $(this).addClass("previouspage");
-                                shiftNum--;
-                            }
-                            console.log("shiftNUMMM " + shiftNum);
-                        }
-                    });
-                }
-
-                $("#backArrow").trigger("click");
-            }
-        });
-
-        $("#forwardArrow").click(function () {
-            stop = false;
-            var nextPageStuff = 0;
-            var onPageStuff = 0;
-            console.log(stop);
-            $(".demo").each(function () {
-                if ($(this).hasClass("nextpage") && !$(this).hasClass("notshow")) {
-                    nextPageStuff++;
-                }
-            });
-            console.log(nextPageStuff);
-            if (nextPageStuff > 0) {
-                $(".demo").each(function () {
-                    if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
-                        $(this).addClass("previouspage");
-                        $(this).fadeOut(1000);
-                        $(this).css("display", "none");
-                    }
-                });
-                $(".demo").each(function () {
-                    if ($(this).css("display") == "none" && $(this).hasClass("nextpage") && !$(this).hasClass("notshow") && !stop) {
-                        $(this).fadeIn(1000);
-                        $(this).removeClass("nextpage");
-                        console.log("remove next");
-                        onPageStuff++;
-                    }
-                    
-                    console.log(stuffOnPage);
-                    if (onPageStuff == stuffOnPage) {
-                        stop = true;
-                        return;
-                    }
-                });
-            }
-        });
-
-        $("#backArrow").click(function () {
-            stop = false;
-            var count = 0;
-            onPageStuff = 0;
-            $(".demo").each(function () {
-                if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
-                    count++;
-                }
-            });
-            if (count > 0) {
-                $(".demo").each(function () {
-                    if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
-                        $(this).addClass("nextpage");
-                        $(this).fadeOut(1000);
-                        $(this).css("display", "none");
-                    }
-                });
-                $($(".demo").get().reverse()).each(function () {
-                    if ($(this).css("display") == "none" && $(this).hasClass("previouspage") && !$(this).hasClass("notshow") && onPageStuff < stuffOnPage) {
-                        $(this).fadeIn(1000);
-                        $(this).removeClass("previouspage");
-                        onPageStuff++;
-                    }
-                });
-            }
-        });
-
         $("#search").focus(function () {
                 $(this).css("background-color", "#EFEFEF");
         });
