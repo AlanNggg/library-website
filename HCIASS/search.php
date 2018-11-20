@@ -224,6 +224,35 @@
         background-color: #9C9A9E;
     }
 
+    .tooltip{
+        display: inline;
+        position: relative;
+    }
+
+    .tooltip:hover:after{
+        background: #333;
+        background: rgba(0,0,0,.8);
+        border-radius: 5px;
+        bottom: 26px;
+        color: #fff;
+        content: attr(title);
+        left: 20%;
+        padding: 5px 15px;
+        position: absolute;
+        z-index: 98;
+        width: 220px;
+    }
+
+    .tooltip:hover:before{
+        border: solid;
+        border-color: #333 transparent;
+        border-width: 6px 6px 0 6px;
+        bottom: 20px;
+        content: "";
+        left: 50%;
+        position: absolute;
+        z-index: 99;
+    }
 
     @media only screen and (max-width: 560px) {
         #search {
@@ -352,10 +381,10 @@
         $.each(search, function (index, value) {
             if ($(".demo").length > 7) {
                 stop = true;
-                $("#bookshelf").append("<div class=\"demo nextpage\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
+                $("#bookshelf").append("<a href=\"#\" title=\"This is some information for our tooltip.\"><span title=\"More\"><div class=\"demo nextpage\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div></span></a>");
             }
             if (!stop) {
-                $("#bookshelf").append("<div class=\"demo\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
+                $("#bookshelf").append("<a href=\"#\" title=\"This is some information for our tooltip.\"><span title=\"More\"><div class=\"demo\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div></span></a>");
                 stuffOnPage++;
             }
         });
