@@ -2,12 +2,14 @@
     
     $data = $_GET['search'];
     $data = json_decode($data);
-
+    
     $table = $data->attribute;
     $keyword = $data->keyword;
     
     $link = mysqli_open();
-    if ($table == "All" && is_null($keyword)) {
+
+    // All Data from all tables
+    if ($table == "All" && empty($keyword)) {
         $query = array();
         $query[] = "SELECT * FROM book";
         $query[] = "SELECT * FROM magazine";
@@ -18,14 +20,16 @@
         foreach ($query as $sql) {
             $result[] = $link->query($sql);
         }
-        
-        
+      
+
         $search = array();
+    
+    // All Data from all tables which match the keyword
     } else if ($table == "All") {
         $query = array();
-        $query[] = "SELECT * FROM book WHERE name LIKE '%$keyword%'";
-        $query[] = "SELECT * FROM magazine WHERE name LIKE '%$keyword%'";
-        $query[] = "SELECT * FROM software WHERE name LIKE '%$keyword%'";
+        $query[] = "SELECT * FROM book WHERE name LIKE '%$keyword%' OR author LIKE '%$keyword%' OR description LIKE '%$keyword%'";
+        $query[] = "SELECT * FROM magazine WHERE name LIKE '%$keyword%' OR company LIKE '%$keyword%' OR description LIKE '%$keyword%'";
+        $query[] = "SELECT * FROM software WHERE name LIKE '%$keyword%' OR company LIKE '%$keyword%' OR description LIKE '%$keyword%'";
 
         $result = array();
 
@@ -33,7 +37,8 @@
             $result[] = $link->query($sql);
         }
 
-    } else if (is_null($keyword)) {
+    // All Data from a table
+    } else if (empty($keyword)) {
 
         $query = "SELECT * FROM $table";
     
@@ -41,9 +46,14 @@
         
         $search = array();
 
+    // All Data from a table which match the keyword
     } else {
-        $query = "SELECT * FROM $table WHERE name LIKE '%$keyword%'";
-    
+        if ($table == "Book") {
+            $query = "SELECT * FROM $table WHERE name LIKE '%$keyword%' OR author LIKE '%$keyword%' OR description LIKE '%$keyword%'";
+        } else {
+            $query = "SELECT * FROM $table WHERE name LIKE '%$keyword%' OR company LIKE '%$keyword%' OR description LIKE '%$keyword%'";
+        }
+
         $result = $link->query($query);
         
         $search = array();
@@ -65,7 +75,6 @@
                         "stat"=>"SUCCESS",
                         "search"=>$search
             ));
-            return;
         } else {
             echo json_encode(
                 array(
@@ -75,7 +84,6 @@
                         "keyword" => $keyword,
                         "query" => $query
             ));
-            return;
         }
 
     } else if (mysqli_num_rows($result) > 0) {
@@ -89,18 +97,16 @@
             array(
                     "stat"=>"SUCCESS",
                     "search"=>$search,
-                    "table" => $table
+                    "table" => $table,
+                    "query" => $query
         ));
-        return;
     } else {
         echo json_encode(
             array(
                     "stat"=>"FAILED",
-                    "num" => mysqli_num_rows($result),
                     "table" => $table,
                     "keyword" => $keyword,
                     "query" => $query
         ));
-        return;
     }
 ?>
