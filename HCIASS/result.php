@@ -1,45 +1,7 @@
 <?php
     extract($_GET);
     $table = array("All", "Book", "Magazine", "Software");
-    if (isset($keyword, $attribute) && in_array($attribute, $table)) {
-        $form = <<< EOF
-        <div id="searchSection" style="height: 30%; width: 100%;">  
-            <form id="searchForm" method="get" action="result.php" style="position: relative; padding-top: 100px; width: 100%; height: inherit; display: flex; align-items: flex-start; justify-content:center;">
-                <div id="container-arrow" style="position: absolute; left: 100px; width: 200px; height: inherit; display: flex; align-items: center; justify-content:center;">
-                    <div id="arrow">
-                        <div id="forwardArrow"></div>
-                        <div id="backArrow"></div>
-                    </div>
-                </div>
-                <div class="wrapper-demo" style="z-index: 2;">
-                    <div id="dd" class="wrapper-dropdown-5" tabindex="1">
-                        <p>$attribute</p>
-                        <ul class="dropdown">
-                            <li>
-                                <a href="#"><i class="icon-remove"></i>All</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icon-user"></i>Book</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icon-cog"></i>Software</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icon-remove"></i>Magazine</a>
-                            </li>
-                        </ul>
-                    </div>
-                    ​</div>
-                <input id="search" type="text" name="keyword" style="position: relative; margin: 0px; padding: 10px 50px 10px 50px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
-                 value="$keyword"/>
-                <input id="attribute" type="hidden" name="attribute" value="$attribute"/>
-                <div id="searchIcon"></div>
-                <div class="message-box" style="clear: left"></div>
-            </form>
-         </div>
-EOF;
-        echo $form;
-    } else {
+    if (isset($keyword, $attribute) && !in_array($attribute, $table)) {
         header('Location: ./search.php');
     }
 ?>
@@ -375,7 +337,40 @@ EOF;
 </script>
 
 <body>
-    
+    <div id="searchSection" style="height: 30%; width: 100%;">  
+        <form id="searchForm" method="get" action="result.php" style="position: relative; padding-top: 100px; width: 100%; height: inherit; display: flex; align-items: flex-start; justify-content:center;">
+            <div id="container-arrow" style="position: absolute; left: 100px; width: 200px; height: inherit; display: flex; align-items: center; justify-content:center;">
+                <div id="arrow">
+                    <div id="forwardArrow"></div>
+                    <div id="backArrow"></div>
+                </div>
+            </div>
+            <div class="wrapper-demo" style="z-index: 2;">
+                <div id="dd" class="wrapper-dropdown-5" tabindex="1">
+                    <p><?php echo $attribute; ?></p>
+                    <ul class="dropdown">
+                        <li>
+                            <a href="#"><i class="icon-remove"></i>All</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="icon-user"></i>Book</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="icon-cog"></i>Software</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="icon-remove"></i>Magazine</a>
+                        </li>
+                    </ul>
+                </div>
+                ​</div>
+            <input id="search" type="text" name="keyword" style="position: relative; margin: 0px; padding: 10px 50px 10px 50px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
+                value="<?php echo $keyword; ?>"/>
+            <input id="attribute" type="hidden" name="attribute" value="<?php echo $attribute; ?>"/>
+            <div id="searchIcon"></div>
+            <div class="message-box" style="clear: left"></div>
+        </form>
+    </div>
     
     <section style="position: relative; width: 50%; height: 50%; margin: 0 auto;">
         <div id="bookshelf" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
