@@ -17,7 +17,7 @@
         background-size: cover;
         background-repeat: no-repeat;
         font-family: Helvetica, Arial, sans-serif;
-        overflow-y: hidden;
+        overflow-y: auto;
     }
 
     body {
@@ -52,6 +52,7 @@
         /* Size & position */
         position: relative;
         width: 150px;
+        font-size: 18px;
         margin: 0 auto;
         padding: 13px 15px;
         display: inline-block;
@@ -179,9 +180,7 @@
 
     #arrow {
         display: none;
-        position: absolute;
-        left: 4%;
-        top: 16%;
+        position: relative;
         width: 150px;
         height: 70px;
         opacity: 0.9;
@@ -290,11 +289,13 @@
     function getResult(keyword, attribute) {
 
        $("#bookshelf").empty();
+       $("#searchForm").css('width', '100%');
        $("#searchForm").css('align-items', 'flex-start');
        $("#searchForm").css('padding-top', '100px');
        $("#searchIcon").css('top', '10px');
        $("#searchSection").css('height', '30%');
        $("#arrow").css('display', 'block');
+       $("#container-arrow").css('display', 'flex');
 
        console.log(attribute + " " + keyword);
        var search = {
@@ -340,12 +341,15 @@
 <body>
     
     <div id="searchSection" style="height: 100%; width: 100%;">
-        <div id="arrow">
-            <div id="forwardArrow"></div>
-            <div id="backArrow"></div>
-        </div>
-        <form id="searchForm" method="get" action="#" onsubmit="return false" style="position: relative; width: inherit; height: inherit;display: flex; align-items: center; justify-content:center;">
-            
+        
+        
+        <form id="searchForm" method="get" action="#" onsubmit="return false" style="position: relative; width: inherit; height: inherit; display: flex; align-items: center; justify-content:center;">
+            <div id="container-arrow" style="position: absolute; left: 100px; width: 200px; height: inherit; display: none; align-items: center; justify-content:center;">
+                <div id="arrow">
+                    <div id="forwardArrow"></div>
+                    <div id="backArrow"></div>
+                </div>
+            </div>
             <div class="wrapper-demo" style="z-index: 2;">
                 <div id="dd" class="wrapper-dropdown-5" tabindex="1">
                     <p>All</p>
@@ -354,12 +358,10 @@
                             <a href="#"><i class="icon-remove"></i>All</a>
                         </li>
                         <li>
-                            <a href="#">
-                            <i class="icon-user"></i>Book</a>
+                            <a href="#"><i class="icon-user"></i>Book</a>
                         </li>
                         <li>
-                            <a href="#">
-                                <i class="icon-cog"></i>Software</a>
+                            <a href="#"><i class="icon-cog"></i>Software</a>
                         </li>
                         <li>
                             <a href="#"><i class="icon-remove"></i>Magazine</a>
@@ -374,7 +376,7 @@
             <div class="message-box" style="clear: left"></div>
         </form>
     </div>
-    <section style="position: relative; width: 100%; height: 70%;">
+    <section style="position: relative; width: 50%; height: 50%; margin: 0 auto;">
         <div id="bookshelf" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
 
             
@@ -431,7 +433,7 @@
                 $(".demo").each(function () {
                     console.log("ON Page : " + onPageStuff);
                     if (!$(this).hasClass("notshow") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
-                        $(this).css("display", "block");
+                        $(this).fadeIn(1000);
                         $(this).removeClass("nextpage");
                         onPageStuff++;
                     }
@@ -464,8 +466,8 @@
                             console.log(" 1 :: " + onPageStuff);
                             $(".demo").each(function () {
                                 console.log("ON Page : " + onPageStuff);
-                                if (!$(this).hasClass("notshow") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
-                                    $(this).css("display", "block");
+                                if (!$(this).hasClass("notshow") && $(this).css("display", "block") && !$(this).hasClass(DOM.value) && $(this).hasClass("nextpage") && onPageStuff < stuffOnPage) {
+                                    $(this).fadeIn(1000);
                                     $(this).removeClass("nextpage");
                                     onPageStuff++;
                                 }
@@ -522,12 +524,13 @@
                 $(".demo").each(function () {
                     if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
                         $(this).addClass("previouspage");
+                        $(this).fadeOut(1000);
                         $(this).css("display", "none");
                     }
                 });
                 $(".demo").each(function () {
                     if ($(this).css("display") == "none" && $(this).hasClass("nextpage") && !$(this).hasClass("notshow") && !stop) {
-                        $(this).css("display", "block");
+                        $(this).fadeIn(1000);
                         $(this).removeClass("nextpage");
                         console.log("remove next");
                         onPageStuff++;
@@ -555,12 +558,13 @@
                 $(".demo").each(function () {
                     if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
                         $(this).addClass("nextpage");
+                        $(this).fadeOut(1000);
                         $(this).css("display", "none");
                     }
                 });
                 $($(".demo").get().reverse()).each(function () {
                     if ($(this).css("display") == "none" && $(this).hasClass("previouspage") && !$(this).hasClass("notshow") && onPageStuff < stuffOnPage) {
-                        $(this).css("display", "block");
+                        $(this).fadeIn(1000);
                         $(this).removeClass("previouspage");
                         onPageStuff++;
                     }
@@ -579,6 +583,7 @@
     
     function showAll(result) {
         stop = false;
+        stuffOnPage = 0;
         var i = 0; 
         var search = result.search;
         $.each(search, function (index, value) {
