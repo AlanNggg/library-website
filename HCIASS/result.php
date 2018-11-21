@@ -317,20 +317,32 @@
         left: 20px;
         top: 10px;
     }
+
     .left_menu li {
         float: left;
         padding: 14px 25px;
         cursor: pointer;
     }
+
     .left_menu li:after {
-        display:block;
         content: '';
-        border-bottom: solid 3px #019fb6;  
-        transform: scaleX(0);  
-        transition: transform 250ms ease-in-out;
-        transform-origin:  0% 50%;
+        display: block;
+        height: 3px;
+        width: 0;
+        background: transparent;
+        transition: width .5s ease, background-color .5s ease;
     }
-    .left_menu li:hover:after { transform: scaleX(1); }
+
+    .left_menu li:hover:after {
+        width: 100%;
+        background: #019fb6;
+    }
+
+
+    .left_menu li.clicked:after {
+        width: 100%;
+        background: #019fb6;
+    }
 
     @media only screen and (max-width: 560px) {
         #search {
@@ -547,7 +559,16 @@
     $(document).ready(function() {
         var onPageStuff = 0;
         var previousPageStuff = 0;
+        
+        $(".left_menu li").click(function () {
+            $("li").each(function(){
+                if ($(this).hasClass("clicked")) {
+                    $(this).removeClass("clicked");
+                }
+            });
 
+            $(this).addClass("clicked");
+        });
         $("#forwardArrow").click(function () {
             stop = false;
             var nextPageStuff = 0;
