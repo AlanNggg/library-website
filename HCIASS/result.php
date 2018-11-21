@@ -1,3 +1,10 @@
+<?php
+    extract($_GET);
+    $table = array("All", "Book", "Magazine", "Software");
+    if (isset($keyword, $attribute) && !in_array($attribute, $table)) {
+        header('Location: ./search.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +34,7 @@
 
     #searchIcon {
         position: relative;
+        top: 10px;
         right: 50px;
         width: 30px;
         height: 30px;
@@ -179,7 +187,7 @@
     }
 
     #arrow {
-        display: none;
+        display: block;
         position: relative;
         width: 150px;
         height: 70px;
@@ -265,6 +273,11 @@
     });
 
     $(document).ready(function() {
+        var attribute = $("#attribute").val();
+        var keyword = $("#search").val();
+        console.log(attribute);
+
+        getResult(keyword, attribute);
 
         $(".dropdown a").click(function() {
             $("#dd p").text($(this).text().trim());
@@ -272,20 +285,61 @@
             console.log($("#attribute").val());
         });
 
-        $("#searchIcon").click(function() {
+         $("#searchIcon").click(function() {
             $("#searchForm").submit();
         });
+
     });
+
+    function getResult(keyword, attribute) {
+
+       $("#bookshelf").empty();
+
+       console.log(attribute + " " + keyword);
+       var search = {
+           attribute : attribute,
+           keyword : keyword
+       };
+       search = JSON.stringify(search);
+       console.log(search);
+       $.ajax({
+           type:"GET",
+           url:"api/?action=search-handler",
+           data: {search: search},
+           contentType:"application/json",
+           dataType:"json",
+           complete:function(req,status){
+               var result =  req.responseText;
+               result = JSON.parse(result);
+               //console.log(result.search[0]);
+               //login success
+               if(status == 'success') {
+                   if(result.stat == "SUCCESS") {
+                       showAll(result);
+                       
+                       
+                   //if the user is first login
+                   } else {
+                           $(".message-box").addClass("message-box-error")
+                               .removeClass("message-box-alert")
+                       .text("Not Found")
+                           .show(300)
+                           .delay(2000)
+                           .hide(300);
+                           return;
+                   }
+                   
+               }
+           }
+       });
+   }
 
 </script>
 
 <body>
-    
-    <div id="searchSection" style="height: 100%; width: 100%;">
-        
-        
-        <form id="searchForm" method="get" action="result.php" style="position: relative; width: inherit; height: inherit; display: flex; align-items: center; justify-content:center;">
-            <div id="container-arrow" style="position: absolute; left: 100px; width: 200px; height: inherit; display: none; align-items: center; justify-content:center;">
+    <div id="searchSection" style="height: 30%; width: 100%;">  
+        <form id="searchForm" method="get" action="result.php" style="position: relative; padding-top: 100px; width: 100%; height: inherit; display: flex; align-items: flex-start; justify-content:center;">
+            <div id="container-arrow" style="position: absolute; left: 100px; width: 200px; height: inherit; display: flex; align-items: center; justify-content:center;">
                 <div id="arrow">
                     <div id="forwardArrow"></div>
                     <div id="backArrow"></div>
@@ -293,7 +347,7 @@
             </div>
             <div class="wrapper-demo" style="z-index: 2;">
                 <div id="dd" class="wrapper-dropdown-5" tabindex="1">
-                    <p>All</p>
+                    <p><?php echo $attribute; ?></p>
                     <ul class="dropdown">
                         <li>
                             <a href="#"><i class="icon-remove"></i>All</a>
@@ -311,12 +365,13 @@
                 </div>
                 ​</div>
             <input id="search" type="text" name="keyword" style="position: relative; margin: 0px; padding: 10px 50px 10px 50px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
-            />
-            <input id="attribute" type="hidden" name="attribute" value="All"/>
+                value="<?php echo $keyword; ?>"/>
+            <input id="attribute" type="hidden" name="attribute" value="<?php echo $attribute; ?>"/>
             <div id="searchIcon"></div>
             <div class="message-box" style="clear: left"></div>
         </form>
     </div>
+    
     <section style="position: relative; width: 50%; height: 50%; margin: 0 auto;">
         <div id="bookshelf" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
 
@@ -335,6 +390,72 @@
     var stuffOnPage = 0;
 
     $(document).ready(function() {
+        var onPageStuff = 0;
+        var previousPageStuff = 0;
+
+        $("#forwardArrow").click(function () {
+            stop = false;
+            var nextPageStuff = 0;
+            var onPageStuff = 0;
+            console.log(stop);
+            $(".demo").each(function () {
+                if ($(this).hasClass("nextpage") && !$(this).hasClass("notshow")) {
+                    nextPageStuff++;
+                }
+            });
+            console.log(nextPageStuff);
+            if (nextPageStuff > 0) {
+                $(".demo").each(function () {
+                    if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
+                        $(this).addClass("previouspage");
+                        $(this).fadeOut(1000);
+                        $(this).css("display", "none");
+                    }
+                });
+                $(".demo").each(function () {
+                    if ($(this).css("display") == "none" && $(this).hasClass("nextpage") && !$(this).hasClass("notshow") && !stop) {
+                        $(this).fadeIn(1000);
+                        $(this).removeClass("nextpage");
+                        console.log("remove next");
+                        onPageStuff++;
+                    }
+                    
+                    console.log(stuffOnPage);
+                    if (onPageStuff == stuffOnPage) {
+                        stop = true;
+                        return;
+                    }
+                });
+            }
+        });
+
+        $("#backArrow").click(function () {
+            stop = false;
+            var count = 0;
+            onPageStuff = 0;
+            $(".demo").each(function () {
+                if ($(this).hasClass("previouspage") && !$(this).hasClass("notshow")) {
+                    count++;
+                }
+            });
+            if (count > 0) {
+                $(".demo").each(function () {
+                    if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
+                        $(this).addClass("nextpage");
+                        $(this).fadeOut(1000);
+                        $(this).css("display", "none");
+                    }
+                });
+                $($(".demo").get().reverse()).each(function () {
+                    if ($(this).css("display") == "none" && $(this).hasClass("previouspage") && !$(this).hasClass("notshow") && onPageStuff < stuffOnPage) {
+                        $(this).fadeIn(1000);
+                        $(this).removeClass("previouspage");
+                        onPageStuff++;
+                    }
+                });
+            }
+        });
+
         $("#search").focus(function () {
                 $(this).css("background-color", "#EFEFEF");
         });
