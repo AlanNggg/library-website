@@ -4,12 +4,25 @@
 <head>
 
         <style>
+              html,body {
+
+                background-image: url('image/bg/bg5.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                overflow-y: auto;
+            }
+
+            body {
+                height: 100%;
+                width: 100%;
+            }
 
             #recordBookList{
                
             }
             div.container {
-                        margin-left:100px;
+                    background-color:white;
+                    margin-left:100px;
                     padding:50px;
                     width: 80%;
                     height:50%;

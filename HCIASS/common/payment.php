@@ -7,7 +7,20 @@
        }
        address, dl, fieldset, figure, ol, p, pre, ul {
     margin: 0 0 0px 0;
-}
+    }
+
+      html,body {
+        height: 100%;
+        background-image: url('image/books-1246674_1920.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        overflow-y: auto;
+    }
+
+    body {
+        height: 100%;
+        width: 100%;
+    }
    </style>
 </head>
 <body style="background-image:url(./image/123.jpg);height:100%;">

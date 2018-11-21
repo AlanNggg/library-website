@@ -1,5 +1,6 @@
 <?php
     session_start();
+   
 
     if(isset($_GET["logout"])){
         $_SESSION["user"] = null;
@@ -21,7 +22,7 @@
     }
     //check url have a payment param and go to common/payment/record.php
     if(isset($_GET["payment"])){
-        include 'common/payment.html';
+        include 'common/payment.php';
         return;
     }
 
@@ -31,7 +32,13 @@
     }
 
     if(isset($_GET["userInfo"])){
-        include 'common/userInfo.html';
+        include 'common/userInfo.php';
+        return;
+    }
+
+    if(isset($_GET["friendInfo"])){
+       
+        include 'common/friendInfo.html';
         return;
     }
 

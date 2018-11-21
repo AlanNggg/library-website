@@ -4,6 +4,12 @@
 <head>
 
         <style>
+              html,body {
+                background-image: url('image/books-1246674_1920.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+                overflow-y: auto;
+            }
             #container{
                 padding-left: 20px;
                 position:absolute;
@@ -16,6 +22,7 @@
                
             }
             div.container {
+                background-color:white;
                         margin-left:100px;
                     padding:50px;
                     width: 80%;
