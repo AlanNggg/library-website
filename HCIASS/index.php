@@ -30,6 +30,11 @@
         return;
     }
 
+    if(isset($_GET["userInfo"])){
+        include 'common/userInfo.html';
+        return;
+    }
+
 
     if($user["role"]=='student' || $user["role"]== 'alumni'){
         include 'search.php';
