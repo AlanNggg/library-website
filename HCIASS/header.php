@@ -36,6 +36,9 @@
             font-size: 20px;
             
         }
+        ddress, dl, fieldset, figure, ol, p, pre, ul {
+         margin: 0 0 20px 0; 
+}
 
         .header li {
             float: left;
@@ -173,7 +176,7 @@
          <?php
             if($user["role"] == "student"){
                 echo " <li class='cardList' onclick='paymentFun()'><div style='width:100%;height:90px;border-radius:10px;background-color:#E74856;padding-top:25px;font-size:30px;color:white;' class='funCard'>Payment</div></li>";
-                echo " <li class='cardList'><div style='width:100%;height:90px;border-radius:10px;background-color:#0078D7;padding-top:25px;font-size:30px;color:white;' class='funCard'>History</div></li>";
+                echo " <li class='cardList' onclick='history()'><div style='width:100%;height:90px;border-radius:10px;background-color:#0078D7;padding-top:25px;font-size:30px;color:white;' class='funCard'>History</div></li>";
             }
          ?>
 
@@ -227,6 +230,10 @@
                  if (r == true) 
                     window.location = "./?logout=true";
             }
+            function history(){
+                window.location = "./?history=true";
+            }
+
     </script>
 </body>
 </html>

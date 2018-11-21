@@ -6,7 +6,7 @@
     function mysqli_open()
     {
         global $DATABASE;
-        $con = mysqli_connect($DATABASE["HOST"] , $DATABASE["USERNAME"] , $DATABASE["PASSWORD"] , $DATABASE["DBNAME"],3307) or die();
+        $con = mysqli_connect($DATABASE["HOST"] , $DATABASE["USERNAME"] , $DATABASE["PASSWORD"] , $DATABASE["DBNAME"]) or die();
 
         return $con;
     }

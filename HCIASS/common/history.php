@@ -4,14 +4,7 @@
 <head>
 
         <style>
-            #container{
-                padding-left: 20px;
-                position:absolute;
-                background: red;
-                margin:10px;
-                height:80%;
-                width:80%;
-            }
+
             #recordBookList{
                
             }
@@ -37,23 +30,22 @@
 </head>
 <body>
     <div class="container">
-    <h3>Basket</h3>
+        <h3>History</h3>
         <table id="recordBookList" class="display" style="width:100%">
                 <thead>
                     <tr>
                         <th>Image</th>
+                        <th>Type</th>
                         <th>Name</th>
-                        <th>Brow Day</th>
-                        <th>Last Day</th>
-                        <th></th>
+                        <th>Author</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Brow Day</th>
-                            <th>Last Day</th>
+                        <th>Image</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Author</th>
                     </tr>
                 </tfoot>
             </table>
@@ -68,33 +60,47 @@ $(document).ready(function() {
                     pwd:<?php echo "'".$user["password"]."'" ?>
                 };
                 user = JSON.stringify(user);
-    $.post("api/?action=get_record_num",user,function(e){
+    $.post("api/?action=get_history",user,function(e){
 
-        var list = e.recode;
-        console.log(list);
-        $.each(list,function(i,v){
-            console.log(v);
-        });
-
-   
-
-    // Automatically add row of data
-    var de_btn = "<button id='removeBtn' type='button'>Remove</button>";
-            $.each(list,function(i,v){
-                var image = "<img src='../HUMASS/"+v.picture+"' hight:5 width:5>";
+        var book = e.book;
+        console.log(book);
+        $.each(book,function(i,v){
+                    var image = "<img src='../HUMASS/"+v.picture+"' hight:5 width:5>";
               
-                t.row.add( [
+             t.row.add( [
                     image,
+                    "Book",
                     v.name,
-                    v.start_date,
-                    v.end_date,
-                    de_btn
+                    v.author
                 ] ).draw(); 
-            }); 
-          
+        }); 
 
- 
-   
+         var maga = e.magazine;
+        console.log(maga);
+        $.each(maga,function(i,v){
+                    var image = "<img src='../HUMASS/"+v.picture+"' hight:5 width:5>";
+              
+             t.row.add( [
+                    image,
+                    "Magazine",
+                    v.name,
+                    v.company
+                ] ).draw(); 
+        }); 
+
+         var soft = e.software;
+        console.log(soft);
+        $.each(soft,function(i,v){
+                    var image = "<img src='../HUMASS/"+v.picture+"' hight:5 width:5>";
+              
+             t.row.add( [
+                    image,
+                    "Software",
+                    v.name,
+                    v.company
+                ] ).draw(); 
+        }); 
+        
 
     });
     $('#recordBookList').on('click','button',function(){

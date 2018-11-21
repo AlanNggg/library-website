@@ -25,6 +25,11 @@
         return;
     }
 
+    if(isset($_GET["history"])){
+        include 'common/history.php';
+        return;
+    }
+
 
     if($user["role"]=='student' || $user["role"]== 'alumni'){
         include 'search.php';
