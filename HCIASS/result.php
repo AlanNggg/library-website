@@ -315,12 +315,39 @@
         font-family: sans-serif;
     }
 
+    #top_menu {
+        list-style-type: none;
+        position: relative;
+        font-size: 20px;
+        text-align: center;
+        padding: 5px;
+    }
+
+    #top_menu li {
+        text-align: center;
+        position:relative;
+        float: left;
+        padding-right: 20px;
+        cursor: pointer;
+    }
+
+    #top_menu li:hover {
+        color: rgb(232, 87, 94);
+    }
+
+    #top_menu li.topClicked {
+        font-weight: 550;
+        color: rgb(232, 87, 94);
+    }
+
     #container_menu {
+        display: none;
         float: right;
         position: relative;
         left: -50%;
         text-align:left;
     }
+    
 
     .left_menu {
         list-style-type: none;
@@ -391,6 +418,16 @@
     }
     .slick-dotted .slick-current img {
         transform: scale(1.1);
+    }
+
+    #filterIcon {
+        position: relative;
+        float: right;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        background-image: url("UI/filter.png");
+        background-size: contain;
     }
 
     @media only screen and (max-width: 1275px) {
@@ -604,10 +641,15 @@
         </form>
     </div>
     <!--<li><a href="#">home</a></li>-->
-    <div style="position: relative; float: left; padding-top: 40px; display: flex; align-items: flex-start; width: 30%; height: 100%; margin: 0px;">
-        <aside style="float: left; width: 100%; height: 600px; border-radius: 10px; margin: 10px;">
+    <div style="position: relative; float: left; padding-top: 40px; display: flex; align-items: flex-start; width: 30%; max-height: 100%; margin: 0px;">
+        <aside style="float: left; max-width: 100%; max-height: 600px; border-radius: 10px; margin: 10px;">
             
-            <h1 style="background-color: rgba(52, 87, 94, 0.8); border-radius: 10px 10px 0px 0px; padding: 15px; font-size: 30px;">Recommend</h1>
+            <div style="background-color: rgba(52, 87, 94, 0.8); border-radius: 10px 10px 0px 0px; padding: 15px; font-size: 20px;">
+                <ul id="top_menu">    
+                    <li id="recommend">Recommend</li>
+                    <li id="notice">Notice</li>
+                </ul>
+            </div>
             <div id="container_menu">
                 <ul class="left_menu">    
                     <li id="recommend_book">Book</li>
@@ -630,10 +672,30 @@
                 <div><image src="./img/software/S02.jpg" alt=""/></div>
                 <div><image src="./img/software/S03.jpg" alt=""/></div>
             </div>
+            
+            <div id="notifyMessage" style="display: flex; justify-content: center; align-items: center; flex-direction: column; overflow-y: auto; overflow-x: hidden;">
+                <div style="display: inline-block; border-radius: 10px; width: 70%; height: 150px; background-color: #B7B5B9; margin: 20px 0px;">
+                <p>Wow, does that work?
+                She was too short to see over the fence.
+                The memory we used to share is no longer coherent.
+                Is it free?</p>
+                </div>
+                <div style="display: inline-block; border-radius: 10px; width: 70%;  height: 150px; background-color: #B7B5B9; margin: 20px 0px;">
+                <p>Malls are great places to shop; I can find everything I need under one roof.
+                Italy is my favorite country; in fact, I plan to spend two weeks there next year.</p>
+                </div>
+                <div style="display: inline-block; border-radius: 10px; width: 70%;  height: 150px; background-color: #B7B5B9; margin: 20px 0px;">
+                <p>I checked to make sure that he was still alive.
+                Hurry!
+                Wow, does that work?
+                They got there early, and they got really good seats.
+                I hear that Nancy is very pretty.</p>
+                </div>
+            </div>
 
         </aside>
     </div>
-    <section style="position: relative; float: right; width: 70%; height: 50%;">
+    <section style="position: relative; float: right; width: 70%; height: 100%;">
         <div id="bookshelf" style="position: absolute; width: 100%; height: 100%;">
 
             
@@ -641,7 +703,7 @@
 
     </section>
     <section>
-        <div id="info" style="position: fixed; z-index: 3; display: none; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);">
+        <div id="info" style="position: fixed; z-index: 3; top: 0px; display: none; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);">
             <form id="content" style="position: relative; display: table; background-color: #fefefe; margin: 5% auto; width: 50%; height: 70%; ">
                 abc
             </form>
@@ -677,7 +739,8 @@
             "<div id=\"detail\" style=\"position: relative; width: 700px; height: 85%; padding: 20px; margin: 0px;\">" +
             "<p>" + code + "</p>" +
             "<p>Published By " + publish + "</p>" +
-            "<p>Description : " + description + "</p>" +
+            "<p>Description : <br/>" + description + "</p>" +
+            "<p>" + availability + "</p>" +
             "</div>");
 
         document.getElementById("info").style.display = "block";
@@ -686,7 +749,21 @@
     $(document).ready(function() {
         var onPageStuff = 0;
         var previousPageStuff = 0;
-     
+
+        $("#notice").on('click', function() {
+            $("#notifyMessage").fadeIn();
+            $("#container_menu").hide();
+            $(".Book").hide();
+            $(".Magazine").hide();
+            $(".Software").hide();
+        });
+        $("#recommend").on('click', function() {
+            $("#container_menu").fadeIn();
+            $(".Book").fadeIn();
+            $(".Magazine").hide();
+            $(".Software").hide();
+            $("#notifyMessage").hide();
+        });
 
         $("#recommend_book").on('click', function() {
             $(".Book").fadeIn();
@@ -717,7 +794,20 @@
             $(this).addClass("clicked");
         });
 
+        $("#top_menu li").click(function () {
+            $("li").each(function() {
+                if ($(this).hasClass("topClicked")) {
+                    $(this).removeClass("topClicked");
+                }
+            });
+
+            $(this).addClass("topClicked");
+        });
+        $('#recommend').trigger('click'); 
+
         $('#recommend_book').trigger('click'); 
+
+
 
         $("#forwardArrow").click(function () {
             stop = false;
@@ -800,15 +890,15 @@
             if ($(".demo").length > 7) {
                 stop = true;
                 if (value.author != null)
-                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding-top: 15px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Author : " + value.author + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
+                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding: 20px 20px 0px 0px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Author : " + value.author + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
                 else 
-                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding-top: 15px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Company : " + value.company + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
+                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding: 20px 20px 0px 0px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Company : " + value.company + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
             }
             if (!stop) {
                 if (value.author != null)
-                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding-top: 15px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Author : " + value.author + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
+                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding: 20px 20px 0px 0px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Author : " + value.author + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
                 else 
-                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding-top: 15px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Company : " + value.company + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
+                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding: 20px 20px 0px 0px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Company : " + value.company + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
                 stuffOnPage++;
             }
         });
