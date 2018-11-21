@@ -3,7 +3,12 @@
     $table = array("All", "Book", "Magazine", "Software");
     if (isset($keyword, $attribute) && !in_array($attribute, $table)) {
         header('Location: ./search.php');
+    } else {
+        session_start();
+        $user = $_SESSION["user"]; 
+        include 'header.php';
     }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -170,16 +175,16 @@
     #bookshelf div img {
         /* max-width: 100%;
         max-height: 100%; */
-        width: 120px;
-        height: 170px;
+        width: 170px;
+        height: 220px;
         object-fit: cover;
     }
 
     .demo {
         position: relative;
         float: left;
-        width: 120px;
-        height: 170px;
+        width: 170px;
+        height: 220px;
         background-color: white;
         margin: 30px 50px;
         text-align: center;
@@ -232,6 +237,112 @@
         background-color: #9C9A9E;
     }
 
+    .tooltip {
+        display:inline-block;
+        position:relative;
+        border-bottom:1px dotted #666;
+        text-align:left;
+    }
+
+    .tooltip .left {
+        min-width:300px; 
+        top:50%;
+        right:100%;
+        margin-right:20px;
+        transform:translate(0, -50%);
+        
+        color:#888888;
+        background-color:#FFCC66;
+        font-weight:normal;
+        font-size:15px;
+        border-radius:8px;
+        position:absolute;
+        z-index:99999999;
+        box-sizing:border-box;
+        box-shadow:0 1px 8px rgba(0,0,0,0.5);
+        visibility:hidden; opacity:0; transition:opacity 0.8s;
+    }
+
+    .tooltip:hover .left {
+        visibility:visible; opacity:1;
+    }
+
+    .tooltip .left i {
+        position:absolute;
+        top:50%;
+        left:100%;
+        margin-top:-12px;
+        width:12px;
+        height:24px;
+        overflow:hidden;
+    }
+
+    .tooltip .left i::after {
+        content:'';
+        position:absolute;
+        width:12px;
+        height:12px;
+        left:0;
+        top:50%;
+        transform:translate(-50%,-50%) rotate(-45deg);
+        background-color:#FFCC66;
+        box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    }
+
+    .tooltip h3 {
+        padding: 15px 30px 5px 30px;
+    }
+
+    .tooltip .title {
+        font-size: 20px;
+        background-color: black; 
+        color: white;
+        padding: 15px 30px;
+    }
+
+    .tooltip p {
+        padding: 15px 30px 15px 30px;
+    }
+
+    aside {
+        background: rgb(30,30,30);
+        color: white;
+        font-family: sans-serif;
+    }
+
+    .left_menu {
+        list-style-type: none;
+        position: relative;
+        font-size: 30px;
+        left: 20px;
+        top: 10px;
+    }
+
+    .left_menu li {
+        float: left;
+        padding: 14px 25px;
+        cursor: pointer;
+    }
+
+    .left_menu li:after {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 0;
+        background: transparent;
+        transition: width .5s ease, background-color .5s ease;
+    }
+
+    .left_menu li:hover:after {
+        width: 100%;
+        background: #019fb6;
+    }
+
+
+    .left_menu li.clicked:after {
+        width: 100%;
+        background: #019fb6;
+    }
 
     @media only screen and (max-width: 560px) {
         #search {
@@ -278,6 +389,8 @@
         console.log(attribute);
 
         getResult(keyword, attribute);
+        
+        //getRecommend();
 
         $(".dropdown a").click(function() {
             $("#dd p").text($(this).text().trim());
@@ -311,12 +424,13 @@
            complete:function(req,status){
                var result =  req.responseText;
                result = JSON.parse(result);
+
                //console.log(result.search[0]);
                //login success
                if(status == 'success') {
                    if(result.stat == "SUCCESS") {
                        showAll(result);
-                       
+                       console.log(result);
                        
                    //if the user is first login
                    } else {
@@ -327,6 +441,7 @@
                            .delay(2000)
                            .hide(300);
                            return;
+                           console.log(result.table);
                    }
                    
                }
@@ -334,12 +449,55 @@
        });
    }
 
+   function getRecommend() {
+        $("#bookshelf").empty();
+
+        var search = {
+            attribute : "All",
+            keyword : "high rate"
+        };
+        search = JSON.stringify(search);
+        console.log(search);
+        $.ajax({
+            type:"GET",
+            url:"api/?action=search-handler",
+            data: {search: search},
+            contentType:"application/json",
+            dataType:"json",
+            complete:function(req,status){
+                var result =  req.responseText;
+                result = JSON.parse(result);
+
+                //console.log(result.search[0]);
+                //login success
+                if(status == 'success') {
+                    if(result.stat == "SUCCESS") {
+                        showAll(result);
+                        console.log(result);
+                        
+                    //if the user is first login
+                    } else {
+                            $(".message-box").addClass("message-box-error")
+                                .removeClass("message-box-alert")
+                        .text("Not Found")
+                            .show(300)
+                            .delay(2000)
+                            .hide(300);
+                            return;
+                            console.log(result.table);
+                    }
+                    
+                }
+            }
+        });
+}
+
 </script>
 
 <body>
-    <div id="searchSection" style="height: 30%; width: 100%;">  
-        <form id="searchForm" method="get" action="result.php" style="position: relative; padding-top: 100px; width: 100%; height: inherit; display: flex; align-items: flex-start; justify-content:center;">
-            <div id="container-arrow" style="position: absolute; left: 100px; width: 200px; height: inherit; display: flex; align-items: center; justify-content:center;">
+    <div id="searchSection" style="height: 20%; width: 70%; float: right;">  
+        <form id="searchForm" method="get" action="result.php" style="position: relative; float: right; padding-top: 50px; width: 100%; height: inherit; display: flex; align-items: flex-start; justify-content:center;">
+            <div id="container-arrow" style="position: absolute; left: 30px; top: 75px; width: 200px; height: inherit; display: flex; align-items: center; justify-content:center;">
                 <div id="arrow">
                     <div id="forwardArrow"></div>
                     <div id="backArrow"></div>
@@ -371,8 +529,17 @@
             <div class="message-box" style="clear: left"></div>
         </form>
     </div>
+    <!--<li><a href="#">home</a></li>-->
+    <aside style="position: absolute; width: 30%; height: 100%; background-color:  rgb(230, 193, 115); border-radius: 10px; margin: 20px;">
+        <h1 style="background-color: rgb(230, 186, 92); border-radius: 10px 10px 0px 0px;  border-radius: 10px; padding: 15px; font-size: 30px;">Recommend</h1>
+        <ul class="left_menu">    
+            <li>Book</li>
+            <li>Magazine</li>
+            <li>Software</li>
+        </ul>  
+    </aside>
     
-    <section style="position: relative; width: 50%; height: 50%; margin: 0 auto;">
+    <section style="position: relative; float: right; width: 70%; height: 50%; margin: 0 auto;">
         <div id="bookshelf" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
 
             
@@ -392,7 +559,16 @@
     $(document).ready(function() {
         var onPageStuff = 0;
         var previousPageStuff = 0;
+        
+        $(".left_menu li").click(function () {
+            $("li").each(function(){
+                if ($(this).hasClass("clicked")) {
+                    $(this).removeClass("clicked");
+                }
+            });
 
+            $(this).addClass("clicked");
+        });
         $("#forwardArrow").click(function () {
             stop = false;
             var nextPageStuff = 0;
@@ -473,10 +649,16 @@
         $.each(search, function (index, value) {
             if ($(".demo").length > 7) {
                 stop = true;
-                $("#bookshelf").append("<div class=\"demo nextpage\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
+                if (value.author != null)
+                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><h3 class=\"title\">" + value.name + "</h3><h3>Author : " + value.author + "</h3><p>" + value.description + "</p><i></i></div></div>");
+                else 
+                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><h3 class=\"title\">" + value.name + "</h3><h3>Company : " + value.company + "</h3><p>" + value.description + "</p><i></i></div></div>");
             }
             if (!stop) {
-                $("#bookshelf").append("<div class=\"demo\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"></div>");
+                if (value.author != null)
+                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><h3 class=\"title\">" + value.name + "</h3><h3>Author : " + value.author + "</h3><p>" + value.description + "</p><i></i></div></div>");
+                else 
+                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><h3 class=\"title\">" + value.name + "</h3><h3>Company : " + value.company + "</h3><p>" + value.description + "</p><i></i></div></div>");
                 stuffOnPage++;
             }
         });
