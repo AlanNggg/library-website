@@ -38,15 +38,20 @@
 
     if(isset($_GET["friendInfo"])){
        
-        include 'common/friendInfo.html';
+        include 'common/friendInfo.php';
+        return;
+    }
+
+    if(isset($_GET["boofInfo"])){
+        include 'common/bookInfo.php';
         return;
     }
 
 
-    if($user["role"]=='student' || $user["role"]== 'alumni'){
+   
         include 'search.php';
         return;
-    }
+    
 
 
 

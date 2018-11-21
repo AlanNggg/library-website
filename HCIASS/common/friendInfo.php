@@ -76,7 +76,7 @@
                             <div class="uk-grid-small uk-flex-middle" >                                
                                 <div class=".uk-width-1-5">
                                     
-                                        <img class="uk-comment-avatar uk-margin-medium-right" width="200" height="200" src="./img/books/B01.jpg">
+                                        <img onclick="bookInfo()" class="uk-comment-avatar uk-margin-medium-right" width="200" height="200" src="./img/books/B01.jpg">
                                         <img class="uk-comment-avatar uk-margin-medium-right" width="200" height="200" src="./img/books/B02.jpg">
                                         <img class="uk-comment-avatar uk-margin-medium-right" width="200" height="200" src="./img/books/B03.jpg">
                                         <img class="uk-comment-avatar uk-margin-medium-right" width="200" height="200" src="./img/books/B04.jpg">
@@ -154,6 +154,10 @@
                         </form>
                 </div>
             </div>
-    
+    <script>
+        function bookInfo(){
+            window.location = "./?boofInfo=true";
+        }
+    </script>
 </body>
 </html>

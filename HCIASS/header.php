@@ -1,5 +1,6 @@
 <?php
 
+include_once '/include/config.php';
    
     $user = $_SESSION["user"];
 
