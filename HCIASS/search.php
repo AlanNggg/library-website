@@ -52,11 +52,12 @@
         /* Size & position */
         position: relative;
         width: 150px;
-        font-size: 18px;
+        font-size: 19px;
         margin: 0 auto;
         padding: 13px 15px;
         display: inline-block;
-        left: 5px;
+        top: 1px;
+        left: 6px;
         border: 1px solid black;
         /* Styles */
         background: #fff;
@@ -64,7 +65,6 @@
         box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
         cursor: pointer;
         outline: none;
-        z-index: 2;
         -webkit-transition: all 0.3s ease-out;
         -moz-transition: all 0.3s ease-out;
         -ms-transition: all 0.3s ease-out;
@@ -85,6 +85,7 @@
         border-style: solid;
         border-color: #4cbeff transparent;
     }
+
 
     .wrapper-dropdown-5 .dropdown {
         /* Size & position */
@@ -320,10 +321,10 @@
                     <div id="backArrow"></div>
                 </div>
             </div>
-            <div class="wrapper-demo" style="z-index: 2;">
+            <div class="wrapper-demo" style="z-index: 1;">
                 <div id="dd" class="wrapper-dropdown-5" tabindex="1">
-                    <p>All</p>
-                    <ul class="dropdown">
+                    <p style="margin: 0; line-height: 1;">All</p>
+                    <ul class="dropdown" style="padding-left: 0px; margin-top: 0px;">
                         <li>
                             <a href="#"><i class="icon-remove"></i>All</a>
                         </li>
@@ -339,7 +340,7 @@
                     </ul>
                 </div>
                 ​</div>
-            <input id="search" type="text" name="keyword" style="position: relative; margin: 0px; padding: 10px 50px 10px 50px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
+            <input id="search" type="text" name="keyword" style="position: relative; margin: 0px; padding: 10px 50px 10px 30px; width: 40%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none; z-index: 1;"
             />
             <input id="attribute" type="hidden" name="attribute" value="All"/>
             <div id="searchIcon"></div>
