@@ -640,6 +640,13 @@
         </div>
 
     </section>
+    <section>
+        <div id="info" style="position: fixed; z-index: 3; display: none; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);">
+            <form id="content" style="position: relative; display: table; background-color: #fefefe; margin: 5% auto; width: 50%; height: 70%; ">
+                abc
+            </form>
+        </div>
+    </section>
     
 </body>
 
@@ -659,8 +666,23 @@
     }
 
     function showInfo(DOM) {
-        
+        var picture = $(DOM).find("img").attr("src");
+        var name = $(DOM).find(".title").text();
+        var publish = $(DOM).find(".publish").text();
+        var availability = $(DOM).find(".availability").text();
+        var description = $(DOM).find(".desc").text();
+        var code = $(DOM).find("sup").text();
+        $("#content").html("<div style=\"height: 15%; width: 100%; background-color: rgb(112, 196, 204); color: white;\"><h3 style=\"margin: 0; padding: 3%; opacity: 0.7;\">" + name + "</h3></div>" +
+            "<div style=\"position: relative; float: left; width: 250px; height: 85%;\"><img src=\"" + picture + "\" alt=\"" + name + "\" style=\"padding: 10%; max-width: 100%;\"></div>" +
+            "<div id=\"detail\" style=\"position: relative; width: 700px; height: 85%; padding: 20px; margin: 0px;\">" +
+            "<p>" + code + "</p>" +
+            "<p>Published By " + publish + "</p>" +
+            "<p>Description : " + description + "</p>" +
+            "</div>");
+
+        document.getElementById("info").style.display = "block";
     }
+
     $(document).ready(function() {
         var onPageStuff = 0;
         var previousPageStuff = 0;
@@ -778,15 +800,15 @@
             if ($(".demo").length > 7) {
                 stop = true;
                 if (value.author != null)
-                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><p style=\"margin: 0px; font-weight: bold;\">Author : " + value.author + "</p><p style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p>" + value.description + "</p><i></i></div></div>");
+                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding-top: 15px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Author : " + value.author + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
                 else 
-                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><p style=\"margin: 0px; font-weight: bold;\">Company : " + value.company + "</p><p style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p>" + value.description + "</p><i></i></div></div>");
+                    $("#bookshelf").append("<div class=\"demo nextpage tooltip\" onclick=\"showInfo(this)\" style=\"display: none;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding-top: 15px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Company : " + value.company + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
             }
             if (!stop) {
                 if (value.author != null)
-                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><p style=\"margin: 0px; font-weight: bold;\">Author : " + value.author + "</p><p style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p>" + value.description + "</p><i></i></div></div>");
+                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding-top: 15px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Author : " + value.author + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
                 else 
-                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><p style=\"margin: 0px; font-weight: bold;\">Company : " + value.company + "</p><p style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p>" + value.description + "</p><i></i></div></div>");
+                    $("#bookshelf").append("<div class=\"demo tooltip\" onclick=\"showInfo(this)\" style=\"display: block;\"><img src=\"" + value.picture + "\" alt=\"" + value.name + "\"><div class=\"left\"><p class=\"title\">" + value.name + "</p><sup style=\"padding-top: 15px; float: right;\">Code: " + value.code + "</sup><p class=\"publish\" style=\"margin: 0px; font-weight: bold;\">Company : " + value.company + "</p><p class=\"availability\" style=\"margin: 0px; font-weight: bold;\">Availability : " + value.availability + "</p><p class=\"desc\">" + value.description + "</p><i></i></div></div>");
                 stuffOnPage++;
             }
         });
