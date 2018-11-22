@@ -430,7 +430,7 @@
         background-size: contain;
     }
 
-    .noticeCard {
+    .newCard {
         flex: 1;  
         display:block;
         position: relative;
@@ -615,7 +615,7 @@
 </script>
  <!--background-color: rgb(126, 195, 230);-->
 <body>
-    <div style="position: fixed; background-color: rgba(104, 91, 166, 0.8); width: 100%; height: 100%; top: 58px;">
+    <div style="position: fixed; background-color: rgba(104, 91, 166, 0.8); width: 100%; height: 100%; top: 63px;">
         <div id="searchSection" style="top: 58px; height: 150px; width: 70%; float: right;">  
             <form id="searchForm" method="get" action="result.php" style="position: relative; float: right; padding-top: 50px; width: 100%; height: inherit; display: flex; align-items:flex-start;">
                 <div id="container-arrow" style="position: relative; left: 50px; width: 250px;">
@@ -660,7 +660,7 @@
                 <div style="background-color: rgba(52, 87, 94, 0.8); border-radius: 10px 10px 0px 0px; padding: 15px; font-size: 20px; z-index: 2;">
                     <ul id="top_menu">    
                         <li id="recommend">Recommend</li>
-                        <li id="notice">Notice</li>
+                        <li id="new">News</li>
                     </ul>
                 </div>
                 <div id="container_menu">
@@ -686,22 +686,25 @@
                     <div><img src="./img/software/S03.jpg" alt=""/></div>
                 </div>
                 
-                <div id="notifyMessage" style="position: relative; max-width: 100%; max-height: 460px; overflow-y: auto; overflow-x: hidden;">
-                    <div class="noticeCard">
-
+                <div id="news" style="position: relative; max-width: 100%; max-height: 460px; overflow: auto;">
+                    <div class="newCard">
+                    <h4 style="font-weight: bold">Wall street Journal<span style="float: right;">Nov 22th 2018</span></h4>
+                    <p>
                     Wow, does that work?
                     She was too short to see over the fence.
                     The memory we used to share is no longer coherent.
                     Is it free?
-
+                    </p>
                     </div>
-                    <div class="noticeCard">
+                    <div class="newCard">
+                    <h4 style="font-weight: bold">BBC News Magazine<span style="float: right;">Nov 22th 2018</span></h4>
                     <p>
                     Malls are great places to shop; I can find everything I need under one roof.
                     Italy is my favorite country; in fact, I plan to spend two weeks there next year.
                     </p>
                     </div>
-                    <div class="noticeCard">
+                    <div class="newCard">
+                    <h4 style="font-weight: bold">BBC News Magazine<span style="float: right;">Nov 21th 2018</span></h4>
                     <p>
                     I checked to make sure that he was still alive.
                     Hurry!
@@ -710,7 +713,8 @@
                     I hear that Nancy is very pretty.
                     </p>
                     </div>
-                    <div class="noticeCard">
+                    <div class="newCard">
+                    <h4 style="font-weight: bold">Wall street Journal<span style="float: right;">Nov 21th 2018</span></h4>
                     <p>
                     Wow, does that work?
                     She was too short to see over the fence.
@@ -718,7 +722,8 @@
                     Is it free?
                     </p>
                     </div>
-                    <div class="noticeCard">
+                    <div class="newCard">
+                    <h4 style="font-weight: bold">Wall street Journal<span style="float: right;">Nov 20th 2018</span></h4>
                     <p>
                     Malls are great places to shop; I can find everything I need under one roof.
                     Italy is my favorite country; in fact, I plan to spend two weeks there next year.
@@ -767,13 +772,14 @@
         var availability = $(DOM).find(".availability").text();
         var description = $(DOM).find(".desc").text();
         var code = $(DOM).find("sup").text();
-        $("#content").html("<div style=\"height: 15%; width: 100%; background-color: rgb(112, 196, 204); color: white;\"><h3 style=\"margin: 0; padding: 3%; opacity: 0.7;\">" + name + "</h3></div>" +
+        $("#content").html("<div style=\"font-size: 30px; height: 15%; width: 100%; background-color: rgb(112, 196, 204); color: white;\"><h3 style=\"margin: 0; padding: 3%; opacity: 0.7;\">" + name + "</h3></div>" +
             "<div style=\"position: relative; float: left; width: 250px; height: 85%;\"><img src=\"" + picture + "\" alt=\"" + name + "\" style=\"padding: 10%; max-width: 100%;\"></div>" +
             "<div id=\"detail\" style=\"position: relative; width: 700px; height: 85%; padding: 20px; margin: 0px;\">" +
             "<p>" + code + "</p>" +
             "<p>Published By " + publish + "</p>" +
             "<p>Description : <br/>" + description + "</p>" +
             "<p>" + availability + "</p>" +
+            "<button class=\"uk-button uk-button-default uk-button-large\">Add For Reservation</button>" +
             "</div>");
 
         document.getElementById("info").style.display = "block";
@@ -783,8 +789,8 @@
         var onPageStuff = 0;
         var previousPageStuff = 0;
 
-        $("#notice").on('click', function() {
-            $("#notifyMessage").fadeIn();
+        $("#new").on('click', function() {
+            $("#news").fadeIn();
             $("#container_menu").hide();
             $(".Book").hide();
             $(".Magazine").hide();
@@ -795,7 +801,7 @@
             $(".Book").fadeIn();
             $(".Magazine").hide();
             $(".Software").hide();
-            $("#notifyMessage").hide();
+            $("#news").hide();
         });
 
         $("#recommend_book").on('click', function() {
