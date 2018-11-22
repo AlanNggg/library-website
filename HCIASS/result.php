@@ -435,7 +435,7 @@
         display:block;
         position: relative;
         padding: 20px 20px;
-        margin: 40px 50px;
+        margin: 40px 10px;
         border-radius: 10px; 
         width: 460px; 
         height: 150px; 
@@ -655,7 +655,7 @@
         </div>
         <!--<li><a href="#">home</a></li>-->
         <div style="position: relative; float: left; padding-top: 40px; display: flex; align-items: flex-start; width: 30%; max-height: 100%; margin: 0px;">
-            <aside style="float: left; max-width: 100%; max-height: 600px; border-radius: 10px; margin: 10px;">
+            <aside style="float: left; max-width: 520px; min-height: 600px; border-radius: 10px; margin: 10px;">
                 
                 <div style="background-color: rgba(52, 87, 94, 0.8); border-radius: 10px 10px 0px 0px; padding: 15px; font-size: 20px; z-index: 2;">
                     <ul id="top_menu">    
@@ -686,7 +686,7 @@
                     <div><img src="./img/software/S03.jpg" alt=""/></div>
                 </div>
                 
-                <div id="news" style="position: relative; max-width: 100%; max-height: 460px; overflow: auto;">
+                <div id="news" style="position: relative; max-width: 520px; max-height: 600px; overflow: auto;">
                     <div class="newCard">
                     <h4 style="font-weight: bold">Wall street Journal<span style="float: right;">Nov 22th 2018</span></h4>
                     <p>
