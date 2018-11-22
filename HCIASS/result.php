@@ -430,6 +430,17 @@
         background-size: contain;
     }
 
+    .noticeCard {
+        flex: 1;  
+        display:block;
+        position: relative;
+        padding: 20px 20px;
+        margin: 40px 50px;
+        border-radius: 10px; 
+        width: 460px; 
+        height: 150px; 
+        background-color: #B7B5B9;
+    }
     @media only screen and (max-width: 1275px) {
         #searchSection {
             height: 200px !important;
@@ -439,7 +450,7 @@
             clear: both !important;
         }
         #inputForm {
-            clear: left;
+            
         }
 
     }
@@ -603,113 +614,134 @@
 </script>
  <!--background-color: rgb(126, 195, 230);-->
 <body>
-    <div id="searchSection" style="top: 58px; height: 150px; width: 70%; float: right;">  
-        <form id="searchForm" method="get" action="result.php" style="position: relative; float: right; padding-top: 50px; width: 100%; height: inherit; display: flex; align-items:flex-start;">
-            <div id="container-arrow" style="position: relative; left: 50px; width: 250px;">
-                <div id="arrow">
-                    <div id="forwardArrow"></div>
-                    <div id="backArrow"></div>
-                </div>
-            </div>
-            <div id="inputForm" style="position: relative; width: 70%;">
-                <div class="wrapper-demo" style="z-index: 2; float: left;">
-                    <div id="dd" class="wrapper-dropdown-5" tabindex="1">
-                        <p style="margin: 0; line-height: 1;"><?php echo $attribute; ?></p>
-                        <ul class="dropdown" style="padding-left: 0px; margin-top: 0px;">
-                            <li>
-                                <a href="#"><i class="icon-remove"></i>All</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icon-user"></i>Book</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icon-cog"></i>Software</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="icon-remove"></i>Magazine</a>
-                            </li>
-                        </ul>
+    <div style="position: fixed; background-color: rgba(104, 91, 166, 0.8); width: 100%; height: 100%; top: 58px;">
+        <div id="searchSection" style="top: 58px; height: 150px; width: 70%; float: right;">  
+            <form id="searchForm" method="get" action="result.php" style="position: relative; float: right; padding-top: 50px; width: 100%; height: inherit; display: flex; align-items:flex-start;">
+                <div id="container-arrow" style="position: relative; left: 50px; width: 250px;">
+                    <div id="arrow">
+                        <div id="forwardArrow"></div>
+                        <div id="backArrow"></div>
                     </div>
                 </div>
-            
-                <input id="search" type="text" name="keyword" style="position: relative; margin: 0px; padding: 10px 50px 10px 30px; width: 70%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none;"
-                    value="<?php echo $keyword; ?>"/>
-                <input id="attribute" type="hidden" name="attribute" value="<?php echo $attribute; ?>"/>
-                <div id="searchIcon"></div>
-                <div class="message-box" style="color: black; width: 150px;"></div>
-            </div>
-        </form>
-    </div>
-    <!--<li><a href="#">home</a></li>-->
-    <div style="position: relative; float: left; padding-top: 40px; display: flex; align-items: flex-start; width: 30%; max-height: 100%; margin: 0px;">
-        <aside style="float: left; max-width: 100%; max-height: 600px; border-radius: 10px; margin: 10px;">
-            
-            <div style="background-color: rgba(52, 87, 94, 0.8); border-radius: 10px 10px 0px 0px; padding: 15px; font-size: 20px;">
-                <ul id="top_menu">    
-                    <li id="recommend">Recommend</li>
-                    <li id="notice">Notice</li>
-                </ul>
-            </div>
-            <div id="container_menu">
-                <ul class="left_menu">    
-                    <li id="recommend_book">Book</li>
-                    <li id="recommend_magazine">Magazine</li>
-                    <li id="recommend_software">Software</li>
-                </ul>
-            </div>
-            <div class="Book large-slick" style="display: none">
-                <div><image src="./img/books/B01.jpg" alt=""/></div>
-                <div><image src="./img/books/B02.jpg" alt=""/></div>
-                <div><image src="./img/books/B03.jpg" alt=""/></div>
-            </div>
-            <div class="Magazine large-slick" style="display: none">
-                <div><image src="./img/magazines/M01.jpg" alt=""/></div>
-                <div><image src="./img/magazines/M02.jpg" alt=""/></div>
-                <div><image src="./img/magazines/M03.jpg" alt=""/></div>
-            </div>
-            <div class="Software large-slick" style="display: none">
-                <div><image src="./img/software/S01.jpg" alt=""/></div>
-                <div><image src="./img/software/S02.jpg" alt=""/></div>
-                <div><image src="./img/software/S03.jpg" alt=""/></div>
-            </div>
-            
-            <div id="notifyMessage" style="display: flex; justify-content: center; align-items: center; flex-direction: column; overflow-y: auto; overflow-x: hidden;">
-                <div style="display: inline-block; border-radius: 10px; width: 70%; height: 150px; background-color: #B7B5B9; margin: 20px 0px;">
-                <p>Wow, does that work?
-                She was too short to see over the fence.
-                The memory we used to share is no longer coherent.
-                Is it free?</p>
+                <div id="inputForm" style="position: relative; width: 70%;">
+                    <div class="wrapper-demo" style="z-index: 2; float: left;">
+                        <div id="dd" class="wrapper-dropdown-5" tabindex="1">
+                            <p style="margin: 0; line-height: 1;"><?php echo $attribute; ?></p>
+                            <ul class="dropdown" style="padding-left: 0px; margin-top: 0px;">
+                                <li>
+                                    <a href="#"><i class="icon-remove"></i>All</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="icon-user"></i>Book</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="icon-cog"></i>Software</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="icon-remove"></i>Magazine</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                
+                    <input id="search" type="text" name="keyword" style="position: relative; margin: 0px; padding: 10px 50px 10px 30px; width: 70%;border-radius: 0px 5px 5px 0px; font-size: 20px; outline: none;"
+                        value="<?php echo $keyword; ?>"/>
+                    <input id="attribute" type="hidden" name="attribute" value="<?php echo $attribute; ?>"/>
+                    <div id="searchIcon"></div>
+                    <div class="message-box" style="color: black; width: 150px;"></div>
                 </div>
-                <div style="display: inline-block; border-radius: 10px; width: 70%;  height: 150px; background-color: #B7B5B9; margin: 20px 0px;">
-                <p>Malls are great places to shop; I can find everything I need under one roof.
-                Italy is my favorite country; in fact, I plan to spend two weeks there next year.</p>
-                </div>
-                <div style="display: inline-block; border-radius: 10px; width: 70%;  height: 150px; background-color: #B7B5B9; margin: 20px 0px;">
-                <p>I checked to make sure that he was still alive.
-                Hurry!
-                Wow, does that work?
-                They got there early, and they got really good seats.
-                I hear that Nancy is very pretty.</p>
-                </div>
-            </div>
-
-        </aside>
-    </div>
-    <section style="position: relative; float: right; width: 70%; height: 100%;">
-        <div id="bookshelf" style="position: absolute; width: 100%; height: 100%;">
-
-            
-        </div>
-
-    </section>
-    <section>
-        <div id="info" style="position: fixed; z-index: 3; top: 0px; display: none; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);">
-            <form id="content" style="position: relative; display: table; background-color: #fefefe; margin: 5% auto; width: 50%; height: 70%; ">
-                abc
             </form>
         </div>
-    </section>
-    
+        <!--<li><a href="#">home</a></li>-->
+        <div style="position: relative; float: left; padding-top: 40px; display: flex; align-items: flex-start; width: 30%; max-height: 100%; margin: 0px;">
+            <aside style="float: left; max-width: 100%; max-height: 600px; border-radius: 10px; margin: 10px;">
+                
+                <div style="background-color: rgba(52, 87, 94, 0.8); border-radius: 10px 10px 0px 0px; padding: 15px; font-size: 20px; z-index: 2;">
+                    <ul id="top_menu">    
+                        <li id="recommend">Recommend</li>
+                        <li id="notice">Notice</li>
+                    </ul>
+                </div>
+                <div id="container_menu">
+                    <ul class="left_menu">    
+                        <li id="recommend_book">Book</li>
+                        <li id="recommend_magazine">Magazine</li>
+                        <li id="recommend_software">Software</li>
+                    </ul>
+                </div>
+                <div class="Book large-slick" style="display: none">
+                    <div><img src="./img/books/B01.jpg" alt=""/></div>
+                    <div><img src="./img/books/B02.jpg" alt=""/></div>
+                    <div><img src="./img/books/B03.jpg" alt=""/></div>
+                </div>
+                <div class="Magazine large-slick" style="display: none">
+                    <div><img src="./img/magazines/M01.jpg" alt=""/></div>
+                    <div><img src="./img/magazines/M02.jpg" alt=""/></div>
+                    <div><img src="./img/magazines/M03.jpg" alt=""/></div>
+                </div>
+                <div class="Software large-slick" style="display: none">
+                    <div><img src="./img/software/S01.jpg" alt=""/></div>
+                    <div><img src="./img/software/S02.jpg" alt=""/></div>
+                    <div><img src="./img/software/S03.jpg" alt=""/></div>
+                </div>
+                
+                <div id="notifyMessage" style="position: relative; max-width: 100%; max-height: 460px; overflow-y: auto; overflow-x: hidden;">
+                    <div class="noticeCard">
+
+                    Wow, does that work?
+                    She was too short to see over the fence.
+                    The memory we used to share is no longer coherent.
+                    Is it free?
+
+                    </div>
+                    <div class="noticeCard">
+                    <p>
+                    Malls are great places to shop; I can find everything I need under one roof.
+                    Italy is my favorite country; in fact, I plan to spend two weeks there next year.
+                    </p>
+                    </div>
+                    <div class="noticeCard">
+                    <p>
+                    I checked to make sure that he was still alive.
+                    Hurry!
+                    Wow, does that work?
+                    They got there early, and they got really good seats.
+                    I hear that Nancy is very pretty.
+                    </p>
+                    </div>
+                    <div class="noticeCard">
+                    <p>
+                    Wow, does that work?
+                    She was too short to see over the fence.
+                    The memory we used to share is no longer coherent.
+                    Is it free?
+                    </p>
+                    </div>
+                    <div class="noticeCard">
+                    <p>
+                    Malls are great places to shop; I can find everything I need under one roof.
+                    Italy is my favorite country; in fact, I plan to spend two weeks there next year.
+                    </p>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+        <section style="position: relative; float: right; width: 70%; height: 100%;">
+            <div id="bookshelf" style="position: absolute; width: 100%; height: 100%;">
+
+                
+            </div>
+
+        </section>
+        <section>
+            <div id="info" style="position: fixed; z-index: 3; top: 0px; display: none; width: 100%; height: 100%; overflow: auto; background-color: rgb(0,0,0); background-color: rgba(0,0,0,0.4);">
+                <form id="content" style="position: relative; display: table; background-color: #fefefe; margin: 5% auto; width: 50%; height: 70%; ">
+                    abc
+                </form>
+            </div>
+        </section>
+    <div>
 </body>
 
 </html>
