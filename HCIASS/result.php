@@ -482,7 +482,6 @@
     $(document).ready(function() {
         var attribute = $("#attribute").val();
         var keyword = $("#search").val();
-        console.log(attribute);
 
         getResult(keyword, attribute);
         
@@ -490,7 +489,6 @@
         $(".dropdown a").click(function() {
             $("#dd p").text($(this).text().trim());
             $("#attribute").val($("#dd p").text());
-            console.log($("#attribute").val());
         });
 
          $("#searchIcon").click(function() {
@@ -518,13 +516,11 @@
     });
 
     function getResult(keyword, attribute) {
-       console.log(attribute + " " + keyword);
        var search = {
            attribute : attribute,
            keyword : keyword
        };
        search = JSON.stringify(search);
-       console.log(search);
        $.ajax({
            type:"GET",
            url:"api/?action=search-handler",
@@ -535,12 +531,10 @@
                var result =  req.responseText;
                result = JSON.parse(result);
 
-               //console.log(result.search[0]);
                //login success
                if(status == 'success') {
                    if(result.stat == "SUCCESS") {
                        showAll(result);
-                       console.log(result);
                        
                    //if the user is first login
                    } else {
@@ -569,10 +563,6 @@
                 availability = $(this).find(".availability span").text();
                 category = $(this).find(".category span").text();
                 email = <?php echo  "'".$user["email"]."'" ?>;
-                console.log(email);
-                console.log(availability);
-                console.log(category);
-                console.log(code);
             }
        });
        
@@ -583,7 +573,7 @@
             category : category
        };
        add = JSON.stringify(add);
-       console.log(add);
+
        $.ajax({
            type:"POST",
            url:"api/?action=update-handler",
@@ -594,11 +584,9 @@
                var result =  req.responseText;
                result = JSON.parse(result);
 
-               //console.log(result.search[0]);
                //login success
                if(status == 'success') {
                    if(result.stat == "SUCCESS") {
-                       console.log(result);
                        
                        alert("Success!");
 
@@ -621,7 +609,7 @@
             keyword : "high rate"
         };
         search = JSON.stringify(search);
-        console.log(search);
+
         $.ajax({
             type:"GET",
             url:"api/?action=search-handler",
@@ -632,12 +620,10 @@
                 var result =  req.responseText;
                 result = JSON.parse(result);
 
-                //console.log(result.search[0]);
                 //login success
                 if(status == 'success') {
                     if(result.stat == "SUCCESS") {
                         showAll(result);
-                        console.log(result);
                         
                     //if the user is first login
                     } else {
@@ -648,7 +634,6 @@
                             .delay(2000)
                             .hide(300);
                             return;
-                            console.log(result.table);
                     }
                     
                 }
@@ -908,13 +893,13 @@
             stop = false;
             var nextPageStuff = 0;
             var onPageStuff = 0;
-            console.log(stop);
+
             $(".demo").each(function () {
                 if ($(this).hasClass("nextpage") && !$(this).hasClass("notshow")) {
                     nextPageStuff++;
                 }
             });
-            console.log(nextPageStuff);
+
             if (nextPageStuff > 0) {
                 $(".demo").each(function () {
                     if ($(this).css("display") != "none" && !$(this).hasClass("nextpage")) {
@@ -927,11 +912,10 @@
                     if ($(this).css("display") == "none" && $(this).hasClass("nextpage") && !$(this).hasClass("notshow") && !stop) {
                         $(this).fadeIn(1000);
                         $(this).removeClass("nextpage");
-                        console.log("remove next");
+
                         onPageStuff++;
                     }
                     
-                    console.log(stuffOnPage);
                     if (onPageStuff == stuffOnPage) {
                         stop = true;
                         return;
