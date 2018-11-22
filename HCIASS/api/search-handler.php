@@ -37,6 +37,8 @@
             $result[] = $link->query($sql);
         }
 
+        $search = array();
+
     // All Data from a table
     } else if (empty($keyword)) {
 

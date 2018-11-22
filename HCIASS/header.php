@@ -1,6 +1,6 @@
 <?php
 
-include_once '/include/config.php';
+include_once './include/config.php';
    
     $user = $_SESSION["user"];
 
@@ -27,6 +27,7 @@ include_once '/include/config.php';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.23/js/uikit-icons.min.js"></script>
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
         .header {
             list-style-type: none;
@@ -176,40 +177,78 @@ include_once '/include/config.php';
             width: 45px;
             height: 45px;
             background: white;
-     
-         
         }
 
-        #noticeIcon {
-            cursor: pointer;
-            color: white;
-            float:right; 
-            margin: 15px 20px;
+
+
+        .fa-bell {
+            font-size: 30px;
+        }
+
+        .fa-user-friends {
+            font-size: 30px;
+        }
+
+        .fa-home {
+            font-size: 30px;
         }
    
-        #noticeIcon i:hover {
+        li a:hover, .fa-bell:hover {
             color: rgb(232, 87, 94);
+        }
+        
+        #message {
+            display: none;
+            z-index:5;
+            position: absolute;
+            right:0px;
+            top:0px;
+            background-color: white;
+            width: 400px;
+            margin: 0px;
         }
 
-        #noticeIcon.topClicked {
-            font-weight: 550;
-            color: rgb(232, 87, 94);
+        .messageList {
+            margin-top:10px;
+            text-align: center;
+            float:none;
+            cursor: pointer;
         }
+
+        .fa-envelope {
+            margin-right: 30px;
+        }
+
+        .noticeCard {
+            flex: 1;  
+            display:block;
+            position: relative;
+            padding: 20px 20px;
+            margin: 40px 50px;
+            border-radius: 10px; 
+            min-width: 250px; 
+            min-height: 100px; 
+            background-color: #B7B5B9;
+            overflow: auto;
+        }
+
+
     </style>
 </head> 
 <body>
     <ul class="header">
         <li style="padding-right:11px"><div class="title">IVE Library</div></li>
-        <li><a href="index.php" style="background-color:rgba(54, 162, 235, 0.8)">Home</a></li>
+        <li><a href="index.php" style="background-color:rgba(54, 162, 235, 0.8)"><i class="fas fa-home"></i></a></li>
         
         <li style="float:right"  onclick='showUserCard()'><div id="userBox"><?php echo $user["name"]?></div></li>
         <li style="float:right;margin-right:-8px;" ><img id="circle" src="image/user.png" alt="Avatar"></li>
+        <li id="noticeIcon" onclick="showMessage()" style='float: right;margin-right:20px;'><a style='background-color: rgba(94,180,239, 0.8)'><i class="fas fa-bell"></i></a></li>
         <?php 
             if($user["role"] == "student" || $user["role"] == "alumni"){
-                echo "<li style='float:right;margin-right:20px;'  onclick='showFridendList()'><a style='background-color:rgba(54, 162, 235, 0.8)'>Friends</a></div></li>";
+                echo "<li class='friend' style='float:right;'  onclick='showFridendList()'><a style='background-color:rgba(54, 162, 235, 0.8)'><i class='fas fa-user-friends'></i></a></div></li>";
             }
         ?>
-        <li id="noticeIcon" style=""><i class="fa fa-bell" style="font-size: 30px; color: white"></i></li>
+        
       </ul> 
 
     <div id="shadow" onclick="cancelUserCard()"></div>
@@ -275,6 +314,52 @@ include_once '/include/config.php';
 
         
     </ul>
+
+    <div id="message" style="max-width: 100%; max-height: 100%; overflow: auto;">
+        <div class="messageList"><h3 style="font-size: 25px;"><i class="fas fa-envelope"></i>Messages</h3></div>
+        <div class="uk-modal-footer"></div>
+        <div class="noticeCard">
+        <h5 style="font-weight: bold;">From library staff</h5>
+        <h5 style="font-weight: bold; margin-top: 10px;">Nov 22th 2018</h5>
+        <p style="float: left;">
+        As you return a book late, you will be subject to an overdue charge
+        </p>
+        </div>
+        <div class="noticeCard">
+        <h5 style="font-weight: bold">From library staff</h5>
+        <h5 style="font-weight: bold; margin-top: 10px;">Nov 22th 2018</h5>
+        <p>
+        Tomorrow library will be closed because of school holiday.
+        </p>
+        </div>
+        <div class="noticeCard">
+        <h5 style="font-weight: bold">From library staff</h5>
+        <h5 style="font-weight: bold; margin-top: 10px;">Nov 21th 2018</h5>
+        <p>
+        Please pay a penalty charge because of late return of books : Eng Book.<br/>
+        late return days : 3 days
+        charge: $10
+        </p>
+        </div>
+        <div class="noticeCard">
+        <h5 style="font-weight: bold">From library staff</h5>
+        <h5 style="font-weight: bold; margin-top: 10px;">Nov 20th 2018</h5>
+        <p>
+        Wow, does that work?
+        She was too short to see over the fence.
+        The memory we used to share is no longer coherent.
+        Is it free?
+        </p>
+        </div>
+        <div class="noticeCard">
+        <h5 style="font-weight: bold">From library staff</h5>
+        <h5 style="font-weight: bold; margin-top: 10px;">Nov 19th 2018</h5>
+        <p>
+        Malls are great places to shop; I can find everything I need under one roof.
+        Italy is my favorite country; in fact, I plan to spend two weeks there next year.
+        </p>
+        </div>
+    </div>
         
     <script>
             var count;
@@ -309,9 +394,15 @@ include_once '/include/config.php';
                 document.getElementById('userCard').style.display = 'none';
                 document.getElementById('shadow').style.display = 'none';
                 document.getElementById('friendList').style.display = 'none';
+                document.getElementById('message').style.display = 'none';
             }
             function showFridendList(){
                 document.getElementById('friendList').style.display = 'block';
+                document.getElementById('shadow').style.display = 'block';
+            }
+
+            function showMessage() {
+                document.getElementById('message').style.display = 'block';
                 document.getElementById('shadow').style.display = 'block';
             }
 
