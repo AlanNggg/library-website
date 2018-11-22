@@ -81,10 +81,6 @@
             echo json_encode(
                 array(
                         "stat"=>"FAILED",
-                        "num" => mysqli_num_rows($result),
-                        "table" => $table,
-                        "keyword" => $keyword,
-                        "query" => $query
             ));
         }
 
@@ -99,16 +95,11 @@
             array(
                     "stat"=>"SUCCESS",
                     "search"=>$search,
-                    "table" => $table,
-                    "query" => $query
         ));
     } else {
         echo json_encode(
             array(
                     "stat"=>"FAILED",
-                    "table" => $table,
-                    "keyword" => $keyword,
-                    "query" => $query
         ));
     }
 ?>
