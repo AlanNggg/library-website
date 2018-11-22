@@ -6,7 +6,7 @@
         <style>
               html,body {
 
-                background-image: url('image/bg/bg5.jpg');
+                background-image: url('image/bg/bg3.jpg');
                 background-size: cover;
                 background-repeat: no-repeat;
                 overflow-y: auto;
@@ -46,9 +46,9 @@
     <div class="container">
         <ul class="uk-breadcrumb" >
         <li><a href="index.php">Home</a></li>
-        <li><span>History</span></li>
+        <li><span>Recommand</span></li>
         </ul>
-        <h3>History</h3>
+        <h3>Recommand</h3>
         <table id="recordBookList" class="display" style="width:100%">
                 <thead>
                     <tr>
@@ -56,6 +56,7 @@
                         <th>Type</th>
                         <th>Name</th>
                         <th>Author</th>
+                        <th>Recommand</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -64,13 +65,31 @@
                         <th>Type</th>
                         <th>Name</th>
                         <th>Author</th>
+                        <th>Recommand</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
+
+        <div id="modal-example" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <p class="uk-modal-title">Do you want to recommand this book?</p>
+         <div class="uk-modal-footer uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="button">Yes</button>
+        </div>
+
+    </div>
+    </div>
     
 <script>
 $(document).ready(function() {
+    $("#recordBookList tr").attr("uk-toggle","#modal-center");
+                $("#recordBookList tr").click(function(){
+                    console.log("YERE");
+      });
     var t = $('#recordBookList').DataTable();
     var user = {
                     id :<?php echo "'".$user["role"]."'" ?>,
@@ -82,14 +101,16 @@ $(document).ready(function() {
 
         var book = e.book;
         console.log(book);
+        var button = '<button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-example">Recommand</button>';
         $.each(book,function(i,v){
                     var image = "<img src='../HUMASS/"+v.picture+"' hight:5 width:5>";
-              
+                  
              t.row.add( [
                     image,
                     "Book",
                     v.name,
-                    v.author
+                    v.author,
+                    button
                 ] ).draw(); 
         }); 
 
@@ -102,7 +123,8 @@ $(document).ready(function() {
                     image,
                     "Magazine",
                     v.name,
-                    v.company
+                    v.company,
+                    button
                 ] ).draw(); 
         }); 
 
@@ -115,21 +137,14 @@ $(document).ready(function() {
                     image,
                     "Software",
                     v.name,
-                    v.company
+                    v.company,
+                    button
                 ] ).draw(); 
         }); 
         
 
     });
-    $('#recordBookList').on('click','button',function(){
-        var r = confirm("Do you want to cancel this book of appointment");
-        if (r == true) 
-            t.row($(this).parents('tr')).remove().draw();
-          
-           
-    
-      
-    });
+   
 } );
 </script>
 

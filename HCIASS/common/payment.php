@@ -28,6 +28,12 @@
    
     <div id='payment1' class="uk-flex uk-height-medium uk-margin-large-top">        
             <div class="uk-margin-auto uk-margin-auto-vertical uk-width-1-2@s uk-card uk-card-default uk-card-body">
+                    <div class="uk-margin">
+                        <ul class="uk-breadcrumb" >
+                        <li><a href="index.php">Home</a></li>
+                        <li><span>Payment</span></li>
+                        </ul>
+                    </div>
                     <div class="uk-text-right uk-margin">
                             <button id='detail'class="uk-button uk-button-default " type="button">Detail</button>
                     </div>

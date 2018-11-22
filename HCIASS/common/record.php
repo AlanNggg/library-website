@@ -44,6 +44,12 @@
 </head>
 <body>
     <div class="container">
+
+                        <ul class="uk-breadcrumb" >
+                        <li><a href="index.php">Home</a></li>
+                        <li><span>Record</span></li>
+                        </ul>
+
     <h3>Basket</h3>
         <table id="recordBookList" class="display" style="width:100%">
                 <thead>

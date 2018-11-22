@@ -47,6 +47,16 @@
         return;
     }
 
+    if(isset($_GET["bookRoom"])){
+        include 'common/bookRoom.php';
+        return;
+    }
+
+    if(isset($_GET["recommend"])){
+        include 'common/recommand.php';
+        return;
+    }
+
 
    
         include 'search.php';
