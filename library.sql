@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 11 月 20 日 19:52
+-- 產生時間： 2018 年 11 月 22 日 20:34
 -- 伺服器版本: 10.1.34-MariaDB
 -- PHP 版本： 7.2.7
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `book` (
-  `book_code` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
   `author` varchar(20) NOT NULL,
   `picture` varchar(50) NOT NULL,
@@ -43,15 +43,15 @@ CREATE TABLE `book` (
 -- 資料表的匯出資料 `book`
 --
 
-INSERT INTO `book` (`book_code`, `name`, `author`, `picture`, `description`, `ISBN`, `availability`, `rate`) VALUES
-(1, 'Eng Book', 'Chris Wong', './img/books/B01.jpg', 'I like English. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'true', 0),
-(2, 'Chinese Book', 'Chris Wong', './img/books/B02.jpg', 'I like Chinese. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'true', 0),
+INSERT INTO `book` (`code`, `name`, `author`, `picture`, `description`, `ISBN`, `availability`, `rate`) VALUES
+(1, 'Eng Book', 'Chris Wong', './img/books/B01.jpg', 'I like English. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'false', 0),
+(2, 'Chinese Book', 'Chris Wong', './img/books/B02.jpg', 'I like Chinese. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'false', 0),
 (3, 'Maths Book', 'Chris Chan', './img/books/B03.jpg', 'I like Mathematics. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
 (4, 'Biology Book', 'Cherry Fung', './img/books/B04.jpg', 'It is a book about Biology. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
 (5, 'Eng Book2', 'Chris Wong', './img/books/B05.jpg', 'It is a book about English. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
 (6, 'Chinese Book2', 'Chris Wong', './img/books/B06.jpg', 'It is a book about Chinese. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
 (7, 'Maths Book2', 'Chris Chan', './img/books/B07.jpg', 'It is a book about Mathematics. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
-(8, 'Biology Book2', 'Cherry Fung', './img/books/B08.jpg', 'It is a book about Biology. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0);
+(8, 'Biology Book2', 'Cherry Fung', './img/books/B08.jpg', 'It is a book about Biology. I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\nThe lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'false', 0);
 
 -- --------------------------------------------------------
 
@@ -62,10 +62,19 @@ INSERT INTO `book` (`book_code`, `name`, `author`, `picture`, `description`, `IS
 CREATE TABLE `lend_book` (
   `email` varchar(50) NOT NULL,
   `book_code` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `start_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `end_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `late_day` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `lend_book`
+--
+
+INSERT INTO `lend_book` (`email`, `book_code`, `start_date`, `end_date`, `late_day`) VALUES
+('npl@gmail.com', 1, NULL, NULL, 0),
+('npl@gmail.com', 2, NULL, NULL, 0),
+('npl@gmail.com', 8, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -76,10 +85,17 @@ CREATE TABLE `lend_book` (
 CREATE TABLE `lend_magazine` (
   `email` varchar(50) NOT NULL,
   `magazine_code` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `end_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `start_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `end_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `late_day` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `lend_magazine`
+--
+
+INSERT INTO `lend_magazine` (`email`, `magazine_code`, `start_date`, `end_date`, `late_day`) VALUES
+('npl@gmail.com', 1, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -90,10 +106,18 @@ CREATE TABLE `lend_magazine` (
 CREATE TABLE `lend_software` (
   `email` varchar(50) NOT NULL,
   `software_code` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `end_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `start_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `end_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `late_day` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `lend_software`
+--
+
+INSERT INTO `lend_software` (`email`, `software_code`, `start_date`, `end_date`, `late_day`) VALUES
+('npl@gmail.com', 1, NULL, NULL, 0),
+('npl@gmail.com', 2, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -102,7 +126,7 @@ CREATE TABLE `lend_software` (
 --
 
 CREATE TABLE `magazine` (
-  `magazine_code` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
   `company` varchar(20) NOT NULL,
   `picture` varchar(50) NOT NULL,
@@ -116,8 +140,8 @@ CREATE TABLE `magazine` (
 -- 資料表的匯出資料 `magazine`
 --
 
-INSERT INTO `magazine` (`magazine_code`, `name`, `company`, `picture`, `description`, `ISBN`, `availability`, `rate`) VALUES
-(1, 'Eng Magazine', 'ABC News', './img/magazines/M01.jpg', 'It is a magazine about English.  I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'true', 0),
+INSERT INTO `magazine` (`code`, `name`, `company`, `picture`, `description`, `ISBN`, `availability`, `rate`) VALUES
+(1, 'Eng Magazine', 'ABC News', './img/magazines/M01.jpg', 'It is a magazine about English.  I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'false', 0),
 (2, 'Chinese Magazine', 'ABC News', './img/magazines/M02.jpg', 'It is a magazine about Chinese.  I am never at home on Sundays.Lets all be unique together until we realise we are all the same.\r\nShe advised him to come back at once.\r\n', NULL, 'true', 0),
 (3, 'Maths Magazine', 'ABC News', './img/magazines/M03.jpg', 'It is a magazine about Mathematics. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
 (4, 'Biology Magazine', 'ABC News', './img/magazines/M04.jpg', 'It is a magazine about Biology. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', NULL, 'true', 0),
@@ -133,7 +157,7 @@ INSERT INTO `magazine` (`magazine_code`, `name`, `company`, `picture`, `descript
 --
 
 CREATE TABLE `software` (
-  `software_code` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
   `company` varchar(20) NOT NULL,
   `picture` varchar(50) NOT NULL,
@@ -146,9 +170,9 @@ CREATE TABLE `software` (
 -- 資料表的匯出資料 `software`
 --
 
-INSERT INTO `software` (`software_code`, `name`, `company`, `picture`, `description`, `availability`, `rate`) VALUES
-(1, 'Eng Software', 'ABC Company', './img/software/S01.jpg', 'It is a software about English. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
-(2, 'Chinese Software', 'ABC Company', './img/software/S02.jpg', 'It is a software about Chinese. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
+INSERT INTO `software` (`code`, `name`, `company`, `picture`, `description`, `availability`, `rate`) VALUES
+(1, 'Eng Software', 'ABC Company', './img/software/S01.jpg', 'It is a software about English. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'false', 0),
+(2, 'Chinese Software', 'ABC Company', './img/software/S02.jpg', 'It is a software about Chinese. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'false', 0),
 (3, 'Maths Software', 'ABC Company', './img/software/S03.jpg', 'It is a software about Mathematics. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
 (4, 'Biology Software', 'ABC Company', './img/software/S04.jpg', 'It is a software about Biology. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
 (5, 'Eng Software2', 'ABC Company', './img/software/S05.jpg', 'It is a software about English. The lake is a long way from here. He told us a very exciting adventure story. There was no ice cream in the freezer, or did they have money to go to the store. Rock music approaches at high velocity.', 'true', 0),
@@ -192,7 +216,7 @@ INSERT INTO `user` (`role`, `name`, `email`, `password`, `login_count`) VALUES
 -- 資料表索引 `book`
 --
 ALTER TABLE `book`
-  ADD PRIMARY KEY (`book_code`);
+  ADD PRIMARY KEY (`code`);
 
 --
 -- 資料表索引 `lend_book`
@@ -219,13 +243,13 @@ ALTER TABLE `lend_software`
 -- 資料表索引 `magazine`
 --
 ALTER TABLE `magazine`
-  ADD PRIMARY KEY (`magazine_code`);
+  ADD PRIMARY KEY (`code`);
 
 --
 -- 資料表索引 `software`
 --
 ALTER TABLE `software`
-  ADD PRIMARY KEY (`software_code`);
+  ADD PRIMARY KEY (`code`);
 
 --
 -- 資料表索引 `user`
@@ -241,19 +265,19 @@ ALTER TABLE `user`
 -- 使用資料表 AUTO_INCREMENT `book`
 --
 ALTER TABLE `book`
-  MODIFY `book_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 使用資料表 AUTO_INCREMENT `magazine`
 --
 ALTER TABLE `magazine`
-  MODIFY `magazine_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 使用資料表 AUTO_INCREMENT `software`
 --
 ALTER TABLE `software`
-  MODIFY `software_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- 已匯出資料表的限制(Constraint)
@@ -263,21 +287,21 @@ ALTER TABLE `software`
 -- 資料表的 Constraints `lend_book`
 --
 ALTER TABLE `lend_book`
-  ADD CONSTRAINT `book_code_fk` FOREIGN KEY (`book_code`) REFERENCES `book` (`book_code`),
+  ADD CONSTRAINT `book_code_fk` FOREIGN KEY (`book_code`) REFERENCES `book` (`code`),
   ADD CONSTRAINT `book_email_fk` FOREIGN KEY (`email`) REFERENCES `user` (`email`);
 
 --
 -- 資料表的 Constraints `lend_magazine`
 --
 ALTER TABLE `lend_magazine`
-  ADD CONSTRAINT `magazine_code_fk` FOREIGN KEY (`magazine_code`) REFERENCES `magazine` (`magazine_code`),
+  ADD CONSTRAINT `magazine_code_fk` FOREIGN KEY (`magazine_code`) REFERENCES `magazine` (`code`),
   ADD CONSTRAINT `magazine_email_fk` FOREIGN KEY (`email`) REFERENCES `user` (`email`);
 
 --
 -- 資料表的 Constraints `lend_software`
 --
 ALTER TABLE `lend_software`
-  ADD CONSTRAINT `software_code_fk` FOREIGN KEY (`software_code`) REFERENCES `software` (`software_code`),
+  ADD CONSTRAINT `software_code_fk` FOREIGN KEY (`software_code`) REFERENCES `software` (`code`),
   ADD CONSTRAINT `software_email_fk` FOREIGN KEY (`email`) REFERENCES `user` (`email`);
 COMMIT;
 
