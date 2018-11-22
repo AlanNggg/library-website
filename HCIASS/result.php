@@ -22,20 +22,8 @@
 </head>
 
 <style>
-    html,
-    body {
-        height: 100%;
-        background-image: url('image/books-1246674_1920.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        font-family: Helvetica, Arial, sans-serif;
-        overflow-y: auto;
-    }
-
-    body {
-        height: 100%;
-        width: 100%;
-    }
+    
+   
 
     #searchIcon {
         position: relative;
@@ -310,9 +298,10 @@
 
     aside {
         display: inline-block;
-        background: rgb(116, 180, 212);
-        color: white;
+        background: white;
+        color: black;
         font-family: sans-serif;
+        box-shadow: 1px 3px 5px 2px rgba(131, 131, 131, 0.4);
     }
 
     #top_menu {
@@ -439,7 +428,7 @@
         border-radius: 10px; 
         width: 460px; 
         height: 150px; 
-        background-color: #B7B5B9;
+        background-color: #3498db;
     }
     @media only screen and (max-width: 1275px) {
         #searchSection {
@@ -670,7 +659,7 @@
 </script>
  <!--background-color: rgb(126, 195, 230);-->
 <body>
-    <div style="position: fixed; background-color: rgba(104, 91, 166, 0.8); width: 100%; height: 100%; top: 63px;">
+    <div style="position: fixed;  width: 100%; height: 100%; top: 63px;">
         <div id="searchSection" style="top: 58px; height: 150px; width: 70%; float: right;">  
             <form id="searchForm" method="get" action="result.php" style="position: relative; float: right; padding-top: 50px; width: 100%; height: inherit; display: flex; align-items:flex-start;">
                 <div id="container-arrow" style="position: relative; left: 50px; width: 250px;">
@@ -709,13 +698,14 @@
             </form>
         </div>
         <!--<li><a href="#">home</a></li>-->
-        <div style="position: relative; float: left; padding-top: 40px; display: flex; align-items: flex-start; width: 30%; max-height: 100%; margin: 0px;">
+        <div id="recommandList" style="position: relative; float: left; padding-top: 40px; display: flex; align-items: flex-start; width: 30%; max-height: 100%; margin: 0px;">
             <aside style="float: left; max-width: 520px; min-height: 600px; border-radius: 10px; margin: 10px;">
                 
-                <div style="background-color: rgba(52, 87, 94, 0.8); border-radius: 10px 10px 0px 0px; padding: 15px; font-size: 20px; z-index: 2;">
+                <div style="background-color: #2c3e50;color:white; border-radius: 10px 10px 0px 0px; padding: 15px; font-size: 20px; z-index: 2;">
                     <ul id="top_menu">    
                         <li id="recommend">Recommend</li>
                         <li id="new">News</li>
+                        <button id="close-Recommend"type="button" uk-close style="float:right;color:white;"></button>
                     </ul>
                 </div>
                 <div id="container_menu">
@@ -807,6 +797,7 @@
 </html>
 
 <script type="text/javascript">
+
     var stop = false;
     var stuffOnPage = 0;
 
@@ -818,7 +809,9 @@
             outside.style.cursor = "";
         }
     }
-
+    $("#close-Recommend").click(function(){
+        $("#recommandList").css("display","none")
+    });
     function showInfo(DOM) {
         var picture = $(DOM).find("img").attr("src");
         var category;
